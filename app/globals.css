@@ -1,0 +1,230 @@
+/* ===========================================================================
+   libreai Academy — global styles
+
+   Design tokens are promoted to :root so a single [data-theme] attribute on
+   <html> flips the whole palette (the no-flash script in layout.tsx sets it
+   before first paint; providers.tsx keeps it in sync). Palette matches the
+   libreai.dev marketing site, extended with the Academy's dark mode.
+   =========================================================================== */
+:root {
+  --bg: #ffffff;
+  --surface: #f6f6f5;
+  --border: #e4e4e1;
+  --hair: #efefed;
+  --fg: #0a0a09;
+  --muted: #6c6c67;
+  --accent: #0a0a09;
+  --accent-ink: #ffffff;
+  --band: #0a0a09;
+  --band-fg: #fafaf9;
+  --band-muted: #96958e;
+  --band-hair: #242422;
+  --dot: rgba(10, 10, 9, 0.09);
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  --bg: #0a0a09;
+  --surface: #111110;
+  --border: #26261f;
+  --hair: #1b1b18;
+  --fg: #fafaf9;
+  --muted: #96958e;
+  --accent-ink: #0a0a09;
+  --band: #111110;
+  --band-fg: #fafaf9;
+  --band-muted: #96958e;
+  --band-hair: #2a2a25;
+  --dot: rgba(250, 250, 249, 0.07);
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-instrument-sans), system-ui, sans-serif;
+  min-height: 100vh;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+::selection {
+  background: var(--fg);
+  color: var(--bg);
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Interactive-state utilities. The mockup encoded hover/focus with a bespoke
+   runtime; in real React these are plain CSS classes. Transitions keep the
+   marketing site's calm, subtle feel.
+--------------------------------------------------------------------------- */
+.u-hover-surface,
+.u-hover-fg-border,
+.u-hover-opacity,
+.u-hover-muted,
+.u-icon-link {
+  transition: color 0.15s ease, background 0.15s ease, border-color 0.15s ease,
+    opacity 0.15s ease;
+}
+
+/* nav pill: muted text → full text on a surface chip */
+.u-hover-surface:hover {
+  color: var(--fg);
+  background: var(--surface);
+}
+
+/* bordered control: border darkens to the ink colour */
+.u-hover-fg-border:hover {
+  border-color: var(--fg);
+}
+
+/* solid button: gentle fade */
+.u-hover-opacity:hover {
+  opacity: 0.86;
+}
+
+/* quiet text link: ink → muted on hover */
+.u-hover-muted:hover {
+  color: var(--muted);
+}
+
+/* icon button: faint until hovered, then full with a surface backing */
+.u-icon-link {
+  opacity: 0.62;
+}
+.u-icon-link:hover {
+  opacity: 1;
+  background: var(--surface);
+}
+
+/* card that lifts its border on hover */
+.u-card {
+  transition: border-color 0.15s ease;
+}
+.u-card:hover {
+  border-color: var(--fg);
+}
+
+/* focus ring for the tokenizer textarea */
+.u-textarea {
+  transition: border-color 0.15s ease;
+}
+.u-textarea:focus {
+  outline: none;
+  border-color: var(--fg);
+}
+
+/* keyboard focus visibility on interactive elements */
+button:focus-visible,
+a:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--fg);
+  outline-offset: 2px;
+}
+
+/* ---------------------------------------------------------------------------
+   Responsive rules. Layout is desktop-first with inline styles (which can't
+   hold media queries), so small-screen adjustments live here.
+--------------------------------------------------------------------------- */
+@media (max-width: 900px) {
+  /* Lesson left rail: stop sticking, go full width, sit above the article. */
+  .lesson-rail {
+    position: static !important;
+    flex-basis: 100% !important;
+    top: auto !important;
+  }
+}
+
+@media (max-width: 640px) {
+  header nav {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+  /* The overall-progress meter is a nice-to-have; drop it on phones to keep the
+     nav to a single tidy row. */
+  .nav-progress {
+    display: none !important;
+  }
+}
+
+@media (max-width: 560px) {
+  /* Hero CTAs stack full-width instead of a ragged two-button row. */
+  .hero-cta {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .hero-cta > * {
+    text-align: center;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Tokens lesson — categorical colours for token kinds (word / word-piece /
+   number / symbol / space / raw-bytes). Used only for decorative dots, chip
+   tints and d3 bars; chip text stays on --fg for AA contrast in both themes.
+--------------------------------------------------------------------------- */
+:root {
+  --tok-word: #2f7d6b;
+  --tok-sub: #b06f1a;
+  --tok-num: #2b6cb0;
+  --tok-punct: #8250b5;
+  --tok-space: #9a9a93;
+  --tok-byte: #c0504f;
+}
+:root[data-theme="dark"] {
+  --tok-word: #5ecab0;
+  --tok-sub: #e0a94a;
+  --tok-num: #6ba7e6;
+  --tok-punct: #bd93e6;
+  --tok-space: #6f6f68;
+  --tok-byte: #ec8a86;
+}
+
+@keyframes tok-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.tok-spin {
+  animation: tok-spin 0.8s linear infinite;
+}
+@keyframes tok-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(3px);
+  }
+}
+.tok-bob {
+  animation: tok-bob 1.4s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .tok-spin,
+  .tok-bob {
+    animation: none !important;
+  }
+}
