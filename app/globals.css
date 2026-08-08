@@ -148,12 +148,73 @@ textarea:focus-visible {
    Responsive rules. Layout is desktop-first with inline styles (which can't
    hold media queries), so small-screen adjustments live here.
 --------------------------------------------------------------------------- */
+/* Lesson rail: full outline on desktop; a collapsible hamburger on mobile. */
+.rail-list-inner {
+  display: flex;
+  flex-direction: column;
+  padding-top: 18px;
+}
+.rail-toggle {
+  display: none;
+}
+/* The "back to roadmap" link lives at the top on desktop, inside the drawer on
+   mobile — so only one copy shows per breakpoint. */
+.rail-back-drawer {
+  display: none;
+}
+
 @media (max-width: 900px) {
   /* Lesson left rail: stop sticking, go full width, sit above the article. */
   .lesson-rail {
     position: static !important;
     flex-basis: 100% !important;
     top: auto !important;
+  }
+  /* Tighten the vertical gap between the collapsed outline and the lesson. */
+  :has(> .lesson-rail) {
+    gap: 16px !important;
+  }
+  /* Fold the stage heading into the hamburger and collapse the outline by
+     default, so the lesson itself is what sits above the fold. */
+  .rail-head {
+    display: none;
+  }
+  .rail-toggle {
+    display: flex;
+  }
+  .rail-back-top {
+    display: none;
+  }
+  .rail-back-drawer {
+    display: block;
+    margin-bottom: 12px;
+  }
+  /* Animate the outline open: the grid-rows 0fr→1fr trick smoothly grows to the
+     content's natural height, with the rows fading in. */
+  .rail-list {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.32s ease;
+  }
+  .rail-list-inner {
+    overflow: hidden;
+    opacity: 0;
+    padding-top: 0;
+    transition: opacity 0.26s ease, padding-top 0.32s ease;
+  }
+  .lesson-rail.is-open .rail-list {
+    grid-template-rows: 1fr;
+  }
+  .lesson-rail.is-open .rail-list-inner {
+    opacity: 1;
+    padding-top: 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rail-list,
+  .rail-list-inner {
+    transition: none;
   }
 }
 

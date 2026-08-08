@@ -56,55 +56,53 @@ export default function Header() {
           flexWrap: "wrap",
         }}
       >
-        <a
-          href="https://libreai.dev"
-          className="u-hover-surface"
-          style={{
-            fontSize: 13.5,
-            color: "var(--muted)",
-            padding: "8px 11px",
-            borderRadius: 9,
-            whiteSpace: "nowrap",
-          }}
-        >
-          ← libreai.dev
-        </a>
-        <span style={{ width: 1, height: 22, background: "var(--hair)", margin: "0 8px" }} />
-
-        <Link
-          href="/"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 9,
-            marginRight: 18,
-          }}
-        >
-          <span
-            style={{
-              width: 24,
-              height: 24,
-              borderRadius: 8,
-              border: "2px solid var(--fg)",
-              display: "grid",
-              placeItems: "center",
-              flex: "0 0 auto",
-            }}
+        {/* Wordmark: "libreai" → the umbrella site, "Academy" → the roadmap. */}
+        <div style={{ display: "flex", alignItems: "center", gap: 7, marginRight: 16 }}>
+          <a
+            href="https://www.libreai.dev"
+            aria-label="libreai.dev"
+            className="u-hover-muted"
+            style={{ display: "flex", alignItems: "center", gap: 9 }}
           >
-            <span style={{ width: 9, height: 9, borderRadius: 3, background: "var(--fg)" }} />
-          </span>
-          <span
+            <span
+              style={{
+                width: 24,
+                height: 24,
+                borderRadius: 8,
+                border: "2px solid var(--fg)",
+                display: "grid",
+                placeItems: "center",
+                flex: "0 0 auto",
+              }}
+            >
+              <span style={{ width: 9, height: 9, borderRadius: 3, background: "var(--fg)" }} />
+            </span>
+            <span
+              style={{
+                fontFamily: "var(--font-space-grotesk),sans-serif",
+                fontWeight: 700,
+                fontSize: 17,
+                letterSpacing: "-.035em",
+              }}
+            >
+              libreai
+            </span>
+          </a>
+          <Link
+            href="/"
+            aria-label="Academy home"
+            className="u-hover-muted"
             style={{
               fontFamily: "var(--font-space-grotesk),sans-serif",
-              fontWeight: 700,
+              fontWeight: 500,
               fontSize: 17,
               letterSpacing: "-.035em",
+              color: "var(--muted)",
             }}
           >
-            libreai
-            <span style={{ color: "var(--muted)", fontWeight: 500 }}> Academy</span>
-          </span>
-        </Link>
+            Academy
+          </Link>
+        </div>
 
         <span style={{ flex: "1 1 20px" }} />
 
@@ -144,6 +142,7 @@ export default function Header() {
           </span>
         </div>
 
+        <div style={{ display: "flex", alignItems: "center", gap: 8, flex: "0 0 auto" }}>
         <div ref={langRef} style={{ position: "relative" }}>
           <button
             type="button"
@@ -266,6 +265,7 @@ export default function Header() {
         >
           <span>{theme === "light" ? "☾" : "☀"}</span>
         </button>
+        </div>
       </nav>
     </header>
   );

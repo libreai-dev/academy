@@ -2402,7 +2402,7 @@ export const SAMPLE: Record<Lang, string> = {
 };
 
 /** GitHub organisation — editable placeholder until the handle is finalised. */
-export const GITHUB_URL = "https://github.com/libreai-dev";
+export const GITHUB_URL = "https://github.com/libreai-dev/academy";
 
 /** Overall roadmap progress shown in the header (illustrative for the MVP). */
 export const OVERALL_PROGRESS = 3;

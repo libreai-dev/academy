@@ -40,7 +40,6 @@ export default function LifeOfLLM() {
 
       {/* ---- Article -------------------------------------------------- */}
       <article style={{ flex: "1 1 560px", minWidth: 0, paddingBottom: "clamp(40px, 5vw, 72px)" }}>
-        <div style={{ fontFamily: MONO, fontSize: 11, letterSpacing: ".12em", color: "var(--muted)" }}>{life.crumb}</div>
         <h1 style={{ fontFamily: DISPLAY, fontSize: "clamp(34px, 4.4vw, 58px)", fontWeight: 600, letterSpacing: "-.045em", lineHeight: 1.02, margin: "16px 0 0" }}>{life.title}</h1>
         <p style={{ margin: "18px 0 0", fontSize: "clamp(17px, 1.7vw, 20px)", lineHeight: 1.55, color: "var(--muted)", maxWidth: "60ch", textWrap: "pretty" }}>{life.lede}</p>
 
