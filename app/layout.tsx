@@ -25,7 +25,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://academy.libreai.dev"),
+  metadataBase: new URL("https://www.libreai.dev/academy"),
   title: "libreai Academy — become an AI-native engineer",
   description:
     "A hands-on, bilingual guide for software engineers who don't yet know AI — from how models work to running your own.",
