@@ -66,6 +66,17 @@ All copy for 1–5 in both languages, in `copy.ts`.
    `npm run lint` clean, `npm run build` passes.
 
 ## Building interactives
+- **Every visualisation is built with d3 — never hand-authored SVG.** Charts,
+  graphs, network diagrams, decision surfaces, anything visual: draw it with d3
+  (`d3.select` into one mount element, data-joins, `.attr`, `.transition`,
+  `d3.interval`), exactly like `drawSchematic` / `HeroNet` / `drawNextWordNet`.
+  Do **not** hand-write static `<svg>` shape markup, and do **not** render trees
+  of React `<rect>` / `<line>` / `<circle>` / `<path>` as the visual. The single
+  empty `<svg ref={…}>` (or `<canvas>`) that d3 selects into is the *mount*, and
+  is expected — authoring the shapes yourself in JSX is what's banned. Keep the
+  drawing function pure-ish (`draw(el, opts)`), call it from an effect, and
+  return its cleanup (stop timers/transitions). This keeps motion, theming, and
+  interaction consistent across lessons.
 - **Runs in the browser, no backend.** For live model behavior use
   **transformers.js / WebLLM**; for Python use **Pyodide**. Keep heavy libs
   lazy-loaded and behind a loading state so first paint stays fast.

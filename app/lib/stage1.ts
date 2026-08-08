@@ -10,9 +10,10 @@ export const STAGE1_ROUTES: (string | null)[] = [
   "/stage/1/tokens", //         1 · Tokens
   "/stage/1/data", //           2 · Data
   "/stage/1/bias", //           3 · Bias
-  null, //                      4 · Neural networks
-  null, //                      5 · How training works
-  null, //                      6 · Embeddings
-  null, //                      7 · Transformers
-  null, //                      8 · Pretraining → alignment
+  "/stage/1/neural-networks", // 4 · Neural networks
+  "/stage/1/gpu-or-cpu", //      5 · GPU or CPU? (how the network runs on hardware)
+  "/stage/1/embeddings", //     6 · Embeddings (meaning as vectors; the map is learned in pretraining)
+  "/stage/1/transformers", //   7 · Transformers & attention (tokens attend to each other; QKV lookup)
+  null, //                      8 · How training works
+  null, //                      9 · Pretraining → alignment
 ];

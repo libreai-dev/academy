@@ -42,7 +42,7 @@ export default function Bias() {
   return (
     <div
       style={{
-        maxWidth: 1240,
+        maxWidth: 1000,
         margin: "0 auto",
         padding: "clamp(26px, 3vw, 40px) 32px 0",
         display: "flex",
@@ -63,7 +63,7 @@ export default function Bias() {
         </p>
 
         {/* ---- Concept ----------------------------------------------- */}
-        <div style={{ marginTop: "clamp(26px, 3vw, 40px)", display: "flex", flexDirection: "column", gap: 16, maxWidth: "66ch" }}>
+        <div style={{ marginTop: "clamp(26px, 3vw, 40px)", display: "flex", flexDirection: "column", gap: 16, maxWidth: "74ch" }}>
           {b.concept.map((p, i) => (
             <p key={i} style={{ margin: 0, fontSize: 17, lineHeight: 1.68, textWrap: "pretty" }}>{rich(p)}</p>
           ))}
@@ -73,7 +73,7 @@ export default function Bias() {
         <div style={{ marginTop: "clamp(30px, 3.5vw, 44px)", border: "1px solid var(--border)", borderRadius: 22, padding: "clamp(20px, 2.5vw, 28px)" }}>
           <Cap>{b.repLabel}</Cap>
           <div style={{ fontFamily: DISPLAY, fontSize: "clamp(20px, 2.2vw, 27px)", fontWeight: 600, letterSpacing: "-.03em", marginTop: 10 }}>{b.repTitle}</div>
-          <p style={{ margin: "10px 0 0", fontSize: 16, color: "var(--muted)", lineHeight: 1.62, maxWidth: "64ch", textWrap: "pretty" }}>{b.repBody}</p>
+          <p style={{ margin: "10px 0 0", fontSize: 16, color: "var(--muted)", lineHeight: 1.62, maxWidth: "74ch", textWrap: "pretty" }}>{b.repBody}</p>
 
           {/* legend */}
           <div style={{ marginTop: 18, display: "flex", flexWrap: "wrap", gap: "8px 18px" }}>
@@ -146,14 +146,14 @@ export default function Bias() {
               <span style={{ color: "var(--muted)" }}>{b.repSelectHint}</span>
             )}
           </div>
-          <p style={{ margin: "12px 0 0", fontSize: 13, color: "var(--muted)", lineHeight: 1.6, maxWidth: "66ch", textWrap: "pretty" }}>{b.repNote}</p>
+          <p style={{ margin: "12px 0 0", fontSize: 13, color: "var(--muted)", lineHeight: 1.6, maxWidth: "74ch", textWrap: "pretty" }}>{b.repNote}</p>
         </div>
 
         {/* ---- Interactive B: the filter's norm ---------------------- */}
         <div style={{ marginTop: "clamp(24px, 3vw, 36px)", border: "1px solid var(--border)", borderRadius: 22, padding: "clamp(20px, 2.5vw, 28px)" }}>
           <Cap>{b.filterLabel}</Cap>
           <div style={{ fontFamily: DISPLAY, fontSize: "clamp(20px, 2.2vw, 27px)", fontWeight: 600, letterSpacing: "-.03em", marginTop: 10 }}>{b.filterTitle}</div>
-          <p style={{ margin: "10px 0 0", fontSize: 16, color: "var(--muted)", lineHeight: 1.62, maxWidth: "64ch", textWrap: "pretty" }}>{b.filterBody}</p>
+          <p style={{ margin: "10px 0 0", fontSize: 16, color: "var(--muted)", lineHeight: 1.62, maxWidth: "74ch", textWrap: "pretty" }}>{b.filterBody}</p>
 
           {/* topic tabs */}
           <div style={{ marginTop: 16, display: "flex", flexWrap: "wrap", gap: 8 }}>
@@ -180,22 +180,22 @@ export default function Bias() {
             <RegisterCard label={b.filterInformalLabel} text={pair.informal} score={informalScore} scoreWord={b.filterScoreWord} winner={informalScore > formalScore} reduce={reduce} />
           </div>
 
-          <p style={{ margin: "14px 0 0", fontSize: 15, color: "var(--fg)", lineHeight: 1.62, maxWidth: "64ch", textWrap: "pretty" }}>{pair.note}</p>
-          <p style={{ margin: "10px 0 0", fontSize: 13, color: "var(--muted)", lineHeight: 1.6, maxWidth: "66ch", textWrap: "pretty" }}>{b.filterNote}</p>
+          <p style={{ margin: "14px 0 0", fontSize: 15, color: "var(--fg)", lineHeight: 1.62, maxWidth: "74ch", textWrap: "pretty" }}>{pair.note}</p>
+          <p style={{ margin: "10px 0 0", fontSize: 13, color: "var(--muted)", lineHeight: 1.6, maxWidth: "74ch", textWrap: "pretty" }}>{b.filterNote}</p>
         </div>
 
         {/* ---- Teaser: association bias ------------------------------ */}
         <div style={{ marginTop: "clamp(24px, 3vw, 36px)", border: "1px solid var(--border)", borderRadius: 22, padding: "clamp(20px, 2.5vw, 28px)", background: "var(--surface)" }}>
           <Cap>{b.assocLabel}</Cap>
           <div style={{ fontFamily: DISPLAY, fontSize: "clamp(18px, 2vw, 23px)", fontWeight: 600, letterSpacing: "-.03em", marginTop: 10 }}>{b.assocTitle}</div>
-          <p style={{ margin: "10px 0 0", fontSize: 16.5, color: "var(--muted)", lineHeight: 1.66, maxWidth: "66ch", textWrap: "pretty" }}>{rich(b.assocBody)}</p>
+          <p style={{ margin: "10px 0 0", fontSize: 16.5, color: "var(--muted)", lineHeight: 1.66, maxWidth: "74ch", textWrap: "pretty" }}>{rich(b.assocBody)}</p>
         </div>
 
         {/* ---- Mitigations ------------------------------------------- */}
         <div style={{ marginTop: "clamp(24px, 3vw, 36px)", border: "1px solid var(--border)", borderRadius: 22, padding: "clamp(20px, 2.5vw, 28px)" }}>
           <Cap>{b.mitLabel}</Cap>
           <div style={{ fontFamily: DISPLAY, fontSize: "clamp(20px, 2.2vw, 27px)", fontWeight: 600, letterSpacing: "-.03em", marginTop: 10 }}>{b.mitTitle}</div>
-          <p style={{ margin: "10px 0 0", fontSize: 16, color: "var(--muted)", lineHeight: 1.62, maxWidth: "64ch", textWrap: "pretty" }}>{b.mitBody}</p>
+          <p style={{ margin: "10px 0 0", fontSize: 16, color: "var(--muted)", lineHeight: 1.62, maxWidth: "74ch", textWrap: "pretty" }}>{b.mitBody}</p>
 
           <div style={{ marginTop: 16, display: "grid", gap: 12, gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 240px), 1fr))" }}>
             {b.mitigations.map((m, i) => (
@@ -205,7 +205,7 @@ export default function Bias() {
               </div>
             ))}
           </div>
-          <p style={{ margin: "16px 0 0", fontSize: 16, color: "var(--fg)", lineHeight: 1.64, maxWidth: "66ch", textWrap: "pretty" }}>{rich(b.mitClosing)}</p>
+          <p style={{ margin: "16px 0 0", fontSize: 16, color: "var(--fg)", lineHeight: 1.64, maxWidth: "74ch", textWrap: "pretty" }}>{rich(b.mitClosing)}</p>
         </div>
 
         {/* ---- Explain it back --------------------------------------- */}
@@ -215,7 +215,7 @@ export default function Bias() {
           <button type="button" onClick={() => setAnswerOpen((v) => !v)} aria-expanded={answerOpen} className="u-hover-fg-border" style={{ appearance: "none", cursor: "pointer", font: "inherit", marginTop: 18, fontSize: 15, fontWeight: 600, color: "var(--fg)", background: "var(--bg)", border: "1px solid var(--border)", padding: "11px 18px", borderRadius: 11 }}>
             {answerOpen ? t.hide : t.reveal}
           </button>
-          {answerOpen && <p style={{ margin: "18px 0 0", fontSize: 16.5, lineHeight: 1.65, maxWidth: "64ch", textWrap: "pretty", animation: reduce ? undefined : "rise .16s ease both" }}>{b.explainA}</p>}
+          {answerOpen && <p style={{ margin: "18px 0 0", fontSize: 16.5, lineHeight: 1.65, maxWidth: "74ch", textWrap: "pretty", animation: reduce ? undefined : "rise .16s ease both" }}>{b.explainA}</p>}
         </div>
 
         {/* ---- Go deeper --------------------------------------------- */}
@@ -224,20 +224,20 @@ export default function Bias() {
             <span style={{ fontFamily: DISPLAY, fontSize: 18, fontWeight: 600, letterSpacing: "-.03em" }}>{b.deeperTitle}</span>
             <span style={{ color: "var(--muted)", fontSize: 13 }}>{deeperOpen ? "−" : "+"}</span>
           </button>
-          {deeperOpen && <p style={{ margin: "16px 0 0", fontSize: 16, lineHeight: 1.68, color: "var(--muted)", maxWidth: "66ch", textWrap: "pretty", animation: reduce ? undefined : "rise .16s ease both" }}>{rich(b.deeperBody)}</p>}
+          {deeperOpen && <p style={{ margin: "16px 0 0", fontSize: 16, lineHeight: 1.68, color: "var(--muted)", maxWidth: "74ch", textWrap: "pretty", animation: reduce ? undefined : "rise .16s ease both" }}>{rich(b.deeperBody)}</p>}
         </div>
 
-        {/* ---- Bridge to Neural networks (not yet built) ------------- */}
-        <div style={{ marginTop: 16, border: "1px solid var(--border)", borderRadius: 22, padding: "clamp(20px, 2.4vw, 28px)", background: "var(--band)", color: "var(--band-fg)" }}>
+        {/* ---- Bridge to Neural networks ----------------------------- */}
+        <Link href="/stage/1/neural-networks" className="u-card" style={{ display: "block", marginTop: 16, border: "1px solid var(--border)", borderRadius: 22, padding: "clamp(20px, 2.4vw, 28px)", background: "var(--band)", color: "var(--band-fg)" }}>
           <div style={{ fontFamily: MONO, fontSize: 11, letterSpacing: ".12em", color: "var(--band-muted)" }}>{b.bridgeLabel}</div>
           <p style={{ margin: "12px 0 0", fontSize: "clamp(16px, 1.9vw, 19px)", lineHeight: 1.6, color: "var(--band-fg)", maxWidth: "60ch", textWrap: "pretty" }}>{b.bridgeBody}</p>
-        </div>
+        </Link>
 
         {/* ---- Controls ---------------------------------------------- */}
         <div style={{ marginTop: "clamp(26px, 3vw, 36px)", paddingTop: 24, borderTop: "1px solid var(--hair)", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 14, flexWrap: "wrap" }}>
           <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
             <Link href="/stage/1/data" className="u-hover-fg-border" style={{ fontSize: 15, fontWeight: 600, border: "1px solid var(--border)", padding: "12px 18px", borderRadius: 11, color: "var(--muted)" }}>← {b.prev}</Link>
-            <span aria-disabled style={{ fontSize: 15, fontWeight: 600, border: "1px dashed var(--border)", padding: "12px 18px", borderRadius: 11, color: "var(--muted)" }}>{b.next} →</span>
+            <Link href="/stage/1/neural-networks" className="u-hover-fg-border" style={{ fontSize: 15, fontWeight: 600, border: "1px solid var(--border)", padding: "12px 18px", borderRadius: 11, color: "var(--fg)" }}>{b.next} →</Link>
           </div>
           <button type="button" onClick={() => setDone((v) => !v)} aria-pressed={done} className="u-hover-opacity" style={{ appearance: "none", border: 0, font: "inherit", cursor: "pointer", fontSize: 15.5, fontWeight: 600, color: "var(--accent-ink)", background: "var(--fg)", padding: "13px 22px", borderRadius: 11 }}>
             {done ? t.completed : t.markComplete}

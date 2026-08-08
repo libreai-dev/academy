@@ -33,6 +33,28 @@ const HERO: { id: number; piece: string }[] = [
   { id: 13, piece: "." },
 ];
 
+/** Lightweight highlighter for the raw crawl markup so it reads as code:
+ *  HTML tags <…> blue, {{templates}} red, [[links]] green, ''' bold ''' orange. */
+function MarkupCode({ code }: { code: string }) {
+  const re = /(<\/?[a-zA-Z][^>]*>)|(\{\{[^}]*\}\})|(\[\[[^\]]*\]\])|(''')/g;
+  const parts: { t: string; c: string }[] = [];
+  let last = 0;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(code)) !== null) {
+    if (m.index > last) parts.push({ t: code.slice(last, m.index), c: "var(--fg)" });
+    parts.push({ t: m[0], c: m[1] ? "var(--tok-num)" : m[2] ? "var(--tok-byte)" : m[3] ? "var(--tok-word)" : "var(--tok-sub)" });
+    last = re.lastIndex;
+  }
+  if (last < code.length) parts.push({ t: code.slice(last), c: "var(--fg)" });
+  return (
+    <code style={{ display: "block", fontFamily: MONO, fontSize: "clamp(12px, 1.5vw, 14px)", lineHeight: 1.7, wordBreak: "break-word" }}>
+      {parts.map((p, i) => (
+        <span key={i} style={{ color: p.c }}>{p.t}</span>
+      ))}
+    </code>
+  );
+}
+
 /* ---------------------------------------------------------------- format --- */
 
 function fmtCompact(n: number): string {
@@ -253,7 +275,7 @@ export default function Data() {
   return (
     <div
       style={{
-        maxWidth: 1240,
+        maxWidth: 1000,
         margin: "0 auto",
         padding: "clamp(26px, 3vw, 40px) 32px 0",
         display: "flex",
@@ -277,9 +299,7 @@ export default function Data() {
         <div style={{ marginTop: "clamp(26px, 3vw, 40px)", border: "1px solid var(--border)", borderRadius: 22, overflow: "hidden", background: "var(--surface)" }}>
           <div style={{ padding: "clamp(20px,2.5vw,30px)" }}>
             <FlowBand label={d.heroRawLabel}>
-              <code style={{ display: "block", fontFamily: MONO, fontSize: "clamp(12px, 1.5vw, 14px)", lineHeight: 1.6, color: "var(--muted)", wordBreak: "break-word" }}>
-                {d.heroRaw}
-              </code>
+              <MarkupCode code={d.heroRaw} />
             </FlowBand>
             <FlowArrow reduce={reduce} />
             <FlowBand label={d.heroCleanLabel}>
@@ -308,7 +328,7 @@ export default function Data() {
         </div>
 
         {/* ---- Concept ----------------------------------------------- */}
-        <div style={{ marginTop: "clamp(26px, 3vw, 40px)", display: "flex", flexDirection: "column", gap: 16, maxWidth: "66ch" }}>
+        <div style={{ marginTop: "clamp(26px, 3vw, 40px)", display: "flex", flexDirection: "column", gap: 16, maxWidth: "74ch" }}>
           {d.concept.map((p, i) => (
             <p key={i} style={{ margin: 0, fontSize: 17, lineHeight: 1.68, textWrap: "pretty" }}>{rich(p)}</p>
           ))}
@@ -319,7 +339,7 @@ export default function Data() {
           <div style={{ padding: "20px clamp(20px, 2.5vw, 28px)", borderBottom: "1px solid var(--hair)" }}>
             <Cap>{d.cleanLabel}</Cap>
             <div style={{ fontFamily: DISPLAY, fontSize: 22, fontWeight: 600, letterSpacing: "-.03em", marginTop: 6 }}>{d.cleanTitle}</div>
-            <p style={{ margin: "10px 0 0", fontSize: 15.5, color: "var(--muted)", lineHeight: 1.6, maxWidth: "64ch", textWrap: "pretty" }}>{d.cleanBody}</p>
+            <p style={{ margin: "10px 0 0", fontSize: 15.5, color: "var(--muted)", lineHeight: 1.6, maxWidth: "74ch", textWrap: "pretty" }}>{d.cleanBody}</p>
           </div>
 
           <div style={{ padding: "clamp(20px, 2.5vw, 28px)" }}>
@@ -446,14 +466,23 @@ export default function Data() {
             {complete && (
               <div style={{ marginTop: 20, border: "1px solid var(--border)", borderRadius: 16, padding: "clamp(16px,2vw,22px)", background: "var(--surface)", animation: reduce ? undefined : "rise .18s ease both" }}>
                 <div style={{ fontFamily: DISPLAY, fontSize: 19, fontWeight: 600, letterSpacing: "-.03em" }}>{d.resultTitle}</div>
-                <p style={{ margin: "8px 0 0", fontSize: 15.5, lineHeight: 1.62, color: "var(--muted)", maxWidth: "62ch", textWrap: "pretty" }}>{d.resultBody}</p>
+                <p style={{ margin: "8px 0 0", fontSize: 15.5, lineHeight: 1.62, color: "var(--muted)", maxWidth: "72ch", textWrap: "pretty" }}>{d.resultBody}</p>
                 <div style={{ marginTop: 12, fontFamily: MONO, fontSize: 15, fontWeight: 700, color: "var(--fg)" }}>
                   {docsTotal} {d.docsWord} · {fmtCompact(tokensTotal)} {d.tokensWord} → {docsKept} {d.docsWord} · {fmtCompact(tokensKept)} {d.tokensWord}
                 </div>
               </div>
             )}
 
-            <p style={{ margin: "16px 0 0", fontSize: 13, color: "var(--muted)", lineHeight: 1.6, maxWidth: "66ch", textWrap: "pretty" }}>{d.illustrativeNote}</p>
+            {/* ---- How the score works (aside) ---------------------- */}
+            <div style={{ marginTop: "clamp(18px, 2.2vw, 24px)", border: "1px solid var(--border)", borderRadius: 14, padding: "clamp(15px, 2vw, 18px)", background: "var(--surface)", display: "flex", flexDirection: "column", gap: 8 }}>
+              <div style={{ display: "inline-flex", alignItems: "center", gap: 7, fontFamily: MONO, fontSize: 11, letterSpacing: ".14em", color: "var(--tok-num)" }}>
+                <span aria-hidden style={{ width: 7, height: 7, borderRadius: 2, background: "var(--tok-num)", flex: "0 0 auto" }} />
+                {d.scoreAsideLabel}
+              </div>
+              <p style={{ margin: 0, fontSize: 15.5, lineHeight: 1.64, color: "var(--fg)", maxWidth: "74ch", textWrap: "pretty" }}>{rich(d.scoreAsideBody)}</p>
+            </div>
+
+            <p style={{ margin: "16px 0 0", fontSize: 13, color: "var(--muted)", lineHeight: 1.6, maxWidth: "74ch", textWrap: "pretty" }}>{d.illustrativeNote}</p>
           </div>
         </div>
 
@@ -461,7 +490,7 @@ export default function Data() {
         <div style={{ marginTop: "clamp(24px, 3vw, 36px)", border: "1px solid var(--border)", borderRadius: 22, padding: "clamp(20px, 2.5vw, 28px)" }}>
           <Cap>{d.scaleLabel}</Cap>
           <div style={{ fontFamily: DISPLAY, fontSize: "clamp(20px, 2.2vw, 27px)", fontWeight: 600, letterSpacing: "-.03em", marginTop: 10 }}>{d.scaleTitle}</div>
-          <p style={{ margin: "10px 0 0", fontSize: 16, color: "var(--muted)", lineHeight: 1.62, maxWidth: "64ch", textWrap: "pretty" }}>{d.scaleBody}</p>
+          <p style={{ margin: "10px 0 0", fontSize: 16, color: "var(--muted)", lineHeight: 1.62, maxWidth: "74ch", textWrap: "pretty" }}>{d.scaleBody}</p>
 
           <div style={{ marginTop: 18, display: "flex", gap: "clamp(18px, 3vw, 40px)", flexWrap: "wrap" }}>
             <Stat label={d.scalePagesLabel} value={fmtCompact(pages)} big />
@@ -486,6 +515,7 @@ export default function Data() {
           {/* dense block */}
           <div style={{ marginTop: 22 }}>
             <Cap>{d.denseBlockLabel}</Cap>
+            <p style={{ margin: "10px 0 0", fontSize: 15, color: "var(--muted)", lineHeight: 1.62, maxWidth: "74ch", textWrap: "pretty" }}>{rich(d.tapeBridge)}</p>
             <div
               aria-hidden
               onMouseLeave={() => setHoverCell(null)}
@@ -533,7 +563,7 @@ export default function Data() {
           {/* comparison */}
           <div style={{ marginTop: 26, paddingTop: 22, borderTop: "1px solid var(--hair)" }}>
             <div style={{ fontFamily: DISPLAY, fontSize: 19, fontWeight: 600, letterSpacing: "-.03em" }}>{d.compareTitle}</div>
-            <p style={{ margin: "8px 0 0", fontSize: 15.5, color: "var(--muted)", lineHeight: 1.62, maxWidth: "64ch", textWrap: "pretty" }}>{rich(d.compareBody)}</p>
+            <p style={{ margin: "8px 0 0", fontSize: 15.5, color: "var(--muted)", lineHeight: 1.62, maxWidth: "74ch", textWrap: "pretty" }}>{rich(d.compareBody)}</p>
             <div style={{ marginTop: 16 }}>
               <svg ref={cmpRef} width="100%" style={{ display: "block", overflow: "visible" }} aria-hidden />
             </div>
@@ -545,18 +575,19 @@ export default function Data() {
         <div style={{ marginTop: "clamp(24px, 3vw, 36px)", border: "1px solid var(--border)", borderRadius: 22, padding: "clamp(20px, 2.5vw, 28px)" }}>
           <Cap>{d.tapeLabel}</Cap>
           <div style={{ fontFamily: DISPLAY, fontSize: "clamp(20px, 2.2vw, 27px)", fontWeight: 600, letterSpacing: "-.03em", marginTop: 10 }}>{d.tapeTitle}</div>
-          <div style={{ marginTop: 14, display: "flex", flexDirection: "column", gap: 14, maxWidth: "66ch" }}>
+          <div style={{ marginTop: 14, display: "flex", flexDirection: "column", gap: 14, maxWidth: "74ch" }}>
             {d.tape.map((p, i) => (
               <p key={i} style={{ margin: 0, fontSize: 16.5, lineHeight: 1.66, textWrap: "pretty" }}>{rich(p)}</p>
             ))}
           </div>
+          <p style={{ margin: "16px 0 0", paddingTop: 16, borderTop: "1px solid var(--hair)", fontSize: 16.5, lineHeight: 1.66, maxWidth: "74ch", textWrap: "pretty" }}>{rich(d.cutoffBody)}</p>
         </div>
 
         {/* ---- Chicken-and-egg loop ---------------------------------- */}
         <div style={{ marginTop: 16, border: "1px solid var(--border)", borderRadius: 22, padding: "clamp(20px, 2.5vw, 28px)", background: "var(--surface)" }}>
           <Cap>{d.loopLabel}</Cap>
           <div style={{ fontFamily: DISPLAY, fontSize: "clamp(18px, 2vw, 23px)", fontWeight: 600, letterSpacing: "-.03em", marginTop: 10 }}>{d.loopTitle}</div>
-          <p style={{ margin: "10px 0 0", fontSize: 16, color: "var(--muted)", lineHeight: 1.64, maxWidth: "66ch", textWrap: "pretty" }}>{rich(d.loopBody)}</p>
+          <p style={{ margin: "10px 0 0", fontSize: 16, color: "var(--muted)", lineHeight: 1.64, maxWidth: "74ch", textWrap: "pretty" }}>{rich(d.loopBody)}</p>
         </div>
 
         {/* ---- Explain it back --------------------------------------- */}
@@ -566,7 +597,7 @@ export default function Data() {
           <button type="button" onClick={() => setAnswerOpen((v) => !v)} aria-expanded={answerOpen} className="u-hover-fg-border" style={{ appearance: "none", cursor: "pointer", font: "inherit", marginTop: 18, fontSize: 15, fontWeight: 600, color: "var(--fg)", background: "var(--bg)", border: "1px solid var(--border)", padding: "11px 18px", borderRadius: 11 }}>
             {answerOpen ? t.hide : t.reveal}
           </button>
-          {answerOpen && <p style={{ margin: "18px 0 0", fontSize: 16.5, lineHeight: 1.65, maxWidth: "64ch", textWrap: "pretty", animation: reduce ? undefined : "rise .16s ease both" }}>{d.explainA}</p>}
+          {answerOpen && <p style={{ margin: "18px 0 0", fontSize: 16.5, lineHeight: 1.65, maxWidth: "74ch", textWrap: "pretty", animation: reduce ? undefined : "rise .16s ease both" }}>{d.explainA}</p>}
         </div>
 
         {/* ---- Go deeper --------------------------------------------- */}
@@ -575,7 +606,7 @@ export default function Data() {
             <span style={{ fontFamily: DISPLAY, fontSize: 18, fontWeight: 600, letterSpacing: "-.03em" }}>{d.deeperTitle}</span>
             <span style={{ color: "var(--muted)", fontSize: 13 }}>{deeperOpen ? "−" : "+"}</span>
           </button>
-          {deeperOpen && <p style={{ margin: "16px 0 0", fontSize: 16, lineHeight: 1.68, color: "var(--muted)", maxWidth: "66ch", textWrap: "pretty", animation: reduce ? undefined : "rise .16s ease both" }}>{rich(d.deeperBody)}</p>}
+          {deeperOpen && <p style={{ margin: "16px 0 0", fontSize: 16, lineHeight: 1.68, color: "var(--muted)", maxWidth: "74ch", textWrap: "pretty", animation: reduce ? undefined : "rise .16s ease both" }}>{rich(d.deeperBody)}</p>}
         </div>
 
         {/* ---- Bridge to Bias ---------------------------------------- */}

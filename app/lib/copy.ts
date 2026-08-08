@@ -89,6 +89,10 @@ export interface Copy {
   tok: TokenLesson;
   data: DataLesson;
   bias: BiasLesson;
+  neural: NeuralLesson;
+  hw: HwLesson;
+  emb: EmbLesson;
+  attn: AttnLesson;
   stage1List: string[];
 }
 
@@ -245,6 +249,8 @@ export interface DataLesson {
   reasonBenchmark: string;
   keptBadge: string;
   qualityWord: string;
+  scoreAsideLabel: string;
+  scoreAsideBody: string;
   resultTitle: string;
   resultBody: string;
   illustrativeNote: string;
@@ -258,6 +264,7 @@ export interface DataLesson {
   scalePagesLabel: string;
   scaleTokensLabel: string;
   scaleStorageLabel: string;
+  tapeBridge: string;
   denseBlockLabel: string;
   denseBlockNote: string;
   denseSepLabel: string;
@@ -271,6 +278,7 @@ export interface DataLesson {
   tapeLabel: string;
   tapeTitle: string;
   tape: string[];
+  cutoffBody: string;
   // chicken-and-egg loop
   loopLabel: string;
   loopTitle: string;
@@ -354,6 +362,389 @@ export interface BiasLesson {
   bridgeBody: string;
 }
 
+/** A one-tap example that sets the network into a revealing state. */
+export interface NeuralPreset {
+  label: string;
+  note: string;
+}
+
+/** One model-splitting strategy card (interactive 3 of the "GPU or CPU?" lesson). */
+export interface HwStrategy {
+  key: string; //   "data" | "tensor" | "pipeline"
+  label: string; // tab label
+  tag: string; //   one-line what-it-does
+  own: string; //   what each GPU holds (the whole-vs-split answer)
+  desc: string; //  a sentence of detail
+  comm: string; //  what the GPUs must exchange
+}
+
+/** "Embeddings: meaning as vectors" — words become points on a map where nearby
+ *  means similar, and the map's structure is learned during pretraining. */
+export interface EmbLesson {
+  crumb: string;
+  title: string;
+  lede: string;
+  prev: string;
+  next: string;
+  // hero — a word becomes a vector becomes a point
+  heroLabel: string;
+  heroWord: string;
+  heroVecLabel: string;
+  heroMapLabel: string;
+  heroCaption: string;
+  // concept 1 — meaning as vectors
+  concept: string[];
+  // interactive 1 — the map
+  mapLabel: string;
+  mapTitle: string;
+  mapBody: string;
+  mapHint: string;
+  mapNearLabel: string;
+  groupLabels: { people: string; animal: string; food: string; tech: string };
+  mapNote: string;
+  // concept 2 — where the meaning comes from (pretraining)
+  ptConcept: string[];
+  // interactive 2 — vector arithmetic
+  arLabel: string;
+  arTitle: string;
+  arBody: string;
+  arResultLabel: string;
+  arSlotStart: string;
+  arSlotMinus: string;
+  arSlotPlus: string;
+  arRead: string;
+  arNote: string;
+  // interactive 3 — how this becomes the next token
+  ntLabel: string;
+  ntTitle: string;
+  ntBody: string;
+  ntTokens: string;
+  ntEmbed: string;
+  ntSeq: string;
+  ntModel: string;
+  ntNextVec: string;
+  ntUnembed: string;
+  ntScores: string;
+  ntNextToken: string;
+  ntWeights: string;
+  ntData: string;
+  ntTying: string;
+  ntTakeaway: string;
+  ntSteps: { t: string; d: string }[];
+  ntPrev: string;
+  ntNext: string;
+  ntZoomIn: string; //  toggle → focus the active stage
+  ntZoomOut: string; // toggle → see the whole pipeline
+  // embedding-matrix explainer (before the next-token pipeline)
+  emLabel: string;
+  emTitle: string;
+  emBody: string;
+  emRows: string;
+  emCols: string;
+  emPick: string;
+  emReadout: string; //  "{word}'s row — a few of its 4,096 numbers"
+  emUnembTitle: string;
+  emUnembBody: string;
+  emPretrain: string;
+  emWords: string[]; //   sample tokens offered as clickable rows
+  // explain / deeper
+  explainQ: string;
+  explainA: string;
+  deeperTitle: string;
+  deeperBody: string[];
+  cosTitle: string;
+  cosBody: string[];
+  // bridge
+  bridgeLabel: string;
+  bridgeBody: string;
+  // per-word display labels (EN falls back to the key)
+  words: Record<string, string>;
+}
+
+/** Display copy for one attention head in the lens interactive. */
+export interface AttnHeadCopy {
+  name: string;
+  desc: string;
+}
+
+/** "Transformers & attention" — how tokens look at each other. Two interactives:
+ *  the attention lens (click a word, watch what it attends to, across three
+ *  heads) and the query·key·value toy (steer a query and watch “bank” take on
+ *  its meaning from context). */
+export interface AttnLesson {
+  crumb: string;
+  title: string;
+  lede: string;
+  prev: string;
+  next: string;
+  // hero — one word flips what “it” looks at
+  heroLabel: string;
+  heroToggleLabel: string;
+  heroWordTired: string;
+  heroWordWide: string;
+  heroReadTired: string;
+  heroReadWide: string;
+  heroCaption: string;
+  // concept 1 — attention as a soft lookup
+  concept: string[];
+  // interactive 1 — the attention lens
+  lensLabel: string;
+  lensTitle: string;
+  lensBody: string;
+  lensHint: string;
+  lensHeadLabel: string;
+  heads: { reference: AttnHeadCopy; previous: AttnHeadCopy; syntax: AttnHeadCopy };
+  lensRead: string; //   uses {q} and {k}
+  lensNote: string;
+  // concept 2 — query, key, value
+  qkvConcept: string[];
+  // interactive 2 — the query·key·value toy
+  qkvLabel: string;
+  qkvTitle: string;
+  qkvBody: string;
+  qkvSliderLabel: string;
+  qkvSliderLeft: string;
+  qkvSliderRight: string;
+  qkvPresetRiver: string;
+  qkvPresetMixed: string;
+  qkvPresetMoney: string;
+  qkvRiver: string;
+  qkvMoney: string;
+  qkvBank: string;
+  qkvWeightLabel: string;
+  qkvMeaningLabel: string;
+  qkvRead: string; //   uses {w} (winning context word)
+  qkvNote: string;
+  // explain / deeper
+  explainQ: string;
+  explainA: string;
+  deeperTitle: string;
+  deeperBody: string[];
+  maskTitle: string;
+  maskBody: string[];
+  // bridge
+  bridgeLabel: string;
+  bridgeBody: string;
+}
+
+/** "GPU or CPU?" — how a neural network actually runs on hardware. Three
+ *  interactives: the matrix-multiply race, inside a rack, and splitting the
+ *  model across many GPUs. */
+export interface HwLesson {
+  crumb: string;
+  title: string;
+  lede: string;
+  prev: string;
+  next: string;
+  // hero — a layer is a matrix multiply; the CPU walks it, the GPU fires it at once
+  heroLabel: string;
+  heroSub: string;
+  heroCpu: string;
+  heroGpu: string;
+  heroCpuTag: string;
+  heroGpuTag: string;
+  heroCaption: string;
+  // concept 1 — the work is matrix multiplication
+  concept: string[];
+  // interactive 1 — the matrix-multiply race
+  raceLabel: string;
+  raceTitle: string;
+  raceBody: string;
+  raceSizeLabel: string;
+  raceRun: string;
+  raceReset: string;
+  raceCpuName: string;
+  raceGpuName: string;
+  raceCpuCores: string;
+  raceGpuCores: string;
+  raceStepsLabel: string;
+  raceCellNote: string;
+  raceSpeedupLabel: string;
+  raceWinnerNote: string;
+  raceNote: string;
+  raceParamsLabel: string;
+  raceNeuronsLabel: string;
+  raceNeuronWord: string;
+  raceLayerWord: string;
+  raceDoneWord: string;
+  raceReadyWord: string;
+  raceDotLabel: string;
+  raceCpuChip: string;
+  raceGpuChip: string;
+  raceCoresWord: string;
+  raceAtOnce: string;
+  raceOneAtATime: string;
+  raceCompleteWord: string;
+  // concept 2 — one GPU is not enough
+  midConcept: string[];
+  // interactive 2 — inside a rack
+  rackLabel: string;
+  rackTitle: string;
+  rackBody: string;
+  rackHint: string;
+  rackPaths: string[]; //     [same node, across nodes, across racks]
+  rackLinkLabel: string;
+  rackBwLabel: string;
+  rackTimeLabel: string;
+  rackHopsLabel: string;
+  rackNodeWord: string;
+  rackRackWord: string;
+  rackGpuWord: string;
+  rackNvlink: string;
+  rackInfiniband: string;
+  rackNote: string;
+  // concept 3 — split the model across GPUs
+  splitConcept: string[];
+  // interactive 3 — split the model
+  splitLabel: string;
+  splitTitle: string;
+  splitBody: string;
+  splitStrategies: HwStrategy[]; // 3
+  splitNetLabel: string;
+  splitOwnLabel: string;
+  splitCommLabel: string;
+  splitGpuWord: string;
+  splitNote: string;
+  // explain it back
+  explainQ: string;
+  explainA: string;
+  // go deeper
+  deeperTitle: string;
+  deeperBody: string[];
+  deeper2Title: string;
+  deeper2Body: string[];
+  // bridge
+  bridgeLabel: string;
+  bridgeBody: string;
+}
+
+export interface NeuralLesson {
+  crumb: string;
+  title: string;
+  lede: string;
+  prev: string;
+  next: string;
+  // hero — an LLM is a neural network (animated pipeline)
+  heroPromptLabel: string;
+  heroPromptText: string;
+  heroTokensLabel: string;
+  heroNetLabel: string;
+  heroNetSub: string;
+  heroNextLabel: string;
+  heroPredict: string;
+  heroAlt1: string;
+  heroAlt2: string;
+  heroStepTokenize: string;
+  heroStepFlow: string;
+  heroStepPredict: string;
+  heroCaption: string;
+  // concept — you already know this
+  concept: string[];
+  // interactive — the anatomy of a network, then the scale calculator
+  psAnatomyLabel: string;
+  psTitle: string;
+  psBody: string;
+  psLegend: string;
+  psFormulaLead: string;
+  psTotalNote: string;
+  psLabel: string;
+  psCalcTitle: string;
+  psCalcBody: string;
+  psWidthLabel: string;
+  psDepthLabel: string;
+  psNeuronsLabel: string;
+  psParamsLabel: string;
+  psConnNote: string;
+  psPresets: NeuralPreset[];
+  psTwoDials: string;
+  // interactive A — one neuron (concrete, numeric)
+  naLabel: string;
+  naTitle: string;
+  naBody: string;
+  naScenarioLabel: string;
+  naInput1: string;
+  naInput2: string;
+  naInput1Lo: string;
+  naInput1Hi: string;
+  naInput2Lo: string;
+  naInput2Hi: string;
+  naDialsLabel: string;
+  naDialsHint: string;
+  naComputeLabel: string;
+  naSumLabel: string;
+  naSquashLabel: string;
+  naSquashHelp: string;
+  naOutputLabel: string;
+  naHam: string;
+  naSpam: string;
+  naVerdictSpam: string;
+  naVerdictHam: string;
+  naPresets: NeuralPreset[];
+  naNote: string;
+  // interactive — the dot product (match score), why LLMs use it
+  dpLabel: string;
+  dpTitle: string;
+  dpBody: string;
+  dpQuestionLead: string;
+  dpQuestion: string;
+  dpCandidates: string;
+  dpLedgerLegend: string;
+  dpFeatures: string[];
+  dpRowTaste: string;
+  dpRowMovie: string;
+  dpRowProduct: string;
+  dpSumLabel: string;
+  dpSquashLead: string;
+  dpSquashNote: string;
+  dpMatrixHint: string;
+  dpScoreLabel: string;
+  dpKeep: string;
+  dpDrop: string;
+  dpParamNote: string;
+  dpPresets: NeuralPreset[];
+  dpWhy: string;
+  // concept — what those knobs mean, then why stack
+  midConcept: string[];
+  // interactive B — a layer of neurons predicts the next word
+  nwLabel: string;
+  nwTitle: string;
+  nwBody: string;
+  nwInputLabel: string;
+  nwHiddenLabel: string;
+  nwOutputLabel: string;
+  nwFeatures: string[];
+  nwConcepts: string[];
+  nwWords: string[];
+  nwActionWord: string;
+  nwSentence: string;
+  nwPromptTail: string;
+  nwVocabLead: string;
+  nwVocabCount: string;
+  nwFiresTag: string;
+  nwQuietTag: string;
+  nwWinnerTag: string;
+  nwInspectHint: string;
+  nwParamNote: string;
+  nwPresets: NeuralPreset[];
+  nwWhy: string;
+  weightWord: string;
+  biasWord: string;
+  // closing
+  closeConcept: string;
+  // explain / deeper
+  explainQ: string;
+  explainA: string;
+  deeperTitle: string;
+  deeperBody: string;
+  sizeDeeperTitle: string;
+  sizeDeeperBody: string[];
+  interpDeeperTitle: string;
+  interpDeeperBody: string[];
+  // bridge
+  bridgeLabel: string;
+  bridgeBody: string;
+}
+
 export const COPY: Record<Lang, Copy> = {
   en: {
     badge: "Free and open · part of libreai.dev",
@@ -399,7 +790,7 @@ export const COPY: Record<Lang, Copy> = {
       "The full picture: tokens, training, embeddings, attention — then everything the fast-track covers. You'll know why, not just how.",
     path2cta: "Start at the beginning",
     backRoadmap: "Back to the roadmap",
-    stage1Label: "STAGE 1 · 9 LESSONS",
+    stage1Label: "STAGE 1 · 10 LESSONS",
     stage1Title: "Foundations",
     crumb: "STAGE 1 · FOUNDATIONS · LESSON 2",
     lessonTitle: "Tokens",
@@ -443,7 +834,7 @@ export const COPY: Record<Lang, Copy> = {
       {
         title: "Foundations",
         desc: "How AI actually works inside — tokens, training, embeddings, attention.",
-        lessons: 9,
+        lessons: 10,
         pct: 25,
       },
       {
@@ -592,7 +983,8 @@ export const COPY: Record<Lang, Copy> = {
       concept: [
         "A model has no facts of its own. Everything it “knows” came from a **giant pile of text** — most of it scraped from the public web, plus books, code, and reference sites like **Wikipedia** (our running example here).",
         "But raw web is filthy: navigation bars, ads, spam, duplicates, and pages you must *not* train on. So labs run the crawl through a **cleaning pipeline** before a single token reaches the model.",
-        "The surprising part: **quality beats raw size.** A smaller, well-filtered corpus trains a better model than a bigger dirty one — so most of what’s collected is deliberately thrown away.",
+        "The surprising part: **quality beats raw size.** A smaller, well-filtered corpus trains a better model than a bigger dirty one — so most of what’s collected is deliberately thrown away. **Duplicates go first**: repeated text pushes a model to *memorise and regurgitate* instead of generalise, and wastes training on the same words twice.",
+        "And what’s left isn’t one pile but a **blend** — a weighted recipe of web, code, books, math and many languages, some sources up-sampled and others down. The cutting has a cost of its own, too: **filter too aggressively and you strip out real diversity** along with the junk.",
       ],
       cleanLabel: "TRY IT · THE PIPELINE",
       cleanTitle: "Clean this dataset",
@@ -618,6 +1010,8 @@ export const COPY: Record<Lang, Copy> = {
       reasonBenchmark: "Looks like a test question",
       keptBadge: "kept",
       qualityWord: "quality",
+      scoreAsideLabel: "HOW THE SCORE WORKS",
+      scoreAsideBody: "That “quality” number isn’t objective. It’s a **classifier** trained to tell a **reference corpus** (Wikipedia, books) apart from raw web. It runs **per document**, **before tokenization**: the doc’s features become a vector `x`, learned weights `w` score it as `≈ w · x`, and that single number gates the *whole* document in or out. So it’s never a property of individual tokens — which is why you’ll never see it inside the tape. Low-quality docs are dropped up here and simply never become tokens.",
       resultTitle: "What’s left is the model’s world",
       resultBody: "Most of the pile is gone — and everything the model will ever “know” is now in the survivors. Get this wrong and the model is wrong; there is no later stage that adds back what cleaning removed.",
       illustrativeNote: "Toy corpus. Similarity and quality scores here are illustrative, not a real classifier — but the stages and their order are exactly what frontier labs run.",
@@ -646,6 +1040,7 @@ export const COPY: Record<Lang, Copy> = {
       scalePagesLabel: "PAGES",
       scaleTokensLabel: "TOKENS",
       scaleStorageLabel: "STORAGE (uint16)",
+      tapeBridge: "This tape is the output of Interactive A. Every document that survived cleaning was **tokenized**, and its IDs **laid end-to-end** — all the survivors **concatenated** into one flat line, with a **document-separator token** between them (the darker cells). The docs you dropped add **zero cells**; they’re simply not here. Each square below is one token from that tape.",
       denseBlockLabel: "THE DENSE BLOCK",
       denseBlockNote: "A window into the tape — each square is one token ID.",
       denseSepLabel: "document separator",
@@ -662,6 +1057,7 @@ export const COPY: Record<Lang, Copy> = {
         "They’re stored as **fixed-width integers** (a ≤65k vocab fits in a 2-byte `uint16`), packed end to end into one huge array. Fixed width means the file is **memory-mappable** and any training sample is an **O(1) random-access** slice — grab a window from anywhere instantly.",
         "Documents are simply concatenated, with a special **document-separator token** between them so the model can tell where one ends and the next begins.",
       ],
+      cutoffBody: "And because it’s written once, the tape is a **snapshot** — frozen at the moment of the crawl. The data is the model’s world, so the model’s world *ends where the tape ends*: it knows nothing that happened after. That frozen edge is its **knowledge cutoff**.",
       loopLabel: "FULL CIRCLE",
       loopTitle: "The tokenizer came from this data too",
       loopBody: "Remember the tokenizer’s dictionary from the last lesson? It wasn’t handed down — its merges were **fit to a sample of this same cleaned corpus**, then frozen and applied to all of it. The data shapes the tokenizer, and the tokenizer encodes the data. That’s the loop that produces the tape.",
@@ -748,15 +1144,443 @@ export const COPY: Record<Lang, Copy> = {
       bridgeLabel: "NEXT: INSIDE THE MODEL",
       bridgeBody: "You’ve followed the data all the way in — sourced, tokenized, cleaned, and skewed. Next we open the thing it trains: the neural network that turns all those token numbers into predictions.",
     },
+    neural: {
+      crumb: "STAGE 1 · FOUNDATIONS · LESSON 5",
+      title: "Neural networks",
+      lede: "Here’s the one-sentence version: **an LLM is a neural network.** A giant one. It turns your tokens into a guess for the next token — and it’s built by repeating one tiny part. No math background needed; we’ll build that part from scratch.",
+      prev: "Bias",
+      next: "GPU or CPU?",
+      heroPromptLabel: "YOUR PROMPT",
+      heroPromptText: "I want a hot dog to",
+      heroTokensLabel: "TOKENS",
+      heroNetLabel: "A NEURAL NETWORK",
+      heroNetSub: "layers of neurons — millions of them",
+      heroNextLabel: "NEXT TOKEN",
+      heroPredict: "eat",
+      heroAlt1: "pet",
+      heroAlt2: "buy",
+      heroStepTokenize: "become numbers (last lesson)",
+      heroStepFlow: "flow through the network",
+      heroStepPredict: "out comes a prediction",
+      heroCaption: "That’s an LLM, start to finish: your text becomes tokens, the tokens flow through a **neural network**, and out comes a guess for the next token. This whole lesson zooms into that middle box — because it’s just one tiny unit, the **neuron**, repeated millions of times. Let’s build one.",
+      concept: [
+        "Look at that middle box again. It’s nothing but a huge pile of numbers — the **weights** — and those numbers have a name you’ve seen on every model: **parameters**. When a model is called **Gemma 3 12B**, that’s **12 billion** of them; **Llama 3 70B** has seventy billion. That count *is* the model — everything it “knows” is those billions of numbers, arranged in layers. So the real question is simple: **what is one of these numbers, and what does it do?** Let’s zoom all the way in — to a single one.",
+        "You’ve written this function before: `score = w1*a + w2*b + bias`. A weighted sum — a few inputs, each scaled by how much it matters, plus a constant. A **neuron** is exactly that, with one extra step at the end: it **squashes** the score into a 0-to-1 answer, like a probability.",
+        "The numbers `w1, w2, bias` are the neuron’s **weights** — three of the model’s billions of parameters. Bigger weight = that input matters more; a **negative** weight means the input votes the *other* way. Change the weights and you change what the function decides. Nobody types these — they’re **learned** from data (that’s the next lesson). Here, you’ll set them yourself so you can see what they do.",
+      ],
+      psAnatomyLabel: "THE ANATOMY",
+      psTitle: "A parameter is a weight on a connection",
+      psBody: "Here’s a tiny network — four **layers** of **neurons**, wired together. Every **line is a weight**, and the weights are the **parameters**. **Click any neuron** to light up exactly which weights feed it, and the little formula it computes: `activation(w₁·a₁ + w₂·a₂ + … + b)`. Its parameters are those incoming weights, plus one bias — so parameters live on the **wires**, not the neurons.",
+      psLegend: "Each column is a layer · each circle a neuron · each line a weight (one parameter).",
+      psFormulaLead: "The highlighted neuron computes:",
+      psTotalNote: "Count them up: **65 weights + 14 biases = 79 parameters** in this whole little network. A real model runs the same tally into the billions.",
+      psLabel: "TRY IT · WHERE THE BILLIONS COME FROM",
+      psCalcTitle: "Now scale it up — a 70B model in layers and neurons",
+      psCalcBody: "Same parts, just more of them. A single neuron has only a few thousand weights — but **widen** each layer and **stack** more of them, and the total explodes. Drag the two dials, or jump straight to a real model’s size.",
+      psWidthLabel: "WIDTH · neurons per layer",
+      psDepthLabel: "DEPTH · layers",
+      psNeuronsLabel: "NEURONS",
+      psParamsLabel: "PARAMETERS",
+      psConnNote: "Each line is one weight — one parameter. A layer of *width* neurons, each fed by *width* neurons before it, holds **width² connections**. Sum that over every layer and the total lands in the billions — from connections, not cells.",
+      psPresets: [
+        { label: "≈ 85M", note: "A small model — GPT-2 size. Even a network only 768 neurons wide, 12 layers deep, already carries ~85 **million** parameters." },
+        { label: "≈ 12B", note: "Widen to 4,096 and deepen to 60 layers and the count leaps to ~12 **billion** — **Gemma 3 12B** territory. Only ~1 million neurons, though." },
+        { label: "≈ 70B", note: "Double the width again to 8,192 and you reach ~70 **billion** — a **Llama 3 70B**-class model. Notice: doubling the width roughly **quadruples** the parameters." },
+      ],
+      psTwoDials: "So a model’s size is quoted in **parameters** — the memory-and-compute footprint — and it’s set by just **two dials**: **width** (neurons per layer) and **depth** (layers). Widen the network and parameters grow with the **square** of the width; that quadratic is where “12B”, “70B” and beyond come from. Only a few million neurons — but billions of connections between them.",
+      naLabel: "TRY IT · ONE NEURON",
+      naTitle: "A neuron deciding: spam, or not?",
+      naBody: "Here’s a single neuron built as a tiny spam filter. It reads two things about an email, weighs each one, adds them up, and squashes the total into “how spammy, 0–100%”. Drag the inputs — or the neuron’s weights — and **watch every number update live**.",
+      naScenarioLabel: "THE EMAIL",
+      naInput1: "Suspicious links",
+      naInput2: "Known sender",
+      naInput1Lo: "none",
+      naInput1Hi: "loads",
+      naInput2Lo: "stranger",
+      naInput2Hi: "close contact",
+      naDialsLabel: "THE NEURON’S WEIGHTS",
+      naDialsHint: "How much each input matters, and which way it votes. These are the knobs training tunes.",
+      naComputeLabel: "WHAT THE NEURON COMPUTES",
+      naSumLabel: "weighted sum",
+      naSquashLabel: "squash to 0–1",
+      naSquashHelp: "**σ is the sigmoid.** Its whole job is to squash that raw weighted sum — which can be anything from −∞ to +∞ — into a clean **0-to-1** score you can read like a probability. A big positive sum lands near **1**, a big negative one near **0**, and a sum around zero sits near **0.5**. The formula: `σ(z) = 1 / (1 + e^(−z))`.",
+      naOutputLabel: "SPAM SCORE",
+      naHam: "Not spam",
+      naSpam: "Spam",
+      naVerdictSpam: "→ flagged as spam",
+      naVerdictHam: "→ delivered to inbox",
+      naPresets: [
+        { label: "Obvious spam", note: "Loads of links, total stranger. Both inputs push up hard — the score pins near 100%. Easy call." },
+        { label: "Email from mum", note: "A known sender, barely any links. The **negative** weight on “known sender” drags the score down and vetoes it — delivered." },
+        { label: "Borderline", note: "Right on the fence, near the 50% line. A tiny nudge to either input flips the verdict — that boundary is where a neuron is least sure." },
+      ],
+      naNote: "This is one real neuron — the same arithmetic runs, unchanged, billions of times inside a large model. The only thing that scales is the number of neurons and inputs.",
+      dpLabel: "TRY IT · NEURON 3 — THE ‘HOT + DOG’ DETECTOR",
+      dpBody: "The model reads *“I'm hungry, I want a hot dog”* and has to decide the intent: **Eat** or **Pet**? First, one neuron scans for the phrase. A neuron is pure vector math: its input is a **vector x** — which words are present — and its parameters are a **weight vector w** of the **same length**. The neuron outputs their **dot product** `w · x` = ∑ᵢ wᵢxᵢ: multiply the two vectors component by component, then add. This one, **Neuron 3**, carries big weights on *hot* and *dog*, so it spikes only when both appear. Pick a sentence.",
+      dpTitle: "A neuron is one dot product",
+      dpQuestionLead: "TWO VECTORS OF THE SAME LENGTH → ONE NUMBER",
+      dpQuestion: "Does this sentence say “hot dog”?",
+      dpCandidates: "w = the neuron’s weights · x = the words in the sentence",
+      dpLedgerLegend: "**w** and **x** are both length-4 vectors. Multiply them **component by component** — wᵢ · xᵢ — and add the row. That single number is the **dot product** `w · x`.",
+      dpFeatures: ["hot", "dog", "cold", "cute"],
+      dpRowTaste: "w  (weights)",
+      dpRowMovie: "x  (inputs)",
+      dpRowProduct: "wᵢ · xᵢ",
+      dpSumLabel: "w · x",
+      dpSquashLead: "THE NEURON THEN SQUASHES:  σ(w · x + b)",
+      dpSquashNote: "A neuron doesn’t stop at the dot product. It adds a **bias** and runs the total through **σ (the sigmoid)** — squashing any real number into a **0–1 activation**. With a bias of **−2.5**, only a full *hot + dog* match (w·x = 3.5 → σ ≈ 0.73) clears **50%**; half-matches like *“too hot”* fall well below. `σ(z) = 1 / (1 + e⁻ᶻ)`.",
+      dpMatrixHint: "Tap a **component** to inspect its term: wᵢ × xᵢ.",
+      dpScoreLabel: "FUSION SCORE  w · x",
+      dpKeep: "yes — “hot dog”",
+      dpDrop: "no — not the phrase",
+      dpParamNote: "That’s the whole neuron: a **weight vector** dotted with an **input vector** — one multiply-add per component. Real models use vectors thousands long, but the operation is identical. On its own, though, Neuron 3 only knows the words *hot* and *dog* were said. It has **no idea** whether that means a snack or a warm puppy — that takes the network below.",
+      dpPresets: [
+        { label: "“I want a hot dog”", note: "Both **hot** (x₁=1) and **dog** (x₂=1) are present, each weighted **+1.75**, so their products stack to **w·x = +3.5** — a strong signal the **phrase** “hot dog” was said." },
+        { label: "“the soup is too hot”", note: "Only **hot** fires (x₁=1); **dog** is 0, so its +1.75 weight multiplies by nothing. Score **+1.75** — half. The phrase isn’t there." },
+        { label: "“look at that cute dog”", note: "**dog** is present (x₂=1), but so is **cute** (x₄=1, weight −1.0) and there’s no **hot**. Score **+0.75** — weak. Not the phrase “hot dog.”" },
+      ],
+      dpWhy: "That one number is what a neuron *is*: a **dot product of two vectors**. But `w·x = +3.5` is ambiguous — *hot dog* the food, or a *dog* that’s *hot*? A single neuron can’t tell. Resolving it takes a **network** that reads this score alongside other signals. That’s next.",
+      midConcept: [
+        "That’s Neuron 3 — one **dot product**, `w · x`. It found the phrase “hot dog,” scoring **+3.5**. But a score can’t tell a **snack** from a **warm puppy** — same words, two meanings. Resolving that takes context, and reading context takes more neurons **combined**.",
+        "So we **stack** neurons into **layers**. Neuron 3 becomes one of **three inputs**; a **hidden layer** of context gates weighs it against *hunger* and *pet words*; and an **output layer** picks the intent — `f(g(x))`, functions inside functions. The squash on each neuron lets a later layer read *combinations*, not just sums. Here’s the whole network.",
+      ],
+      nwLabel: "TRY IT · THE 7-NEURON NETWORK",
+      nwTitle: "The network predicts the next word",
+      nwBody: "Same job as the hero: predict the next word — here, **eat** or **pet**. The full network is **3 → 2 → 2**. Three **input neurons** read the sentence: **Hunger**, **Pet words**, and **Hot+Dog** (Neuron 3, from above). Two **hidden gates** combine them: an **Eat gate** (fires on hunger *and* the hot-dog phrase) and a **Pet gate** (fires on pet words, but hunger shuts it down). Two **output neurons** — **EAT** and **PET** — read the gates, and the louder one is the prediction. Follow the signal left to right, and tap any wire to read its weight.",
+      nwInputLabel: "INPUTS · three neurons",
+      nwHiddenLabel: "HIDDEN · context gates",
+      nwOutputLabel: "NEXT WORD · eat or pet",
+      nwFeatures: ["Hunger", "Pet words", "Hot+Dog"],
+      nwConcepts: ["Eat gate", "Pet gate"],
+      nwWords: ["EAT", "PET"],
+      nwActionWord: "output",
+      nwSentence: "I'm hungry, I want a hot dog to",
+      nwPromptTail: "→ the next word?",
+      nwVocabLead: "NOW SCALE THE OUTPUT LAYER",
+      nwVocabCount: "~200,000 tokens",
+      nwFiresTag: "fires",
+      nwQuietTag: "quiet",
+      nwWinnerTag: "chosen",
+      nwInspectHint: "Tap any **neuron** or **wire** to read the weight it carries — the parameters, live.",
+      nwParamNote: "Only **14 parameters**, and the trick is the **Pet gate’s big negative weight on Hunger**: even when *hot* + *dog* both fire, a hungry context crushes “pet” and the meaning routes to **EAT**. No single neuron did that — the *combination* did.",
+      nwPresets: [
+        { label: "“I'm hungry, I want a hot dog”", note: "Hunger is high (**2.0**) and Hot+Dog fires (**3.5**). The **Eat gate** lights up, the **Pet gate** stays dark — hunger’s negative weight smothers it — and the output routes to **EAT** (~95%). “Hot dog” = food." },
+        { label: "“let me pet that cute dog”", note: "No hunger, lots of **Pet words** (3.0). The **Pet gate** blazes, Eat stays quiet, and the intent is **PET** (~97%). Same detector, different context." },
+        { label: "“the dog is panting in the hot sun”", note: "Here’s the magic: *hot* + *dog* both appear, so **Neuron 3 still fires +3.5** — it thinks “hot dog!” But there’s **no hunger** and the animal context is strong, so the network **overrules** it: **PET** (~80%). Context beat the phrase." },
+      ],
+      nwWhy: "That’s the whole point of depth: one neuron *found* the phrase, but the **network decided what it meant** by weighing it against context — and that’s a language model in miniature. Here we gave just **2 outputs**, EAT or PET. A real LLM’s output layer has **one neuron per token in its vocabulary — around 200,000** — so it emits a **200,000-long vector**: a score for *every possible next token*. Softmax turns that into a probability for each, and the model samples the next token from it. Everything else is identical — dot products and squashes, just thousands of inputs and dozens of far wider layers.",
+      weightWord: "weight",
+      biasWord: "bias",
+      closeConcept: "One thing stayed hidden the whole lesson: **every weight here, you’d have to set by hand.** A real model has billions of them, and nobody types a single one — they’re *learned* from data. Where the weights come from is the one question left. That’s **training** — next.",
+      explainQ: "You build a network with a hidden layer but leave the nonlinearity out — every neuron just passes its weighted sum straight through. Why can it still only draw a straight boundary?",
+      explainA: "Because a stack of linear steps is still linear. Multiplying by weights and adding a bias is a linear operation, and composing linear operations just gives you one bigger linear operation — mathematically identical to a single layer. And a linear function can only carve space with a straight line (or a flat plane in higher dimensions). The nonlinearity between layers is what breaks the collapse: it reshapes the space before the next layer acts, so the composition can curve. No nonlinearity, no curves — however many layers you stack.",
+      deeperTitle: "Go deeper: the matrix form, activations, and “universal approximation”",
+      deeperBody: "In matrix form, one layer is `h = act(W·x + b)` — a matrix multiply, a bias add, and an element-wise nonlinearity; a network just chains these. Common activations: **tanh** (used here), **ReLU** (`max(0, z)`, the workhorse of large models), and **sigmoid** at the output for a probability. The *universal approximation theorem* says a network with a single hidden layer and enough neurons can approximate essentially any function — so raw capacity was never the hard part. The hard part is **finding the weights**, and that’s exactly what training does (next lesson). Everything a large model “knows” is billions of these same weights.",
+      sizeDeeperTitle: "Go deeper: how big should a model be?",
+      sizeDeeperBody: [
+        "Recall that “size” is really two dials — **width × depth** — and they fix the parameter count (`params ≈ 12 × layers × d_model²`). That squaring is why a model is only a few *million* neurons but *billions* of parameters: the count lives in the **connections, not the cells**.",
+        "But you don’t pick the size freely. You start from a **compute budget**: training cost is roughly `FLOPs ≈ 6 × params × tokens`. **Scaling laws** (Chinchilla) then say how to spend it — for a given budget there’s a *compute-optimal* balance of model size and data, famously about **~20 tokens per parameter**. A bigger model needs proportionally more data, not just more weights.",
+        "Splitting that total into **depth vs width** is more heuristic than the total itself. There’s a known-good **aspect ratio**: too deep-and-thin trains slowly and unstably, too wide-and-shallow wastes capacity. Labs tune the ratio on small models, extrapolate, and round widths to sizes the GPUs run efficiently.",
+        "A twist: labs often deliberately **over-train** a *smaller* model — feeding it far more tokens than “optimal” — because a smaller model is **cheaper to serve** for years afterward. Inference cost, not just training cost, pulls the final size down.",
+        "And with an ever-bigger budget, the real limiter stops being compute and becomes **data**. High-quality text is finite; past a point you hit the **data wall** (the corpus you cleaned in the Data lesson only goes so far). The full scaling-laws story comes in **Pretraining → alignment** — this is just the intuition.",
+      ],
+      interpDeeperTitle: "Go deeper: what does a neuron actually mean?",
+      interpDeeperBody: [
+        "Tempting question: does neuron #4,127 *mean* something — “detects cats”? The honest answer is usually **no**. A single neuron in the middle of a network rarely has a clean meaning, for two reasons.",
+        "**Polysemanticity**: one neuron lights up for many *unrelated* things at once. And **superposition**: a model packs **more features than it has neurons** into overlapping directions. It gets away with this because real features are **sparse** — only a few are active at any moment — so they rarely collide.",
+        "So the reframe is: **meaning lives in directions, not neurons.** Neurons are just the *axes* of the space; the real features are *diagonals* across many of them. (That’s the same idea you’ll meet in **Embeddings** — meaning is a direction in a vector space.)",
+        "It’s no longer a pure black box, though. **Sparse autoencoders** can pull human-interpretable features back out — a celebrated one is a “**Golden Gate Bridge**” feature — and **clamping** that feature on visibly steers the model’s behaviour. So we can now *read*, and even *nudge*, a growing fraction of what a model represents — at the **feature** level, not the neuron level.",
+        "Very loosely, features get more abstract with depth: **early** layers lean surface and syntactic, **middle** layers more abstract and semantic, **late** layers swing toward steering the next token. Treat that as a narrative, not a map.",
+        "Big caveat: interpretability is **early and incomplete** — nobody has a full labeled map of a large model, and it’s easy to overclaim. But it turns “what does a neuron mean?” into “what does a *direction* mean?” — which connects forward to **Embeddings** (meaning as a direction) and back to **Bias**, where those association skews are literally geometry in this same space.",
+      ],
+      bridgeLabel: "NEXT: GPU OR CPU?",
+      bridgeBody: "You built this network out of dot products. Every one is a multiply-and-add — and a real model runs *billions* of them per token. That mountain of arithmetic is why AI runs on **GPUs**, wired together by the thousands. Next: watch the network run on real hardware.",
+    },
+    hw: {
+      crumb: "STAGE 1 · FOUNDATIONS · LESSON 06",
+      title: "GPU or CPU?",
+      lede: "You built a network out of dot products. Now watch it *run*. The same math — a mountain of multiply-and-adds — is why AI is built on **GPUs**, wired together by the thousands.",
+      prev: "Neural networks",
+      next: "Embeddings",
+      heroLabel: "PROCESSING A NEURAL NETWORK",
+      heroSub: "layer by layer — the same network, two machines",
+      heroCpu: "CPU",
+      heroGpu: "GPU",
+      heroCpuTag: "one neuron at a time",
+      heroGpuTag: "a whole layer at once",
+      heroCaption: "Every neuron in a layer is independent — so the GPU computes them all at once, while the CPU grinds through them one by one.",
+      concept: [
+        "Remember the neuron from the last lesson: an output is `w · x` — multiply each weight by each input, add them up. A **layer** is just many neurons doing that side by side. To run the network you compute layer 1, feed it into layer 2, then layer 3 — a stack of these steps.",
+        "Here is the key fact: *within* a layer, every neuron is **independent** — none needs another's answer, so they can all be computed at the same time. Only the layers depend on each other, in order.",
+        "A **CPU** has a handful of large, clever cores; it mostly computes one neuron, then the next, then the next. A **GPU** has *thousands* of small cores, so it computes a whole layer's neurons **at once**. Same math — wildly different speed.",
+      ],
+      raceLabel: "TRY IT · RUN THE NETWORK",
+      raceTitle: "Watch it process, layer by layer",
+      raceBody: "The same network runs on both machines. Press run and watch: the **GPU** lights up a whole layer at a time; the **CPU** crawls neuron by neuron. Add neurons and the gap explodes.",
+      raceSizeLabel: "Neurons per layer",
+      raceRun: "Run the network",
+      raceReset: "Reset",
+      raceCpuName: "CPU",
+      raceGpuName: "GPU",
+      raceCpuCores: "one neuron per step",
+      raceGpuCores: "one layer per step",
+      raceStepsLabel: "steps",
+      raceCellNote: "each neuron = one w · x dot product over the layer before it",
+      raceSpeedupLabel: "GPU finishes sooner by",
+      raceWinnerNote: "The GPU computes an entire layer in **one shot**, because its neurons don't depend on each other. It still waits for each layer before the next — layer 2 needs layer 1's answers. The **CPU** gets no such shortcut: it walks every neuron, one by one. Widen the layers and its bar runs off the edge.",
+      raceNote: "This toy has a few dozen neurons. A real model has *billions* of parameters and hundreds of layers — which is why a CPU would take *months* on what a GPU cluster does in days.",
+      raceParamsLabel: "parameters",
+      raceNeuronsLabel: "neurons",
+      raceNeuronWord: "neuron",
+      raceLayerWord: "layer",
+      raceDoneWord: "done",
+      raceReadyWord: "ready",
+      raceDotLabel: "Each neuron computes one **dot product**:",
+      raceCpuChip: "a few cores",
+      raceGpuChip: "thousands of cores",
+      raceCoresWord: "cores",
+      raceAtOnce: "at once",
+      raceOneAtATime: "1 at a time",
+      raceCompleteWord: "Complete",
+      midConcept: [
+        "So a GPU is the right tool. But one GPU is not enough. Each has a fixed pool of fast memory — say **80 GB** — and a frontier model's weights are *hundreds* of gigabytes. The model simply doesn't fit.",
+        "So we wire many GPUs together. Eight GPUs share a board as a **node**, linked by ultra-fast **NVLink**. Many nodes fill a **rack**, linked by **InfiniBand** networking. The GPUs are constantly swapping half-finished results — so how fast those wires are matters as much as the GPUs themselves.",
+      ],
+      rackLabel: "TRY IT · INSIDE A RACK",
+      rackTitle: "The wires between the GPUs",
+      rackBody: "GPUs on the same **node** talk over NVLink — blazing fast. GPUs on different nodes cross the **InfiniBand** network — far slower. Send a tensor and watch where it has to travel.",
+      rackHint: "Send a tensor between two GPUs:",
+      rackPaths: ["Same node", "Across nodes", "Across racks"],
+      rackLinkLabel: "LINK",
+      rackBwLabel: "BANDWIDTH",
+      rackTimeLabel: "RELATIVE TIME",
+      rackHopsLabel: "HOPS",
+      rackNodeWord: "node",
+      rackRackWord: "rack",
+      rackGpuWord: "GPU",
+      rackNvlink: "NVLink",
+      rackInfiniband: "InfiniBand",
+      rackNote: "The lesson every distributed-training engineer learns: keep the chatty work **inside a node**. Every hop onto the network costs you — so you arrange the model to cross it as little as possible.",
+      splitConcept: [
+        "So: does each GPU hold the **whole network**, or just a **piece** of it? Both happen — it depends on the strategy. Here's the *same* next-word network on 2 GPUs, three different ways.",
+      ],
+      splitLabel: "TRY IT · SPLIT THE MODEL",
+      splitTitle: "One network, spread across GPUs",
+      splitBody: "This little network reads a prompt and predicts the next word. Pick a strategy and watch what each GPU actually holds — the **solid** neurons live on that GPU; the faint ones live on the other.",
+      splitStrategies: [
+        {
+          key: "data",
+          label: "Data parallel",
+          tag: "copy the whole network",
+          own: "the **whole network** — a full copy",
+          desc: "Every GPU holds a complete copy of the network and runs a different batch of prompts. After each step they average their weight updates so the copies stay identical.",
+          comm: "share gradients (all-reduce)",
+        },
+        {
+          key: "tensor",
+          label: "Tensor parallel",
+          tag: "split every layer's neurons",
+          own: "**a slice of every layer** — half the neurons",
+          desc: "The network is too wide for one GPU, so each layer's neurons are split between them. Both GPUs work on the same prompt at the same time, each computing its half.",
+          comm: "share activations every layer",
+        },
+        {
+          key: "pipeline",
+          label: "Pipeline parallel",
+          tag: "split the network by depth",
+          own: "**a few whole layers** — one stage",
+          desc: "The first layers live on GPU 1, the later layers on GPU 2. A prompt flows through GPU 1, then hands off to GPU 2 to finish — an assembly line.",
+          comm: "pass activations at the handoff",
+        },
+      ],
+      splitNetLabel: "one network · predicts the next word",
+      splitOwnLabel: "Each GPU holds:",
+      splitCommLabel: "GPUs must exchange:",
+      splitGpuWord: "GPU",
+      splitNote: "Real training combines all three at once — data *and* tensor *and* pipeline parallel — across **thousands** of GPUs for weeks. A frontier model is far too big to copy whole onto one GPU, so it's *both* split up *and* replicated. That's what a training run really is, and why it costs what it costs.",
+      explainQ: "Why is a matrix multiply the perfect job for a GPU, and a bad fit for a CPU?",
+      explainA: "A matrix multiply is thousands of independent dot products — no cell needs any other cell's answer. A CPU has a few cores and must walk them mostly one at a time; a GPU has thousands of small cores that each compute a different cell simultaneously. The work is \"embarrassingly parallel,\" so throwing thousands of cores at it is a near-perfect match — that's the entire reason AI runs on GPUs.",
+      deeperTitle: "Why not just use a faster CPU?",
+      deeperBody: [
+        "A CPU core is *individually* far faster and smarter than a GPU core — deep pipelines, branch prediction, big caches — because it's built to run one messy chain of decisions quickly. Neural-network math has almost no decisions: it's the same multiply-add, a trillion times over.",
+        "For that, you don't want a few geniuses; you want a stadium of workers each doing one easy sum. GPUs trade cleverness-per-core for *thousands* of cores plus very wide memory to feed them. On matrix math that trade wins by 10–100×; on branchy everyday code it would lose badly.",
+      ],
+      deeper2Title: "What actually flows on those wires?",
+      deeper2Body: [
+        "During training the GPUs exchange two big things: **activations** (the intermediate numbers passing between layers) and **gradients** (each weight's correction after a batch). Tensor and pipeline parallelism move activations; data parallelism sums gradients across every replica.",
+        "This is why bandwidth is a first-class design constraint. NVLink inside a node runs at hundreds of GB/s; the InfiniBand fabric between nodes is several times slower. Engineers place the split points to keep the heaviest traffic on the fastest wires — a memory-and-network puzzle as much as a math one.",
+      ],
+      bridgeLabel: "NEXT: EMBEDDINGS",
+      bridgeBody: "You've followed a network from math to metal. Next: the very first thing that math touches — how a token becomes a vector of *meaning* the network can compute on.",
+    },
+    emb: {
+      crumb: "STAGE 1 · FOUNDATIONS · LESSON 07",
+      title: "Embeddings",
+      lede: "The network can't do math on the word *“king.”* So every token is turned into a **vector** — a point in space where **nearby means similar in meaning**. Here's the twist: nobody sets those numbers. **Pretraining** learns them.",
+      prev: "GPU or CPU?",
+      next: "Transformers",
+      heroLabel: "A WORD BECOMES A POINT",
+      heroWord: "queen",
+      heroVecLabel: "its vector (a few of 4,096 numbers)",
+      heroMapLabel: "…a point on the map — next to “king,” far from “cat” or “pizza”",
+      heroCaption: "Same idea as a hash — but instead of scattering things, it places *similar* meanings *close together*.",
+      concept: [
+        "An **embedding** is a lookup table: every token in the vocabulary gets a row of numbers — its **vector**. Real models use **4,096** numbers per token; here we'll use just **two**, so we can draw them on a map.",
+        "The one rule that makes it useful: **distance means meaning.** Words that mean similar things sit close together; unrelated words sit far apart. “Cat” lands near “dog,” far from “pizza.”",
+        "That's it — meaning becomes *geometry*. And once meaning is geometry, the model can do arithmetic with it. Play with the map, then we'll see where the layout comes from.",
+      ],
+      mapLabel: "TRY IT · THE MAP OF MEANING",
+      mapTitle: "Similar words sit close together",
+      mapBody: "Every dot is a word, placed by its vector. Tap one and watch its **nearest neighbours** light up — they're the words closest in meaning. Notice how the four topics settle into their own neighbourhoods.",
+      mapHint: "Tap a word:",
+      mapNearLabel: "nearest in meaning",
+      groupLabels: { people: "people", animal: "animals", food: "food", tech: "tech" },
+      mapNote: "This is a *toy* map — 36 words in 2D. A real model has hundreds of thousands of tokens in 4,096 dimensions, but the rule is identical: close = similar.",
+      ptConcept: [
+        "So where do these positions come from? **Nobody places them.** They start as *random* numbers — every word scattered at random.",
+        "Then **pretraining** happens: the model reads trillions of words, each time guessing the next token. Every guess nudges the vectors. Words that keep showing up in the *same contexts* — “king” and “queen,” “cat” and “dog” — get pulled together; words that never co-occur drift apart.",
+        "After enough text, the random cloud has organised itself into the map you just explored. The meaning wasn't programmed — it **precipitated out of predicting the next word.** *“You shall know a word by the company it keeps.”*",
+      ],
+      arLabel: "TRY IT · MEANING IS ARITHMETIC",
+      arTitle: "king − man + woman ≈ ?",
+      arBody: "Each word is an arrow from the origin, so you can **add and subtract** them. **Subtracting** a word means stepping *away* from it; **adding** a word means stepping *toward* it. So `king − man + woman` reads: *start at **king**, step away from **man** and toward **woman*** — which is the same as walking the **man → woman** arrow, starting from king. You land on **queen**.",
+      arResultLabel: "≈ nearest word",
+      arSlotStart: "start at",
+      arSlotMinus: "− subtract",
+      arSlotPlus: "+ add",
+      arRead: "Step through it: **1** the three words as vectors from **0** · **2** start at **king** · **3** subtract **man** · **4** add **woman** · **5** the chain lands nearest **queen**.",
+      arNote: "That “man → woman” step is a **gender direction** the model discovered on its own — the same arrow separates actor/actress, uncle/aunt, prince/princess. Real embeddings hold hundreds of such directions (tense, plural, country→capital) nobody labelled.",
+      ntLabel: "HOW THIS BECOMES THE NEXT TOKEN",
+      ntTitle: "From vectors to the next word",
+      ntBody: "Embeddings turn tokens into vectors — but how does that predict the *next* one? Here's the whole pipeline. Your prompt (up to **4,096 tokens**) is looked up in the embedding matrix, run through **the model**, and turned back into a score for every one of ~200,000 vocabulary tokens. The highest score wins.",
+      ntTokens: "up to 4,096 tokens",
+      ntEmbed: "embedding matrix",
+      ntSeq: "the sequence",
+      ntModel: "the model",
+      ntNextVec: "the next-word vector",
+      ntUnembed: "unembedding matrix",
+      ntScores: "~200,000 scores — softmax, pick the highest",
+      ntNextToken: "next token",
+      ntWeights: "learned weights",
+      ntData: "live data",
+      ntTying: "In many LLMs these two matrices are the **same weights, transposed** (“weight tying”): the matrix that turns tokens *into* vectors also turns the final vector *back* into token scores.",
+      ntTakeaway: "That's the whole loop: embed the tokens → run the model → score the vocabulary → pick one. Then append it and do it all again, one token at a time.",
+      ntSteps: [
+        { t: "Your prompt, as tokens", d: "The input is a sequence of up to **4,096 tokens** — the context window. Each token is one of ~200,000 vocabulary entries." },
+        { t: "Look up each vector", d: "Grab each token's **row** from the embedding table — learned weights, shape **200k × 4k** (about 820M numbers on their own)." },
+        { t: "The sequence of vectors", d: "Now the prompt is a stack — **N × 4k** — one 4,096-number vector per token, carrying meaning *and* position." },
+        { t: "Run the model", d: "The whole sequence flows through **the model** (the layers and attention you'll meet next lesson) and out comes a single **4,096-number vector** — a point in the *same embedding space* as the tokens, its read on what should come next." },
+        { t: "The next-word vector", d: "That **1 × 4k** vector is the model's compressed guess — effectively a *predicted embedding*: a point in the same space as every token, not a word yet. That's why the next step can just look for the nearest token." },
+        { t: "Score every token", d: "Each column of the **4k × 200k** unembedding table is a token's own vector. Multiplying is a **dot product** with every column — it measures how closely two vectors line up, so scoring is really *finding the nearest token in the space*: 4,096 numbers become one **score** per vocabulary token, highest = best match." },
+        { t: "Softmax → probabilities", d: "That's a **1 × 200k** row of raw scores (logits). **Softmax** turns them into probabilities that add up to 1 — a full distribution over the vocabulary." },
+        { t: "Pick one, then repeat", d: "Greedy decoding takes the highest; real models usually **sample** (temperature and top-p trade focus for creativity). Append the winner to the prompt and run the whole thing again — **one token at a time**." },
+      ],
+      ntPrev: "Previous stage",
+      ntNext: "Next stage",
+      ntZoomIn: "Zoom to stage",
+      ntZoomOut: "See whole pipeline",
+      emLabel: "THE EMBEDDING MATRIX",
+      emTitle: "One big table holds every token's meaning",
+      emBody: "The map you just explored is really one giant lookup table: the **embedding matrix**. It has **one row per token** in the vocabulary (~200,000) and **one column per dimension** (4,096). So each row *is* a token's vector — its coordinates in a 4,096-dimensional meaning space, where distance and direction encode how tokens relate. Click a token to see its row.",
+      emRows: "~200,000 tokens (rows)",
+      emCols: "4,096 dimensions (columns) →",
+      emPick: "Pick a token",
+      emReadout: "{word} → a few of its 4,096 numbers",
+      emUnembTitle: "And the unembedding matrix?",
+      emUnembBody: "The **unembedding matrix** is the same idea, flipped: **4,096 × 200,000**. Where embedding turns *a token into a vector*, unembedding turns *a vector back into a score for every token*. In many models it's literally the same weights, transposed — the map read forwards to look up, and backwards to choose.",
+      emPretrain: "Nobody types these numbers in. Every coordinate is **learned during pretraining** — the model reads enormous amounts of text and nudges each token's row until tokens that appear in similar contexts end up near each other. (Pretraining is its own stage later in the roadmap.)",
+      emWords: ["king", "queen", "dog", "cat", "code", "pizza"],
+      explainQ: "What does it mean that “king − man + woman ≈ queen,” and where did that structure come from?",
+      explainA: "Each word is a vector — a point in space — and directions between points carry meaning. The step from “man” to “woman” is a consistent “gender” direction; applying that same step to “king” lands you on “queen.” Nobody defined a gender axis: pretraining placed the words by predicting the next token over huge text, and because “king/queen” and “man/woman” appear in parallel contexts, they ended up in parallel positions. The arithmetic is just following those learned directions.",
+      deeperTitle: "Why two numbers here, but 4,096 in real models?",
+      deeperBody: [
+        "Two dimensions let us *draw* the map, but they can only encode so much — a handful of directions before words start colliding. Real models use **4,096** dimensions, so they can pack in far more independent “directions of meaning” (formality, tense, topic, sentiment…) without everything crowding together.",
+        "You can't picture 4,096 dimensions, and you don't need to — the rules you saw here (close = similar, directions = relationships) hold identically up there. The math doesn't care how many dimensions it runs in.",
+      ],
+      cosTitle: "Distance, or angle? (cosine similarity)",
+      cosBody: [
+        "On our map we used plain straight-line distance. Real systems usually compare **angle** instead, via **cosine similarity**: two vectors pointing the same way score 1, perpendicular scores 0, opposite scores −1. It ignores how *long* the vectors are and asks only *which direction* they point — which turns out to track meaning better in high dimensions.",
+        "This is the exact number behind semantic search and **RAG** (Stage 4): embed your question, embed every document, and return the ones whose vectors point most nearly the same way.",
+      ],
+      bridgeLabel: "NEXT: TRANSFORMERS & ATTENTION",
+      bridgeBody: "You just saw **the model** as a single black box between the vectors and the answer. The next lesson opens that box: **attention**, how tokens look at each other so “bank” by a river and “bank” with your money stop sharing one vector — and settle what they mean *here*.",
+      words: {},
+    },
+    attn: {
+      crumb: "STAGE 1 · FOUNDATIONS · LESSON 08",
+      title: "Transformers & attention",
+      lede: "Embeddings gave every token *one* fixed vector. But “bank” by a river and “bank” with your money can't mean the same thing. **Attention** is the fix: each token updates itself by **looking at the others** — and the whole context decides what it means *here*.",
+      prev: "Embeddings",
+      next: "How training works",
+      heroLabel: "ONE WORD CHANGES WHERE “IT” LOOKS",
+      heroToggleLabel: "flip the last word",
+      heroWordTired: "tired",
+      heroWordWide: "wide",
+      heroReadTired: "“it” looks back at **the animal** — because animals get *tired*. So **it = the animal**.",
+      heroReadWide: "One word changed, and “it” now looks at **the street** — because streets are *wide*. So **it = the street**.",
+      heroCaption: "Nothing else in the sentence moved. The model *re-reads* “it” by weighing every other word — that weighing is **attention**.",
+      concept: [
+        "Here's the problem. After the last lesson, “it” has exactly one embedding — the same numbers every time. But in *“…because it was tired,”* “it” means the **animal**; swap in *“wide”* and “it” means the **street**. A fixed vector can't be both.",
+        "**Attention** solves it: before deciding anything, every token gets to **look at the other tokens** and pull in what's relevant, mixing their meaning into its own. “It” becomes a blend that's mostly *animal* — or mostly *street* — depending on the company it keeps.",
+        "The engineer's picture: a **soft dictionary lookup**. Each token asks a question (a **query**), every token advertises a label (a **key**), and the closer a key matches the query, the more of that token's **value** you take. Not one exact hit — a *weighted blend* of all of them.",
+      ],
+      lensLabel: "TRY IT · THE ATTENTION LENS",
+      lensTitle: "Tap a word — see what it looks at",
+      lensBody: "Tap any word to make it the one doing the looking. The **arcs** and the highlight show how much it attends to each other word. Then switch **heads** below: a transformer runs many attention patterns at once, and each one learns a different job.",
+      lensHint: "Tap a word:",
+      lensHeadLabel: "attention head — each learns a different job",
+      heads: {
+        reference: { name: "reference", desc: "links a word to what it refers to — watch “it” reach back to “animal.”" },
+        previous: { name: "previous word", desc: "each word looks one step back — a real, common pattern models grow on their own." },
+        syntax: { name: "verb → its words", desc: "a verb reaches for its subject and object — “cross” pulls on “animal” and “street.”" },
+      },
+      lensRead: "In this head, **{q}** attends most to **{k}**.",
+      lensNote: "The affinities here are *illustrative* — picked so each head's job is easy to see. But turning them into weights (**softmax**, so they sum to 1) and blending the tokens is exactly what a real transformer does. A real model stacks dozens of heads across dozens of layers.",
+      qkvConcept: [
+        "So how does a word actually *look*? Through three little vectors it makes from its own embedding: a **query** (what am I looking for?), a **key** (what do I offer?), and a **value** (what I'll hand over if you pick me).",
+        "Match every **query** against every **key** with a dot product → **softmax** into weights that sum to 1 → take that **weighted blend of the values**. That blend is the token's new, context-aware meaning. Below, steer “bank”'s query by hand and watch its meaning slide.",
+      ],
+      qkvLabel: "TRY IT · QUERY · KEY · VALUE",
+      qkvTitle: "“bank” finds its meaning",
+      qkvBody: "“bank” sits between two neighbourhoods on the meaning map — riverside and finance. Drag the slider to steer its **query**. It scores each context word (query · key), **softmax** turns those into weights, and “bank” becomes the **weighted blend** of their values — sliding to whichever it listens to.",
+      qkvSliderLabel: "steer bank's query",
+      qkvSliderLeft: "look for river",
+      qkvSliderRight: "look for money",
+      qkvPresetRiver: "“by the river”",
+      qkvPresetMixed: "ambiguous",
+      qkvPresetMoney: "“at the money”",
+      qkvRiver: "river",
+      qkvMoney: "money",
+      qkvBank: "bank",
+      qkvWeightLabel: "attention weights (sum to 1)",
+      qkvMeaningLabel: "bank's meaning, now",
+      qkvRead: "“bank” is listening mostly to **{w}** — so that's what it means here.",
+      qkvNote: "The keys and values are illustrative points, but the steps — dot product, softmax, weighted sum — are the real thing. In a trained model you don't steer the query: it's computed from the word's own embedding, so the *sentence* does this steering automatically.",
+      explainQ: "The embedding of “bank” is a single fixed vector. So how can the model tell riverside “bank” from money “bank”?",
+      explainA: "It doesn't rely on the embedding alone. Attention lets “bank” form a query and compare it (dot product) against every other word's key; a softmax turns those scores into weights, and “bank” takes a weighted blend of the other words' value vectors. Next to “river,” it blends in river; next to “money,” it blends in money. The fixed embedding is only the starting point — the surrounding words reshape it into a meaning that fits *this* sentence.",
+      deeperTitle: "The one formula: softmax(QKᵀ / √d) · V",
+      deeperBody: [
+        "Stack every token's query into a matrix **Q**, every key into **K**, every value into **V**. Then all of attention is **softmax(QKᵀ / √d) · V**. `QKᵀ` is every query dotted with every key (all the affinities at once); `√d` just keeps the numbers from blowing up in high dimensions; **softmax** makes each row of weights sum to 1; multiplying by **V** takes the weighted blend. That's the entire mechanism — one matrix multiply, a normalize, another matrix multiply.",
+        "**Multi-head:** run several of these in parallel with different learned Q/K/V, each free to track a different relationship (the heads you toggled), then concatenate. **Self-attention** is when Q, K, and V all come from the same sequence — a sentence reading itself.",
+      ],
+      maskTitle: "Why it scales — and the one twist for chat models",
+      maskBody: [
+        "The older approach read a sentence word-by-word, so word 50 was far from word 1. Attention connects **every token to every other in a single step** — long-range links are as cheap as short ones — and every one of those comparisons happens **in parallel** on the GPU. That parallelism is exactly why transformers could be trained on the whole internet, and why they took over.",
+        "One twist for models that *generate* text: while predicting the next word they're only allowed to look **backward**, never at words that haven't been written yet (a **causal mask**). And since attention has no built-in sense of order, each token also gets a **positional** signal so “dog bites man” and “man bites dog” aren't the same soup.",
+      ],
+      bridgeLabel: "NEXT: HOW TRAINING WORKS",
+      bridgeBody: "You've now seen the whole machine — tokens, embeddings, attention. But every weight in it started as a **random number**. The next lesson is the engine that tuned them: **loss, gradients, and backpropagation** — how trillions of guesses slowly turn noise into a model that knows things.",
+    },
     stage1List: [
       "The life of an LLM",
       "Tokens",
       "Data",
       "Bias",
       "Neural networks",
-      "How training works",
+      "GPU or CPU?",
       "Embeddings",
       "Transformers",
+      "How training works",
       "Pretraining → alignment",
     ],
   },
@@ -805,7 +1629,7 @@ export const COPY: Record<Lang, Copy> = {
       "El panorama completo: tokens, entrenamiento, embeddings, atención — y todo lo de la vía rápida. Sabrás el por qué, no solo el cómo.",
     path2cta: "Empezar desde el principio",
     backRoadmap: "Volver a la ruta",
-    stage1Label: "ETAPA 1 · 9 LECCIONES",
+    stage1Label: "ETAPA 1 · 10 LECCIONES",
     stage1Title: "Fundamentos",
     crumb: "ETAPA 1 · FUNDAMENTOS · LECCIÓN 2",
     lessonTitle: "Tokens",
@@ -846,7 +1670,7 @@ export const COPY: Record<Lang, Copy> = {
     contribute: "Aporta una lección",
     contact: "Contacto",
     stages: [
-      { title: "Fundamentos", desc: "Cómo funciona la IA por dentro: tokens, entrenamiento, embeddings, atención.", lessons: 9, pct: 25 },
+      { title: "Fundamentos", desc: "Cómo funciona la IA por dentro: tokens, entrenamiento, embeddings, atención.", lessons: 10, pct: 25 },
       { title: "Trabajar con LLMs", desc: "Prompting, sampling, presupuesto de contexto, salida estructurada.", lessons: 5, pct: 0 },
       { title: "Programar con agentes", desc: "Claude Code, Codex, archivos de reglas, permisos, hooks, MCP.", lessons: 7, pct: 0 },
       { title: "Llevar IA a tu software", desc: "RAG, tool calling, agentes, guardarraíles, evals, control de costos.", lessons: 10, pct: 0 },
@@ -968,7 +1792,8 @@ export const COPY: Record<Lang, Copy> = {
       concept: [
         "Un modelo no tiene hechos propios. Todo lo que “sabe” vino de un **montón gigante de texto** — casi todo raspado de la web pública, más libros, código y sitios de referencia como **Wikipedia** (nuestro ejemplo recurrente aquí).",
         "Pero la web en crudo está sucia: barras de navegación, anuncios, spam, duplicados y páginas con las que *no* debes entrenar. Por eso los laboratorios pasan el rastreo por una **tubería de limpieza** antes de que un solo token llegue al modelo.",
-        "Lo sorprendente: **la calidad gana a la cantidad.** Un corpus más pequeño y bien filtrado entrena un mejor modelo que uno más grande y sucio — así que gran parte de lo recolectado se descarta a propósito.",
+        "Lo sorprendente: **la calidad gana a la cantidad.** Un corpus más pequeño y bien filtrado entrena un mejor modelo que uno más grande y sucio — así que gran parte de lo recolectado se descarta a propósito. **Los duplicados caen primero**: el texto repetido empuja al modelo a *memorizar y regurgitar* en vez de generalizar, y malgasta entrenamiento en las mismas palabras dos veces.",
+        "Y lo que queda no es un solo montón sino una **mezcla** — una receta ponderada de web, código, libros, matemáticas y muchos idiomas, con unas fuentes sobremuestreadas y otras submuestreadas. El recorte también tiene su costo: **filtra demasiado fuerte y te llevas la diversidad real** junto con la basura.",
       ],
       cleanLabel: "PRUÉBALO · LA TUBERÍA",
       cleanTitle: "Limpia este dataset",
@@ -994,6 +1819,8 @@ export const COPY: Record<Lang, Copy> = {
       reasonBenchmark: "Parece una pregunta de examen",
       keptBadge: "conservado",
       qualityWord: "calidad",
+      scoreAsideLabel: "CÓMO FUNCIONA LA PUNTUACIÓN",
+      scoreAsideBody: "Ese número de “calidad” no es objetivo. Es un **clasificador** entrenado para distinguir un **corpus de referencia** (Wikipedia, libros) de la web en crudo. Corre **por documento**, **antes de tokenizar**: las características del doc se vuelven un vector `x`, unos pesos aprendidos `w` lo puntúan como `≈ w · x`, y ese único número decide si el documento *entero* entra o sale. Así que nunca es una propiedad de los tokens sueltos — por eso no lo verás dentro de la cinta. Los docs de baja calidad se descartan aquí arriba y sencillamente nunca llegan a ser tokens.",
       resultTitle: "Lo que queda es el mundo del modelo",
       resultBody: "Casi todo el montón desapareció — y todo lo que el modelo llegará a “saber” está ahora en los supervivientes. Equivócate aquí y el modelo se equivoca; no hay etapa posterior que reponga lo que la limpieza quitó.",
       illustrativeNote: "Corpus de juguete. La similitud y las puntuaciones de calidad son ilustrativas, no un clasificador real — pero las etapas y su orden son exactamente lo que ejecutan los laboratorios de frontera.",
@@ -1022,6 +1849,7 @@ export const COPY: Record<Lang, Copy> = {
       scalePagesLabel: "PÁGINAS",
       scaleTokensLabel: "TOKENS",
       scaleStorageLabel: "ALMACENAMIENTO (uint16)",
+      tapeBridge: "Esta cinta es la salida del Interactivo A. Cada documento que sobrevivió a la limpieza se **tokenizó**, y sus IDs se **pusieron uno tras otro** — todos los supervivientes **concatenados** en una sola línea plana, con un **token separador de documento** entre ellos (las celdas más oscuras). Los docs que descartaste aportan **cero celdas**; sencillamente no están aquí. Cada cuadro de abajo es un token de esa cinta.",
       denseBlockLabel: "EL BLOQUE DENSO",
       denseBlockNote: "Una ventana a la cinta — cada cuadro es un ID de token.",
       denseSepLabel: "separador de documento",
@@ -1038,6 +1866,7 @@ export const COPY: Record<Lang, Copy> = {
         "Se guardan como **enteros de ancho fijo** (un vocabulario ≤65k cabe en un `uint16` de 2 bytes), empaquetados uno tras otro en un único array enorme. El ancho fijo hace el archivo **mapeable en memoria** y cualquier muestra de entrenamiento es un corte de **acceso aleatorio O(1)** — toma una ventana desde cualquier punto al instante.",
         "Los documentos simplemente se concatenan, con un **token separador de documento** especial entre ellos para que el modelo sepa dónde termina uno y empieza el siguiente.",
       ],
+      cutoffBody: "Y como se escribe una sola vez, la cinta es una **instantánea** — congelada en el momento del rastreo. Los datos son el mundo del modelo, así que el mundo del modelo *termina donde termina la cinta*: no sabe nada de lo que pasó después. Ese borde congelado es su **fecha de corte de conocimiento**.",
       loopLabel: "CÍRCULO COMPLETO",
       loopTitle: "El tokenizador también salió de estos datos",
       loopBody: "¿Recuerdas el diccionario del tokenizador de la lección anterior? No cayó del cielo — sus fusiones se **ajustaron a una muestra de este mismo corpus limpio**, luego se congelaron y se aplicaron a todo. Los datos moldean el tokenizador, y el tokenizador codifica los datos. Ese es el bucle que produce la cinta.",
@@ -1124,15 +1953,443 @@ export const COPY: Record<Lang, Copy> = {
       bridgeLabel: "SIGUIENTE: DENTRO DEL MODELO",
       bridgeBody: "Has seguido los datos hasta el fondo — obtenidos, tokenizados, limpiados e inclinados. Ahora abrimos lo que entrenan: la red neuronal que convierte todos esos números de token en predicciones.",
     },
+    neural: {
+      crumb: "ETAPA 1 · FUNDAMENTOS · LECCIÓN 5",
+      title: "Redes neuronales",
+      lede: "La versión de una frase: **un LLM es una red neuronal.** Una gigante. Convierte tus tokens en una conjetura del siguiente token — y está hecha repitiendo una parte diminuta. Sin matemáticas previas; construiremos esa parte desde cero.",
+      prev: "Sesgo",
+      next: "¿GPU o CPU?",
+      heroPromptLabel: "TU PROMPT",
+      heroPromptText: "I want a hot dog to",
+      heroTokensLabel: "TOKENS",
+      heroNetLabel: "UNA RED NEURONAL",
+      heroNetSub: "capas de neuronas — millones de ellas",
+      heroNextLabel: "SIGUIENTE TOKEN",
+      heroPredict: "eat",
+      heroAlt1: "pet",
+      heroAlt2: "buy",
+      heroStepTokenize: "se vuelven números (lección anterior)",
+      heroStepFlow: "fluyen por la red",
+      heroStepPredict: "sale una predicción",
+      heroCaption: "Eso es un LLM, de principio a fin: tu texto se vuelve tokens, los tokens fluyen por una **red neuronal**, y sale una conjetura del siguiente token. Toda esta lección hace zoom en esa caja del medio — porque es solo una unidad diminuta, la **neurona**, repetida millones de veces. Construyamos una.",
+      concept: [
+        "Mira otra vez esa caja del medio. No es más que un montón enorme de números — los **pesos** — y esos números tienen un nombre que has visto en cada modelo: **parámetros**. Cuando un modelo se llama **Gemma 3 12B**, son **12 mil millones** de ellos; **Llama 3 70B** tiene setenta mil millones. Ese número *es* el modelo — todo lo que “sabe” son esos miles de millones de números, dispuestos en capas. Así que la pregunta real es simple: **¿qué es uno de estos números y qué hace?** Hagamos zoom hasta el fondo — hasta uno solo.",
+        "Ya has escrito esta función: `score = w1*a + w2*b + sesgo`. Una suma ponderada — unas entradas, cada una escalada por cuánto importa, más una constante. Una **neurona** es justo eso, con un paso extra al final: **aplasta** el resultado a una respuesta entre 0 y 1, como una probabilidad.",
+        "Los números `w1, w2, sesgo` son los **pesos** de la neurona — tres de los miles de millones de parámetros del modelo. Peso más grande = esa entrada importa más; un peso **negativo** significa que la entrada vota al *otro* lado. Cambia los pesos y cambias lo que la función decide. Nadie los teclea — se **aprenden** de los datos (esa es la próxima lección). Aquí los pondrás tú, para ver qué hacen.",
+      ],
+      psAnatomyLabel: "LA ANATOMÍA",
+      psTitle: "Un parámetro es un peso sobre una conexión",
+      psBody: "Aquí tienes una red diminuta — cuatro **capas** de **neuronas**, cableadas entre sí. Cada **línea es un peso**, y los pesos son los **parámetros**. **Haz clic en cualquier neurona** para encender exactamente qué pesos la alimentan, y la pequeña fórmula que computa: `activation(w₁·a₁ + w₂·a₂ + … + b)`. Sus parámetros son esos pesos entrantes, más un sesgo — así que los parámetros viven en los **cables**, no en las neuronas.",
+      psLegend: "Cada columna es una capa · cada círculo una neurona · cada línea un peso (un parámetro).",
+      psFormulaLead: "La neurona resaltada computa:",
+      psTotalNote: "Cuéntalos: **65 pesos + 14 sesgos = 79 parámetros** en toda esta pequeña red. Un modelo real lleva la misma cuenta a los miles de millones.",
+      psLabel: "PRUÉBALO · DE DÓNDE SALEN LOS MILES DE MILLONES",
+      psCalcTitle: "Ahora escálalo — un modelo de 70B en capas y neuronas",
+      psCalcBody: "Las mismas partes, solo que más. Una sola neurona tiene apenas unos miles de pesos — pero **ensancha** cada capa y **apila** más, y el total explota. Arrastra las dos perillas, o salta directo al tamaño de un modelo real.",
+      psWidthLabel: "ANCHO · neuronas por capa",
+      psDepthLabel: "PROFUNDIDAD · capas",
+      psNeuronsLabel: "NEURONAS",
+      psParamsLabel: "PARÁMETROS",
+      psConnNote: "Cada línea es un peso — un parámetro. Una capa de *ancho* neuronas, cada una alimentada por *ancho* neuronas antes, tiene **ancho² conexiones**. Suma eso por cada capa y el total llega a los miles de millones — de las conexiones, no de las celdas.",
+      psPresets: [
+        { label: "≈ 85M", note: "Un modelo pequeño — tamaño GPT-2. Incluso una red de solo 768 neuronas de ancho y 12 capas ya lleva ~85 **millones** de parámetros." },
+        { label: "≈ 12B", note: "Ensancha a 4.096 y profundiza a 60 capas y la cuenta salta a ~12 **mil millones** — territorio **Gemma 3 12B**. Aunque son solo ~1 millón de neuronas." },
+        { label: "≈ 70B", note: "Duplica el ancho otra vez a 8.192 y llegas a ~70 **mil millones** — un modelo clase **Llama 3 70B**. Fíjate: duplicar el ancho **cuadruplica** los parámetros." },
+      ],
+      psTwoDials: "Así que el tamaño de un modelo se mide en **parámetros** — la huella de memoria y cómputo — y lo fijan solo **dos perillas**: **ancho** (neuronas por capa) y **profundidad** (capas). Ensancha la red y los parámetros crecen con el **cuadrado** del ancho; esa cuadrática es de donde salen “12B”, “70B” y más. Solo unos pocos millones de neuronas — pero miles de millones de conexiones entre ellas.",
+      naLabel: "PRUÉBALO · UNA NEURONA",
+      naTitle: "Una neurona decidiendo: ¿spam o no?",
+      naBody: "Aquí tienes una sola neurona montada como un filtro de spam diminuto. Lee dos cosas de un correo, pondera cada una, las suma, y aplasta el total a “cuán spam, 0–100%”. Arrastra las entradas — o los pesos de la neurona — y **mira cada número actualizarse en vivo**.",
+      naScenarioLabel: "EL CORREO",
+      naInput1: "Enlaces sospechosos",
+      naInput2: "Remitente conocido",
+      naInput1Lo: "ninguno",
+      naInput1Hi: "muchos",
+      naInput2Lo: "desconocido",
+      naInput2Hi: "contacto cercano",
+      naDialsLabel: "LOS PESOS DE LA NEURONA",
+      naDialsHint: "Cuánto importa cada entrada, y hacia qué lado vota. Estas son las perillas que ajusta el entrenamiento.",
+      naComputeLabel: "LO QUE COMPUTA LA NEURONA",
+      naSumLabel: "suma ponderada",
+      naSquashLabel: "aplastar a 0–1",
+      naSquashHelp: "**σ es la sigmoide.** Su única tarea es aplastar esa suma ponderada cruda — que puede ir de −∞ a +∞ — en un puntaje limpio de **0 a 1** que se lee como una probabilidad. Una suma muy positiva cae cerca de **1**, una muy negativa cerca de **0**, y una suma alrededor de cero queda cerca de **0.5**. La fórmula: `σ(z) = 1 / (1 + e^(−z))`.",
+      naOutputLabel: "PUNTAJE DE SPAM",
+      naHam: "No es spam",
+      naSpam: "Spam",
+      naVerdictSpam: "→ marcado como spam",
+      naVerdictHam: "→ entregado a la bandeja",
+      naPresets: [
+        { label: "Spam obvio", note: "Muchos enlaces, un total desconocido. Ambas entradas empujan fuerte hacia arriba — el puntaje se clava cerca del 100%. Fácil." },
+        { label: "Correo de mamá", note: "Un remitente conocido, casi sin enlaces. El peso **negativo** de “remitente conocido” arrastra el puntaje hacia abajo y lo veta — entregado." },
+        { label: "En el límite", note: "Justo en la raya, cerca del 50%. Un empujoncito a cualquier entrada voltea el veredicto — esa frontera es donde la neurona está menos segura." },
+      ],
+      naNote: "Esta es una neurona real — la misma aritmética corre, sin cambios, miles de millones de veces dentro de un modelo grande. Lo único que escala es el número de neuronas y de entradas.",
+      dpLabel: "PRUÉBALO · NEURONA 3 — EL DETECTOR DE “HOT + DOG”",
+      dpTitle: "Una neurona es un producto punto",
+      dpBody: "El modelo lee *“I'm hungry, I want a hot dog”* y debe decidir la intención: **EAT** (comer) o **PET** (acariciar). Primero, una neurona busca la frase. Una neurona es puro álgebra de vectores: su entrada es un **vector x** — qué palabras están presentes — y sus parámetros son un **vector de pesos w** de la **misma longitud**. La neurona devuelve su **producto punto** `w · x` = ∑ᵢ wᵢxᵢ: multiplica los dos vectores componente por componente y suma. Esta, la **Neurona 3**, tiene pesos altos en *hot* y *dog*, así que solo se dispara cuando aparecen ambos. Elige una frase.",
+      dpQuestionLead: "DOS VECTORES DE LA MISMA LONGITUD → UN NÚMERO",
+      dpQuestion: "¿Esta frase dice «hot dog»?",
+      dpCandidates: "w = los pesos de la neurona · x = las palabras de la frase",
+      dpLedgerLegend: "**w** y **x** son ambos vectores de longitud 4. Multiplícalos **componente por componente** — wᵢ · xᵢ — y suma la fila. Ese único número es el **producto punto** `w · x`.",
+      dpFeatures: ["hot", "dog", "cold", "cute"],
+      dpRowTaste: "w  (pesos)",
+      dpRowMovie: "x  (entradas)",
+      dpRowProduct: "wᵢ · xᵢ",
+      dpSumLabel: "w · x",
+      dpSquashLead: "LUEGO LA NEURONA APLASTA:  σ(w · x + b)",
+      dpSquashNote: "Una neurona no se detiene en el producto punto. Suma un **sesgo** y pasa el total por **σ (la sigmoide)** — aplastando cualquier número en una **activación de 0–1**. Con un sesgo de **−2.5**, solo una coincidencia completa *hot + dog* (w·x = 3.5 → σ ≈ 0.73) supera el **50%**; coincidencias a medias como *“muy caliente”* quedan bien por debajo. `σ(z) = 1 / (1 + e⁻ᶻ)`.",
+      dpMatrixHint: "Toca un **componente** para inspeccionar su término: wᵢ × xᵢ.",
+      dpScoreLabel: "PUNTAJE DE FUSIÓN  w · x",
+      dpKeep: "sí — “hot dog”",
+      dpDrop: "no — no es la frase",
+      dpParamNote: "Esa es toda la neurona: un **vector de pesos** por producto punto con un **vector de entrada** — un multiplica-y-suma por componente. Los modelos reales usan vectores de miles de componentes, pero la operación es idéntica. Sin embargo, por sí sola la Neurona 3 solo sabe que se dijeron las palabras *hot* y *dog*. **No tiene idea** de si eso es un bocado o un perrito acalorado — eso lo hace la red de abajo.",
+      dpPresets: [
+        { label: "“I want a hot dog”", note: "**hot** (x₁=1) y **dog** (x₂=1) están presentes, cada uno con peso **+1.75**, así que sus productos se acumulan a **w·x = +3.5** — una señal fuerte de que se dijo la **frase** “hot dog.”" },
+        { label: "“the soup is too hot”", note: "Solo **hot** se dispara (x₁=1); **dog** es 0, así que su peso +1.75 se multiplica por nada. Puntaje **+1.75** — la mitad. La frase no está." },
+        { label: "“look at that cute dog”", note: "**dog** está presente (x₂=1), pero también **cute** (x₄=1, peso −1.0) y no hay **hot**. Puntaje **+0.75** — débil. No es la frase “hot dog.”" },
+      ],
+      dpWhy: "Ese único número es lo que *es* una neurona: un **producto punto de dos vectores**. Pero `w·x = +3.5` es ambiguo — ¿el *hot dog* comida, o un *perro* que tiene *calor*? Una sola neurona no lo sabe. Resolverlo requiere una **red** que lea este puntaje junto con otras señales. Eso es lo que sigue.",
+      midConcept: [
+        "Esa es la Neurona 3 — un solo **producto punto**, `w · x`. Encontró la frase “hot dog,” con puntaje **+3.5**. Pero un puntaje no distingue un **bocado** de un **perrito acalorado** — las mismas palabras, dos significados. Resolver eso requiere contexto, y leer contexto requiere más neuronas **combinadas**.",
+        "Así que **apilamos** neuronas en **capas**. La Neurona 3 pasa a ser una de **tres entradas**; una **capa oculta** de compuertas de contexto la pesa contra *hambre* y *palabras de mascota*; y una **capa de salida** elige la intención — `f(g(x))`, funciones dentro de funciones. El aplastado de cada neurona permite que una capa posterior lea *combinaciones*, no solo sumas. Aquí está la red completa.",
+      ],
+      nwLabel: "PRUÉBALO · LA RED DE 7 NEURONAS",
+      nwTitle: "La red predice la siguiente palabra",
+      nwBody: "La misma tarea del inicio: predecir la siguiente palabra — aquí, **eat** o **pet**. La red completa es **3 → 2 → 2**. Tres **neuronas de entrada** leen la frase: **Hambre**, **Palabras de mascota** y **Hot+Dog** (la Neurona 3, de arriba). Dos **compuertas ocultas** las combinan: una **compuerta Eat** (se enciende con hambre *y* la frase hot dog) y una **compuerta Pet** (se enciende con palabras de mascota, pero el hambre la apaga). Dos **neuronas de salida** — **EAT** y **PET** — leen las compuertas, y la más fuerte es la predicción. Sigue la señal de izquierda a derecha, y toca cualquier cable para leer su peso.",
+      nwInputLabel: "ENTRADAS · tres neuronas",
+      nwHiddenLabel: "OCULTA · compuertas de contexto",
+      nwOutputLabel: "SIGUIENTE PALABRA · eat o pet",
+      nwFeatures: ["Hambre", "Mascota", "Hot+Dog"],
+      nwConcepts: ["Eat gate", "Pet gate"],
+      nwWords: ["EAT", "PET"],
+      nwActionWord: "salida",
+      nwSentence: "I'm hungry, I want a hot dog to",
+      nwPromptTail: "→ ¿la siguiente palabra?",
+      nwVocabLead: "AHORA ESCALA LA CAPA DE SALIDA",
+      nwVocabCount: "~200.000 tokens",
+      nwFiresTag: "se enciende",
+      nwQuietTag: "callada",
+      nwWinnerTag: "elegida",
+      nwInspectHint: "Toca cualquier **neurona** o **cable** para leer el peso que lleva — los parámetros, en vivo.",
+      nwParamNote: "Solo **14 parámetros**, y el truco es el **gran peso negativo de la compuerta Pet sobre el Hambre**: aunque *hot* + *dog* se enciendan, un contexto de hambre aplasta “pet” y la predicción va a **EAT**. Ninguna neurona sola hizo eso — lo hizo la *combinación*.",
+      nwPresets: [
+        { label: "“I want a hot dog”", note: "El hambre es alta (**2.0**) y Hot+Dog se enciende (**3.5**). La **compuerta Eat** se ilumina, la **compuerta Pet** queda a oscuras — el peso negativo del hambre la ahoga — y la predicción va a **EAT** (~95%). “Hot dog” = comida." },
+        { label: "“let me pet that cute dog”", note: "Nada de hambre, muchas **palabras de mascota** (3.0). La **compuerta Pet** arde, Eat queda callada, y la predicción es **PET** (~97%). El mismo detector, otro contexto." },
+        { label: "“the dog is panting in the hot sun”", note: "Aquí está la magia: *hot* + *dog* aparecen, así que **la Neurona 3 igual se enciende +3.5** — cree “¡hot dog!” Pero no hay **hambre** y el contexto animal es fuerte, así que la red lo **anula**: **PET** (~80%). El contexto le ganó a la frase." },
+      ],
+      nwWhy: "Ese es todo el punto de la profundidad: una neurona *encontró* la frase, pero la **red decidió qué significaba** pesándola contra el contexto — y eso es un modelo de lenguaje en miniatura. Aquí dimos solo **2 salidas**, EAT o PET. La capa de salida de un LLM real tiene **una neurona por cada token de su vocabulario — unos 200.000** — así que emite un **vector de 200.000 de largo**: un puntaje para *cada posible token siguiente*. El softmax lo convierte en una probabilidad para cada uno, y el modelo muestrea de ahí el siguiente token. Todo lo demás es idéntico — productos punto y aplastados, solo que con miles de entradas y docenas de capas mucho más anchas.",
+      weightWord: "peso",
+      biasWord: "sesgo",
+      closeConcept: "Algo quedó oculto toda la lección: **cada peso de aquí, tendrías que ponerlo a mano.** Un modelo real tiene miles de millones, y nadie teclea ni uno — se *aprenden* de los datos. De dónde salen los pesos es la única pregunta que queda. Eso es el **entrenamiento** — a continuación.",
+      explainQ: "Construyes una red con una capa oculta pero dejas fuera la no linealidad — cada neurona solo pasa su suma ponderada tal cual. ¿Por qué sigue pudiendo trazar solo una frontera recta?",
+      explainA: "Porque una pila de pasos lineales sigue siendo lineal. Multiplicar por pesos y sumar un sesgo es una operación lineal, y componer operaciones lineales solo te da una operación lineal más grande — matemáticamente idéntica a una sola capa. Y una función lineal solo puede cortar el espacio con una recta (o un plano en más dimensiones). La no linealidad entre capas es lo que rompe ese colapso: remodela el espacio antes de que actúe la siguiente capa, así la composición puede curvarse. Sin no linealidad, no hay curvas — por más capas que apiles.",
+      deeperTitle: "Ve más a fondo: la forma matricial, las activaciones y la “aproximación universal”",
+      deeperBody: "En forma matricial, una capa es `h = act(W·x + b)` — una multiplicación de matrices, una suma de sesgo y una no linealidad elemento a elemento; una red solo encadena estas. Activaciones comunes: **tanh** (usada aquí), **ReLU** (`max(0, z)`, el caballo de batalla de los modelos grandes) y **sigmoide** a la salida para una probabilidad. El *teorema de aproximación universal* dice que una red con una sola capa oculta y suficientes neuronas puede aproximar casi cualquier función — así que la capacidad bruta nunca fue lo difícil. Lo difícil es **encontrar los pesos**, y eso es justo lo que hace el entrenamiento (próxima lección). Todo lo que un modelo grande “sabe” son miles de millones de estos mismos pesos.",
+      sizeDeeperTitle: "Ve más a fondo: ¿de qué tamaño debería ser un modelo?",
+      sizeDeeperBody: [
+        "Recuerda que el “tamaño” son en realidad dos perillas — **ancho × profundidad** — y fijan la cuenta de parámetros (`params ≈ 12 × capas × d_model²`). Ese cuadrado es por qué un modelo tiene solo unos *millones* de neuronas pero *miles de millones* de parámetros: la cuenta vive en las **conexiones, no en las celdas**.",
+        "Pero no eliges el tamaño libremente. Partes de un **presupuesto de cómputo**: el costo de entrenamiento es aproximadamente `FLOPs ≈ 6 × params × tokens`. Las **leyes de escalado** (Chinchilla) dicen cómo gastarlo — para un presupuesto dado hay un balance *óptimo en cómputo* entre tamaño y datos, famoso por rondar los **~20 tokens por parámetro**. Un modelo más grande necesita proporcionalmente más datos, no solo más pesos.",
+        "Repartir ese total entre **profundidad y ancho** es más heurístico que el total mismo. Hay una **proporción** conocida que funciona: demasiado profundo-y-delgado entrena lento e inestable; demasiado ancho-y-plano desperdicia capacidad. Los laboratorios ajustan la proporción en modelos pequeños, extrapolan, y redondean los anchos a tamaños que las GPUs corren con eficiencia.",
+        "Un giro: los laboratorios a menudo **sobre-entrenan** a propósito un modelo *más pequeño* — dándole muchos más tokens que lo “óptimo” — porque un modelo más pequeño es **más barato de servir** durante años. El costo de inferencia, no solo el de entrenamiento, empuja el tamaño final hacia abajo.",
+        "Y con un presupuesto cada vez mayor, el límite real deja de ser el cómputo y pasa a ser los **datos**. El texto de calidad es finito; pasado un punto chocas con el **muro de datos** (el corpus que limpiaste en la lección de Datos solo llega hasta cierto punto). La historia completa de las leyes de escalado llega en **Preentrenamiento → alineación** — esto es solo la intuición.",
+      ],
+      interpDeeperTitle: "Ve más a fondo: ¿qué significa realmente una neurona?",
+      interpDeeperBody: [
+        "Pregunta tentadora: ¿la neurona #4.127 *significa* algo — “detecta gatos”? La respuesta honesta suele ser **no**. Una sola neurona en medio de una red rara vez tiene un significado limpio, por dos razones.",
+        "**Polisemanticidad**: una neurona se enciende para muchas cosas *no relacionadas* a la vez. Y **superposición**: un modelo empaca **más características que neuronas** en direcciones que se solapan. Se sale con la suya porque las características reales son **dispersas** — solo unas pocas están activas a la vez — así que rara vez chocan.",
+        "Así que el replanteo es: **el significado vive en direcciones, no en neuronas.** Las neuronas son solo los *ejes* del espacio; las características reales son *diagonales* a través de muchas. (Es la misma idea que verás en **Embeddings** — el significado es una dirección en un espacio vectorial.)",
+        "Aunque ya no es una caja negra pura. Los **autoencoders dispersos** pueden extraer características interpretables por humanos — una célebre es una característica del “**puente Golden Gate**” — y **fijarla** al máximo dirige visiblemente el comportamiento del modelo. Así que ahora podemos *leer*, e incluso *empujar*, una fracción creciente de lo que un modelo representa — a nivel de **característica**, no de neurona.",
+        "Muy a grandes rasgos, las características se vuelven más abstractas con la profundidad: las capas **tempranas** tiran a lo superficial y sintáctico, las **medias** a lo abstracto y semántico, las **tardías** a dirigir el siguiente token. Tómalo como una narrativa, no como un mapa.",
+        "Gran advertencia: la interpretabilidad es **temprana e incompleta** — nadie tiene un mapa etiquetado completo de un modelo grande, y es fácil exagerar. Pero convierte “¿qué significa una neurona?” en “¿qué significa una *dirección*?” — lo que conecta hacia adelante con **Embeddings** (el significado como dirección) y hacia atrás con **Sesgo**, donde esas inclinaciones de asociación son literalmente geometría en este mismo espacio.",
+      ],
+      bridgeLabel: "SIGUIENTE: ¿GPU O CPU?",
+      bridgeBody: "Construiste esta red a base de productos punto. Cada uno es una multiplicación y una suma — y un modelo real corre *miles de millones* por token. Esa montaña de aritmética es la razón por la que la IA corre en **GPUs**, conectadas por miles. Ahora: mira la red correr en hardware real.",
+    },
+    hw: {
+      crumb: "ETAPA 1 · FUNDAMENTOS · LECCIÓN 06",
+      title: "¿GPU o CPU?",
+      lede: "Construiste una red a base de productos punto. Ahora mírala *correr*. Esa misma matemática — una montaña de multiplicaciones y sumas — es la razón por la que la IA se construye sobre **GPUs**, conectadas por miles.",
+      prev: "Redes neuronales",
+      next: "Embeddings",
+      heroLabel: "PROCESANDO UNA RED NEURONAL",
+      heroSub: "capa por capa — la misma red, dos máquinas",
+      heroCpu: "CPU",
+      heroGpu: "GPU",
+      heroCpuTag: "una neurona a la vez",
+      heroGpuTag: "una capa entera a la vez",
+      heroCaption: "Cada neurona de una capa es independiente — así que la GPU las calcula todas a la vez, mientras la CPU las recorre una por una.",
+      concept: [
+        "Recuerda la neurona de la lección pasada: una salida es `w · x` — multiplica cada peso por cada entrada y suma. Una **capa** son muchas neuronas haciendo eso lado a lado. Para correr la red calculas la capa 1, la alimentas a la capa 2, luego la capa 3 — una pila de estos pasos.",
+        "Y aquí está la clave: *dentro* de una capa, cada neurona es **independiente** — ninguna necesita la respuesta de otra, así que pueden calcularse todas al mismo tiempo. Solo las capas dependen entre sí, en orden.",
+        "Una **CPU** tiene un puñado de núcleos grandes e inteligentes; calcula sobre todo una neurona, luego la siguiente, luego la siguiente. Una **GPU** tiene *miles* de núcleos pequeños, así que calcula las neuronas de una capa entera **a la vez**. La misma matemática — velocidad radicalmente distinta.",
+      ],
+      raceLabel: "PRUÉBALO · CORRE LA RED",
+      raceTitle: "Míralo procesar, capa por capa",
+      raceBody: "La misma red corre en ambas máquinas. Presiona correr y observa: la **GPU** enciende una capa entera de golpe; la **CPU** avanza neurona por neurona. Agrega neuronas y la brecha explota.",
+      raceSizeLabel: "Neuronas por capa",
+      raceRun: "Correr la red",
+      raceReset: "Reiniciar",
+      raceCpuName: "CPU",
+      raceGpuName: "GPU",
+      raceCpuCores: "una neurona por paso",
+      raceGpuCores: "una capa por paso",
+      raceStepsLabel: "pasos",
+      raceCellNote: "cada neurona = un producto punto w · x sobre la capa anterior",
+      raceSpeedupLabel: "la GPU termina antes por",
+      raceWinnerNote: "La GPU calcula una capa entera de **un solo golpe**, porque sus neuronas no dependen entre sí. Aun así espera a cada capa antes de la siguiente — la capa 2 necesita las respuestas de la capa 1. La **CPU** no tiene ese atajo: recorre cada neurona, una por una. Ensancha las capas y su barra se sale del borde.",
+      raceNote: "Este juguete tiene unas pocas docenas de neuronas. Un modelo real tiene *miles de millones* de parámetros y cientos de capas — por eso una CPU tardaría *meses* en lo que un clúster de GPUs hace en días.",
+      raceParamsLabel: "parámetros",
+      raceNeuronsLabel: "neuronas",
+      raceNeuronWord: "neurona",
+      raceLayerWord: "capa",
+      raceDoneWord: "listo",
+      raceReadyWord: "listo para correr",
+      raceDotLabel: "Cada neurona calcula un **producto punto**:",
+      raceCpuChip: "unos pocos núcleos",
+      raceGpuChip: "miles de núcleos",
+      raceCoresWord: "núcleos",
+      raceAtOnce: "a la vez",
+      raceOneAtATime: "1 a la vez",
+      raceCompleteWord: "Completado",
+      midConcept: [
+        "Así que la GPU es la herramienta correcta. Pero una sola GPU no alcanza. Cada una tiene una cantidad fija de memoria rápida — digamos **80 GB** — y los pesos de un modelo de frontera pesan *cientos* de gigabytes. El modelo sencillamente no cabe.",
+        "Por eso conectamos muchas GPUs. Ocho GPUs comparten una placa como un **nodo**, unidas por el ultrarrápido **NVLink**. Muchos nodos llenan un **rack**, unidos por la red **InfiniBand**. Las GPUs intercambian resultados a medio terminar sin parar — así que qué tan rápidos son esos cables importa tanto como las GPUs mismas.",
+      ],
+      rackLabel: "PRUÉBALO · DENTRO DE UN RACK",
+      rackTitle: "Los cables entre las GPUs",
+      rackBody: "Las GPUs del mismo **nodo** hablan por NVLink — velocísimo. Las GPUs en nodos distintos cruzan la red **InfiniBand** — mucho más lenta. Envía un tensor y mira por dónde tiene que viajar.",
+      rackHint: "Envía un tensor entre dos GPUs:",
+      rackPaths: ["Mismo nodo", "Entre nodos", "Entre racks"],
+      rackLinkLabel: "ENLACE",
+      rackBwLabel: "ANCHO DE BANDA",
+      rackTimeLabel: "TIEMPO RELATIVO",
+      rackHopsLabel: "SALTOS",
+      rackNodeWord: "nodo",
+      rackRackWord: "rack",
+      rackGpuWord: "GPU",
+      rackNvlink: "NVLink",
+      rackInfiniband: "InfiniBand",
+      rackNote: "La lección que aprende todo ingeniero de entrenamiento distribuido: mantén el trabajo parlanchín **dentro de un nodo**. Cada salto hacia la red te cuesta — así que acomodas el modelo para cruzarla lo menos posible.",
+      splitConcept: [
+        "Entonces: ¿cada GPU guarda la **red entera**, o solo una **parte**? Ambas cosas pasan — depende de la estrategia. Aquí está la *misma* red de siguiente-palabra en 2 GPUs, de tres formas distintas.",
+      ],
+      splitLabel: "PRUÉBALO · REPARTE EL MODELO",
+      splitTitle: "Una red, repartida entre GPUs",
+      splitBody: "Esta pequeña red lee un prompt y predice la siguiente palabra. Elige una estrategia y mira qué guarda de verdad cada GPU — las neuronas **sólidas** viven en esa GPU; las tenues viven en la otra.",
+      splitStrategies: [
+        {
+          key: "data",
+          label: "Paralelismo de datos",
+          tag: "copia la red entera",
+          own: "la **red entera** — una copia completa",
+          desc: "Cada GPU guarda una copia completa de la red y corre un lote distinto de prompts. Tras cada paso promedian sus ajustes de pesos para que las copias sigan idénticas.",
+          comm: "comparten gradientes (all-reduce)",
+        },
+        {
+          key: "tensor",
+          label: "Paralelismo de tensores",
+          tag: "reparte las neuronas de cada capa",
+          own: "**una tajada de cada capa** — la mitad de las neuronas",
+          desc: "La red es demasiado ancha para una GPU, así que las neuronas de cada capa se reparten entre ellas. Ambas GPUs trabajan el mismo prompt a la vez, cada una calculando su mitad.",
+          comm: "comparten activaciones en cada capa",
+        },
+        {
+          key: "pipeline",
+          label: "Paralelismo de tubería",
+          tag: "reparte la red por profundidad",
+          own: "**unas capas enteras** — una etapa",
+          desc: "Las primeras capas viven en la GPU 1, las últimas en la GPU 2. Un prompt fluye por la GPU 1 y luego pasa a la GPU 2 para terminar — una línea de montaje.",
+          comm: "pasan activaciones en el relevo",
+        },
+      ],
+      splitNetLabel: "una red · predice la siguiente palabra",
+      splitOwnLabel: "Cada GPU guarda:",
+      splitCommLabel: "las GPUs deben intercambiar:",
+      splitGpuWord: "GPU",
+      splitNote: "El entrenamiento real combina las tres a la vez — datos *y* tensores *y* tubería — entre **miles** de GPUs durante semanas. Un modelo de frontera es demasiado grande para copiarlo entero en una GPU, así que a la vez se *reparte* y se *replica*. Eso es de verdad un entrenamiento, y por eso cuesta lo que cuesta.",
+      explainQ: "¿Por qué una multiplicación de matrices es el trabajo perfecto para una GPU y una mala opción para una CPU?",
+      explainA: "Una multiplicación de matrices son miles de productos punto independientes — ninguna celda necesita la respuesta de otra. Una CPU tiene pocos núcleos y debe recorrerlos casi uno por uno; una GPU tiene miles de núcleos pequeños que calculan una celda distinta cada uno, simultáneamente. El trabajo es \"vergonzosamente paralelo\", así que lanzarle miles de núcleos encaja casi a la perfección — esa es toda la razón por la que la IA corre en GPUs.",
+      deeperTitle: "¿Por qué no usar una CPU más rápida?",
+      deeperBody: [
+        "Un núcleo de CPU es *individualmente* mucho más rápido e inteligente que uno de GPU — tuberías profundas, predicción de saltos, cachés grandes — porque está hecho para correr rápido una cadena enredada de decisiones. La matemática de las redes neuronales casi no tiene decisiones: es la misma multiplicación y suma, un billón de veces.",
+        "Para eso no quieres unos pocos genios; quieres un estadio de trabajadores cada uno haciendo una suma fácil. Las GPUs cambian astucia-por-núcleo por *miles* de núcleos más una memoria muy ancha que los alimente. En matemática de matrices ese cambio gana por 10–100×; en código cotidiano lleno de decisiones perdería feo.",
+      ],
+      deeper2Title: "¿Qué corre de verdad por esos cables?",
+      deeper2Body: [
+        "Durante el entrenamiento las GPUs intercambian dos cosas grandes: **activaciones** (los números intermedios que pasan entre capas) y **gradientes** (la corrección de cada peso tras un lote). El paralelismo de tensores y de tubería mueve activaciones; el de datos suma gradientes entre todas las réplicas.",
+        "Por eso el ancho de banda es una restricción de diseño de primer nivel. NVLink dentro de un nodo corre a cientos de GB/s; la red InfiniBand entre nodos es varias veces más lenta. Los ingenieros colocan los puntos de corte para mantener el tráfico más pesado en los cables más rápidos — un rompecabezas de memoria y red tanto como de matemática.",
+      ],
+      bridgeLabel: "SIGUIENTE: EMBEDDINGS",
+      bridgeBody: "Seguiste una red desde la matemática hasta el metal. Ahora: lo primero que esa matemática toca — cómo un token se vuelve un vector de *significado* sobre el que la red puede calcular.",
+    },
+    emb: {
+      crumb: "ETAPA 1 · FUNDAMENTOS · LECCIÓN 07",
+      title: "Embeddings",
+      lede: "La red no puede hacer matemáticas con la palabra *“rey.”* Así que cada token se convierte en un **vector** — un punto en el espacio donde **cercano significa parecido en significado**. Y lo sorprendente: nadie fija esos números. El **preentrenamiento** los aprende.",
+      prev: "¿GPU o CPU?",
+      next: "Transformers",
+      heroLabel: "UNA PALABRA SE VUELVE UN PUNTO",
+      heroWord: "reina",
+      heroVecLabel: "su vector (unos pocos de 4.096 números)",
+      heroMapLabel: "…un punto en el mapa — junto a “rey”, lejos de “gato” o “pizza”",
+      heroCaption: "La misma idea que un hash — pero en vez de dispersar, coloca los significados *parecidos* *cerca*.",
+      concept: [
+        "Un **embedding** es una tabla de búsqueda: cada token del vocabulario recibe una fila de números — su **vector**. Los modelos reales usan **4.096** números por token; aquí usaremos solo **dos**, para poder dibujarlos en un mapa.",
+        "La única regla que lo hace útil: **la distancia es significado.** Las palabras con significados parecidos quedan cerca; las no relacionadas, lejos. “Gato” cae cerca de “perro”, lejos de “pizza”.",
+        "Eso es todo — el significado se vuelve *geometría*. Y una vez que el significado es geometría, el modelo puede hacer aritmética con él. Juega con el mapa y luego veremos de dónde sale la disposición.",
+      ],
+      mapLabel: "PRUÉBALO · EL MAPA DEL SIGNIFICADO",
+      mapTitle: "Las palabras parecidas quedan cerca",
+      mapBody: "Cada punto es una palabra, ubicada por su vector. Toca una y mira encenderse sus **vecinas más cercanas** — las palabras más próximas en significado. Fíjate cómo los cuatro temas se acomodan en sus propios barrios.",
+      mapHint: "Toca una palabra:",
+      mapNearLabel: "más cercanas en significado",
+      groupLabels: { people: "personas", animal: "animales", food: "comida", tech: "tecnología" },
+      mapNote: "Este es un mapa de *juguete* — 36 palabras en 2D. Un modelo real tiene cientos de miles de tokens en 4.096 dimensiones, pero la regla es idéntica: cerca = parecido.",
+      ptConcept: [
+        "¿De dónde salen estas posiciones? **Nadie las coloca.** Empiezan como números *aleatorios* — cada palabra dispersa al azar.",
+        "Luego ocurre el **preentrenamiento**: el modelo lee billones de palabras, cada vez adivinando el siguiente token. Cada intento empuja los vectores. Las palabras que aparecen en los *mismos contextos* — “rey” y “reina”, “gato” y “perro” — se atraen; las que nunca coinciden se alejan.",
+        "Tras suficiente texto, la nube aleatoria se ha organizado en el mapa que acabas de explorar. El significado no se programó — **se precipitó al predecir la siguiente palabra.** *“Conocerás una palabra por la compañía que tiene.”*",
+      ],
+      arLabel: "PRUÉBALO · EL SIGNIFICADO ES ARITMÉTICA",
+      arTitle: "rey − hombre + mujer ≈ ?",
+      arBody: "Cada palabra es una flecha desde el origen, así que puedes **sumarlas y restarlas**. **Restar** una palabra es dar un paso *alejándote* de ella; **sumar** una palabra es dar un paso *acercándote*. Entonces `rey − hombre + mujer` se lee: *empieza en **rey**, aléjate de **hombre** y acércate a **mujer*** — que es lo mismo que recorrer la flecha **hombre → mujer** partiendo de rey. Caes en **reina**.",
+      arResultLabel: "≈ palabra más cercana",
+      arSlotStart: "empieza en",
+      arSlotMinus: "− resta",
+      arSlotPlus: "+ suma",
+      arRead: "Recórrelo por pasos: **1** las tres palabras como vectores desde **0** · **2** empieza en **rey** · **3** resta **hombre** · **4** suma **mujer** · **5** la cadena cae más cerca de **reina**.",
+      arNote: "Ese paso “hombre → mujer” es una **dirección de género** que el modelo descubrió solo — la misma flecha separa actor/actriz, tío/tía, príncipe/princesa. Los embeddings reales guardan cientos de esas direcciones (tiempo verbal, plural, país→capital) que nadie etiquetó.",
+      ntLabel: "CÓMO ESTO SE VUELVE EL SIGUIENTE TOKEN",
+      ntTitle: "De vectores a la siguiente palabra",
+      ntBody: "Los embeddings vuelven los tokens en vectores — ¿pero cómo predice eso el *siguiente*? Aquí está toda la tubería. Tu prompt (hasta **4.096 tokens**) se busca en la matriz de embeddings, pasa por **el modelo** y se convierte de vuelta en un puntaje para cada uno de los ~200.000 tokens del vocabulario. El puntaje más alto gana.",
+      ntTokens: "hasta 4.096 tokens",
+      ntEmbed: "matriz de embeddings",
+      ntSeq: "la secuencia",
+      ntModel: "el modelo",
+      ntNextVec: "el vector de la siguiente palabra",
+      ntUnembed: "matriz de des-embedding",
+      ntScores: "~200.000 puntajes — softmax, elige el mayor",
+      ntNextToken: "siguiente token",
+      ntWeights: "pesos aprendidos",
+      ntData: "datos en vivo",
+      ntTying: "En muchos LLMs estas dos matrices son los **mismos pesos, transpuestos** (“weight tying”): la matriz que convierte tokens *en* vectores también convierte el vector final *de vuelta* en puntajes de tokens.",
+      ntTakeaway: "Ese es todo el bucle: representa los tokens → corre el modelo → puntúa el vocabulario → elige uno. Luego lo agregas y lo repites todo, un token a la vez.",
+      ntSteps: [
+        { t: "Tu prompt, como tokens", d: "La entrada es una secuencia de hasta **4.096 tokens** — la ventana de contexto. Cada token es uno de ~200.000 entradas del vocabulario." },
+        { t: "Busca cada vector", d: "Toma la **fila** de cada token en la tabla de embeddings — pesos aprendidos, forma **200k × 4k** (unos 820M de números por sí sola)." },
+        { t: "La secuencia de vectores", d: "Ahora el prompt es una pila — **N × 4k** — un vector de 4.096 números por token, que carga significado *y* posición." },
+        { t: "Corre el modelo", d: "La secuencia entera pasa por **el modelo** (las capas y la atención que verás en la próxima lección) y sale un solo **vector de 4.096 números** — un punto en el *mismo espacio de embeddings* que los tokens, su lectura de lo que sigue." },
+        { t: "El vector de la siguiente palabra", d: "Ese vector **1 × 4k** es la conjetura comprimida del modelo — en efecto un *embedding predicho*: un punto en el mismo espacio que cada token, aún no una palabra. Por eso el siguiente paso solo tiene que buscar el token más cercano." },
+        { t: "Puntúa cada token", d: "Cada columna de la tabla de des-embedding **4k × 200k** es el vector de un token. Multiplicar es un **producto punto** con cada columna — mide qué tan alineados están dos vectores, así que puntuar es en realidad *encontrar el token más cercano en el espacio*: 4.096 números se vuelven un **puntaje** por token del vocabulario, el mayor = mejor coincidencia." },
+        { t: "Softmax → probabilidades", d: "Eso es una fila **1 × 200k** de puntajes crudos (logits). **Softmax** los convierte en probabilidades que suman 1 — una distribución completa sobre el vocabulario." },
+        { t: "Elige uno, y repite", d: "La decodificación voraz toma el mayor; los modelos reales suelen **muestrear** (temperatura y top-p cambian enfoque por creatividad). Agrega el ganador al prompt y corre todo otra vez — **un token a la vez**." },
+      ],
+      ntPrev: "Etapa anterior",
+      ntNext: "Etapa siguiente",
+      ntZoomIn: "Acercar a la etapa",
+      ntZoomOut: "Ver todo el pipeline",
+      emLabel: "LA MATRIZ DE EMBEDDINGS",
+      emTitle: "Una gran tabla guarda el significado de cada token",
+      emBody: "El mapa que acabas de explorar es en realidad una tabla de búsqueda gigante: la **matriz de embeddings**. Tiene **una fila por token** del vocabulario (~200.000) y **una columna por dimensión** (4.096). Así que cada fila *es* el vector de un token — sus coordenadas en un espacio de significado de 4.096 dimensiones, donde la distancia y la dirección codifican cómo se relacionan los tokens. Haz clic en un token para ver su fila.",
+      emRows: "~200.000 tokens (filas)",
+      emCols: "4.096 dimensiones (columnas) →",
+      emPick: "Elige un token",
+      emReadout: "{word} → algunos de sus 4.096 números",
+      emUnembTitle: "¿Y la matriz de des-embedding?",
+      emUnembBody: "La **matriz de des-embedding** es la misma idea, al revés: **4.096 × 200.000**. Donde el embedding convierte *un token en un vector*, el des-embedding convierte *un vector de vuelta en un puntaje para cada token*. En muchos modelos son literalmente los mismos pesos, transpuestos — el mapa leído hacia adelante para buscar, y hacia atrás para elegir.",
+      emPretrain: "Nadie escribe estos números a mano. Cada coordenada se **aprende durante el pretraining** — el modelo lee cantidades enormes de texto y ajusta la fila de cada token hasta que los tokens que aparecen en contextos parecidos quedan cerca unos de otros. (El pretraining es su propia etapa más adelante en el roadmap.)",
+      emWords: ["rey", "reina", "perro", "gato", "código", "pizza"],
+      explainQ: "¿Qué significa que “rey − hombre + mujer ≈ reina”, y de dónde salió esa estructura?",
+      explainA: "Cada palabra es un vector — un punto en el espacio — y las direcciones entre puntos cargan significado. El paso de “hombre” a “mujer” es una dirección de “género” consistente; aplicar ese mismo paso a “rey” te lleva a “reina”. Nadie definió un eje de género: el preentrenamiento colocó las palabras al predecir el siguiente token sobre muchísimo texto, y como “rey/reina” y “hombre/mujer” aparecen en contextos paralelos, terminaron en posiciones paralelas. La aritmética solo sigue esas direcciones aprendidas.",
+      deeperTitle: "¿Por qué dos números aquí, pero 4.096 en los modelos reales?",
+      deeperBody: [
+        "Dos dimensiones nos dejan *dibujar* el mapa, pero solo pueden codificar hasta cierto punto — unas pocas direcciones antes de que las palabras choquen. Los modelos reales usan **4.096** dimensiones, así que caben muchas más “direcciones de significado” independientes (formalidad, tiempo, tema, sentimiento…) sin que todo se amontone.",
+        "No puedes imaginar 4.096 dimensiones, y no hace falta — las reglas que viste aquí (cerca = parecido, direcciones = relaciones) se cumplen igual allá arriba. A la matemática no le importa en cuántas dimensiones corre.",
+      ],
+      cosTitle: "¿Distancia, o ángulo? (similitud coseno)",
+      cosBody: [
+        "En nuestro mapa usamos distancia en línea recta. Los sistemas reales suelen comparar el **ángulo**, con la **similitud coseno**: dos vectores que apuntan igual dan 1, perpendiculares dan 0, opuestos dan −1. Ignora qué tan *largos* son los vectores y pregunta solo *hacia dónde* apuntan — lo que resulta seguir mejor el significado en muchas dimensiones.",
+        "Este es el número exacto detrás de la búsqueda semántica y **RAG** (Etapa 4): representa tu pregunta como vector, representa cada documento, y devuelve los que apuntan más en la misma dirección.",
+      ],
+      bridgeLabel: "SIGUIENTE: TRANSFORMERS Y ATENCIÓN",
+      bridgeBody: "Acabas de ver **el modelo** como una sola caja negra entre los vectores y la respuesta. La próxima lección abre esa caja: la **atención**, cómo los tokens se miran entre sí para que “banco” de un río y “banco” de tu dinero dejen de compartir un vector — y resuelvan qué significan *aquí*.",
+      words: { man: "hombre", woman: "mujer", king: "rey", queen: "reina", prince: "príncipe", princess: "princesa", boy: "niño", girl: "niña", actor: "actor", actress: "actriz", uncle: "tío", aunt: "tía", teacher: "maestra", doctor: "doctor", artist: "artista", writer: "escritor", dog: "perro", cat: "gato", lion: "león", tiger: "tigre", horse: "caballo", wolf: "lobo", mouse: "ratón", bird: "pájaro", pizza: "pizza", bread: "pan", apple: "manzana", banana: "plátano", coffee: "café", cake: "pastel", laptop: "laptop", phone: "teléfono", keyboard: "teclado", server: "servidor", robot: "robot", code: "código" },
+    },
+    attn: {
+      crumb: "ETAPA 1 · FUNDAMENTOS · LECCIÓN 08",
+      title: "Transformers y atención",
+      lede: "Los embeddings le daban a cada token *un* vector fijo. Pero “banco” junto a un río y “banco” con tu dinero no pueden significar lo mismo. La **atención** lo resuelve: cada token se actualiza **mirando a los demás** — y el contexto entero decide qué significa *aquí*.",
+      prev: "Embeddings",
+      next: "Cómo funciona el entrenamiento",
+      heroLabel: "UNA PALABRA CAMBIA HACIA DÓNDE MIRA “IT”",
+      heroToggleLabel: "cambia la última palabra",
+      heroWordTired: "tired",
+      heroWordWide: "wide",
+      heroReadTired: "“it” mira hacia atrás a **the animal** — porque los animales se *cansan* (*tired*). Así que **it = el animal**.",
+      heroReadWide: "Cambió una palabra, y “it” ahora mira a **the street** — porque las calles son *anchas* (*wide*). Así que **it = la calle**.",
+      heroCaption: "Nada más en la oración se movió. El modelo *vuelve a leer* “it” pesando cada otra palabra — ese peso es la **atención**. (Usamos una oración en inglés porque el pronombre “it”, sin género, hace el truco más claro.)",
+      concept: [
+        "Este es el problema. Tras la lección anterior, “it” tiene exactamente un embedding — los mismos números siempre. Pero en *“…because it was tired”*, “it” es el **animal**; cambia a *“wide”* y “it” es la **calle**. Un vector fijo no puede ser ambos.",
+        "La **atención** lo resuelve: antes de decidir nada, cada token puede **mirar a los otros tokens** y jalar lo relevante, mezclando su significado con el propio. “It” se vuelve una mezcla que es sobre todo *animal* — o sobre todo *calle* — según la compañía que tenga.",
+        "La imagen para ingenieros: una **búsqueda difusa en un diccionario**. Cada token hace una pregunta (una **query**), cada token anuncia una etiqueta (una **key**), y cuanto más cerca coincide una key con la query, más tomas de ese **value** del token. No un único acierto exacto — una *mezcla ponderada* de todos.",
+      ],
+      lensLabel: "PRUÉBALO · LA LENTE DE ATENCIÓN",
+      lensTitle: "Toca una palabra — mira qué observa",
+      lensBody: "Toca cualquier palabra para que sea la que mira. Los **arcos** y el resaltado muestran cuánto atiende a cada otra palabra. Luego cambia de **cabeza** abajo: un transformer corre muchos patrones de atención a la vez, y cada uno aprende un trabajo distinto.",
+      lensHint: "Toca una palabra:",
+      lensHeadLabel: "cabeza de atención — cada una aprende un trabajo",
+      heads: {
+        reference: { name: "referencia", desc: "enlaza una palabra con aquello a lo que se refiere — mira cómo “it” alcanza a “animal.”" },
+        previous: { name: "palabra anterior", desc: "cada palabra mira un paso atrás — un patrón real y común que los modelos desarrollan solos." },
+        syntax: { name: "verbo → sus palabras", desc: "un verbo alcanza a su sujeto y objeto — “cross” jala a “animal” y “street.”" },
+      },
+      lensRead: "En esta cabeza, **{q}** atiende más a **{k}**.",
+      lensNote: "Las afinidades aquí son *ilustrativas* — elegidas para que el trabajo de cada cabeza se vea fácil. Pero convertirlas en pesos (**softmax**, para que sumen 1) y mezclar los tokens es exactamente lo que hace un transformer real. Un modelo real apila decenas de cabezas a lo largo de decenas de capas.",
+      qkvConcept: [
+        "¿Y cómo *mira* realmente una palabra? A través de tres pequeños vectores que arma desde su propio embedding: una **query** (¿qué busco?), una **key** (¿qué ofrezco?) y un **value** (qué entrego si me eliges).",
+        "Compara cada **query** con cada **key** con un producto punto → **softmax** hacia pesos que suman 1 → toma esa **mezcla ponderada de los values**. Esa mezcla es el nuevo significado del token, ya con contexto. Abajo, dirige la query de “banco” a mano y mira cómo su significado se desliza.",
+      ],
+      qkvLabel: "PRUÉBALO · QUERY · KEY · VALUE",
+      qkvTitle: "“banco” encuentra su significado",
+      qkvBody: "“banco” está entre dos barrios del mapa de significado — la ribera y las finanzas. Mueve el control para dirigir su **query**. Puntúa cada palabra de contexto (query · key), el **softmax** las vuelve pesos, y “banco” se vuelve la **mezcla ponderada** de sus values — deslizándose hacia el que escuche.",
+      qkvSliderLabel: "dirige la query de banco",
+      qkvSliderLeft: "buscar río",
+      qkvSliderRight: "buscar dinero",
+      qkvPresetRiver: "“junto al río”",
+      qkvPresetMixed: "ambiguo",
+      qkvPresetMoney: "“del dinero”",
+      qkvRiver: "río",
+      qkvMoney: "dinero",
+      qkvBank: "banco",
+      qkvWeightLabel: "pesos de atención (suman 1)",
+      qkvMeaningLabel: "significado de banco, ahora",
+      qkvRead: "“banco” está escuchando sobre todo a **{w}** — así que eso significa aquí.",
+      qkvNote: "Las keys y values son puntos ilustrativos, pero los pasos — producto punto, softmax, suma ponderada — son de verdad. En un modelo entrenado no diriges la query: se calcula desde el propio embedding de la palabra, así que la *oración* dirige esto sola.",
+      explainQ: "El embedding de “banco” es un solo vector fijo. ¿Cómo puede el modelo distinguir el “banco” de la ribera del “banco” del dinero?",
+      explainA: "No depende solo del embedding. La atención deja que “banco” forme una query y la compare (producto punto) contra la key de cada otra palabra; un softmax vuelve esos puntajes en pesos, y “banco” toma una mezcla ponderada de los vectores value de las demás. Junto a “río”, mezcla río; junto a “dinero”, mezcla dinero. El embedding fijo es solo el punto de partida — las palabras de alrededor lo remodelan en un significado que encaja en *esta* oración.",
+      deeperTitle: "La fórmula única: softmax(QKᵀ / √d) · V",
+      deeperBody: [
+        "Apila la query de cada token en una matriz **Q**, cada key en **K**, cada value en **V**. Entonces toda la atención es **softmax(QKᵀ / √d) · V**. `QKᵀ` es cada query por cada key (todas las afinidades a la vez); `√d` solo evita que los números se disparen en muchas dimensiones; el **softmax** hace que cada fila de pesos sume 1; multiplicar por **V** toma la mezcla ponderada. Ese es todo el mecanismo — una multiplicación de matrices, una normalización, otra multiplicación.",
+        "**Multi-cabeza:** corre varias de estas en paralelo con Q/K/V aprendidas distintas, cada una libre de seguir una relación diferente (las cabezas que alternaste), luego las concatena. La **auto-atención** es cuando Q, K y V vienen de la misma secuencia — una oración leyéndose a sí misma.",
+      ],
+      maskTitle: "Por qué escala — y el detalle para los modelos de chat",
+      maskBody: [
+        "El enfoque anterior leía una oración palabra por palabra, así que la palabra 50 quedaba lejos de la 1. La atención conecta **cada token con cada otro en un solo paso** — los enlaces lejanos cuestan lo mismo que los cercanos — y cada una de esas comparaciones ocurre **en paralelo** en la GPU. Ese paralelismo es justo por qué los transformers se pudieron entrenar con todo el internet, y por qué se impusieron.",
+        "Un detalle para los modelos que *generan* texto: al predecir la siguiente palabra solo pueden mirar **hacia atrás**, nunca palabras aún no escritas (una **máscara causal**). Y como la atención no tiene un sentido del orden propio, cada token también recibe una señal **posicional** para que “el perro muerde al hombre” y “el hombre muerde al perro” no sean la misma sopa.",
+      ],
+      bridgeLabel: "SIGUIENTE: CÓMO FUNCIONA EL ENTRENAMIENTO",
+      bridgeBody: "Ya viste toda la máquina — tokens, embeddings, atención. Pero cada peso en ella empezó como un **número aleatorio**. La próxima lección es el motor que los ajustó: **pérdida, gradientes y retropropagación** — cómo billones de intentos convierten poco a poco el ruido en un modelo que sabe cosas.",
+    },
     stage1List: [
       "La vida de un LLM",
       "Tokens",
       "Datos",
       "Sesgo",
       "Redes neuronales",
-      "Cómo funciona el entrenamiento",
+      "¿GPU o CPU?",
       "Embeddings",
       "Transformers",
+      "Cómo funciona el entrenamiento",
       "Preentrenamiento → alineación",
     ],
   },

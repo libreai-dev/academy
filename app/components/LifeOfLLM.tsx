@@ -26,7 +26,7 @@ export default function LifeOfLLM() {
   return (
     <div
       style={{
-        maxWidth: 1240,
+        maxWidth: 1000,
         margin: "0 auto",
         padding: "clamp(26px, 3vw, 40px) 32px 0",
         display: "flex",
@@ -58,7 +58,7 @@ export default function LifeOfLLM() {
               </span>
             ))}
           </div>
-          <p style={{ margin: "14px 0 0", fontSize: 14.5, color: "var(--muted)", lineHeight: 1.6, maxWidth: "66ch" }}>{life.intro}</p>
+          <p style={{ margin: "14px 0 0", fontSize: 14.5, color: "var(--muted)", lineHeight: 1.6, maxWidth: "74ch" }}>{life.intro}</p>
         </div>
 
         {/* full stage-by-stage document */}
@@ -132,7 +132,7 @@ export default function LifeOfLLM() {
           <button type="button" onClick={() => setAnswerOpen((v) => !v)} aria-expanded={answerOpen} className="u-hover-fg-border" style={{ appearance: "none", cursor: "pointer", font: "inherit", marginTop: 18, fontSize: 15, fontWeight: 600, color: "var(--fg)", background: "var(--bg)", border: "1px solid var(--border)", padding: "11px 18px", borderRadius: 11 }}>
             {answerOpen ? t.hide : t.reveal}
           </button>
-          {answerOpen && <p style={{ margin: "18px 0 0", fontSize: 16.5, lineHeight: 1.65, maxWidth: "66ch", textWrap: "pretty", animation: "rise .16s ease both" }}>{life.explainA}</p>}
+          {answerOpen && <p style={{ margin: "18px 0 0", fontSize: 16.5, lineHeight: 1.65, maxWidth: "74ch", textWrap: "pretty", animation: "rise .16s ease both" }}>{life.explainA}</p>}
         </div>
 
         {/* ---- Go deeper ---------------------------------------------- */}

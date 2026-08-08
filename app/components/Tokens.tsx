@@ -353,7 +353,7 @@ export default function Tokens() {
   return (
     <div
       style={{
-        maxWidth: 1240,
+        maxWidth: 1000,
         margin: "0 auto",
         padding: "clamp(26px, 3vw, 40px) 32px 0",
         display: "flex",
@@ -425,7 +425,7 @@ export default function Tokens() {
         </div>
 
         {/* ---- Concept ------------------------------------------------ */}
-        <div style={{ marginTop: "clamp(26px, 3vw, 40px)", display: "flex", flexDirection: "column", gap: 18, maxWidth: "66ch" }}>
+        <div style={{ marginTop: "clamp(26px, 3vw, 40px)", display: "flex", flexDirection: "column", gap: 18, maxWidth: "74ch" }}>
           <p style={{ margin: 0, fontSize: 17, lineHeight: 1.68, textWrap: "pretty" }}>{rich(t.p1)}</p>
           <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 13 }}>
             {t.conceptList.map((item, i) => (
@@ -502,7 +502,7 @@ export default function Tokens() {
               </>
             )}
 
-            <p style={{ margin: "16px 0 0", fontSize: 13.5, color: "var(--muted)", lineHeight: 1.6, maxWidth: "64ch" }}>{tk.engineNote}</p>
+            <p style={{ margin: "16px 0 0", fontSize: 13.5, color: "var(--muted)", lineHeight: 1.6, maxWidth: "74ch" }}>{tk.engineNote}</p>
           </div>
         </div>
 
@@ -531,7 +531,7 @@ export default function Tokens() {
             })}
           </div>
           {presetNote && (
-            <p style={{ margin: "16px 0 0", fontSize: 16, lineHeight: 1.6, color: "var(--fg)", maxWidth: "62ch", textWrap: "pretty", animation: reduce ? undefined : "rise .16s ease both" }}>
+            <p style={{ margin: "16px 0 0", fontSize: 16, lineHeight: 1.6, color: "var(--fg)", maxWidth: "72ch", textWrap: "pretty", animation: reduce ? undefined : "rise .16s ease both" }}>
               {presetNote}
             </p>
           )}
@@ -541,7 +541,7 @@ export default function Tokens() {
         <div style={{ marginTop: "clamp(24px, 3vw, 36px)", border: "1px solid var(--border)", borderRadius: 22, padding: "clamp(20px, 2.5vw, 28px)" }}>
           {cap(tk.dictLabel)}
           <div style={{ fontFamily: DISPLAY, fontSize: "clamp(20px, 2.2vw, 27px)", fontWeight: 600, letterSpacing: "-.03em", marginTop: 10 }}>{tk.dictTitle}</div>
-          <p style={{ margin: "10px 0 0", fontSize: 16, color: "var(--muted)", lineHeight: 1.62, maxWidth: "64ch", textWrap: "pretty" }}>{rich(tk.dictBody)}</p>
+          <p style={{ margin: "10px 0 0", fontSize: 16, color: "var(--muted)", lineHeight: 1.62, maxWidth: "74ch", textWrap: "pretty" }}>{rich(tk.dictBody)}</p>
 
           {/* caption reflects what the table is currently showing */}
           <div style={{ marginTop: 18, marginBottom: 8, display: "flex", alignItems: "center", gap: 8 }}>
@@ -603,7 +603,7 @@ export default function Tokens() {
           <div style={{ marginTop: "clamp(22px, 2.6vw, 30px)", paddingTop: "clamp(20px, 2.4vw, 26px)", borderTop: "1px solid var(--hair)" }}>
             {cap(tk.dictWhyLabel)}
             <div style={{ fontFamily: DISPLAY, fontSize: "clamp(18px, 2vw, 23px)", fontWeight: 600, letterSpacing: "-.03em", marginTop: 10 }}>{tk.dictWhyTitle}</div>
-            <p style={{ margin: "10px 0 0", fontSize: 16, color: "var(--muted)", lineHeight: 1.62, maxWidth: "64ch", textWrap: "pretty" }}>{rich(tk.dictWhyBody)}</p>
+            <p style={{ margin: "10px 0 0", fontSize: 16, color: "var(--muted)", lineHeight: 1.62, maxWidth: "74ch", textWrap: "pretty" }}>{rich(tk.dictWhyBody)}</p>
 
             <div style={{ marginTop: 18, display: "grid", gap: 14, gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))" }}>
               {[
@@ -637,8 +637,8 @@ export default function Tokens() {
                 <span aria-hidden style={{ width: 7, height: 7, borderRadius: 2, background: "var(--tok-num)", flex: "0 0 auto" }} />
                 {tk.curiosityLabel}
               </div>
-              <p style={{ margin: 0, fontSize: 15.5, lineHeight: 1.64, color: "var(--fg)", maxWidth: "64ch", textWrap: "pretty" }}>{rich(tk.curiosityBody)}</p>
-              <p style={{ margin: 0, fontSize: 15.5, lineHeight: 1.64, color: "var(--fg)", maxWidth: "64ch", textWrap: "pretty" }}>{rich(tk.curiosityBody2)}</p>
+              <p style={{ margin: 0, fontSize: 15.5, lineHeight: 1.64, color: "var(--fg)", maxWidth: "74ch", textWrap: "pretty" }}>{rich(tk.curiosityBody)}</p>
+              <p style={{ margin: 0, fontSize: 15.5, lineHeight: 1.64, color: "var(--fg)", maxWidth: "74ch", textWrap: "pretty" }}>{rich(tk.curiosityBody2)}</p>
             </div>
           </div>
         </div>
@@ -647,7 +647,7 @@ export default function Tokens() {
         <div style={{ marginTop: "clamp(24px, 3vw, 36px)", border: "1px solid var(--border)", borderRadius: 22, padding: "clamp(20px, 2.5vw, 28px)" }}>
           {cap(tk.cmpLabel)}
           <div style={{ fontFamily: DISPLAY, fontSize: "clamp(20px, 2.2vw, 27px)", fontWeight: 600, letterSpacing: "-.03em", marginTop: 10 }}>{tk.cmpTitle}</div>
-          <p style={{ margin: "10px 0 0", fontSize: 16, color: "var(--muted)", lineHeight: 1.62, maxWidth: "64ch", textWrap: "pretty" }}>{tk.cmpBody}</p>
+          <p style={{ margin: "10px 0 0", fontSize: 16, color: "var(--muted)", lineHeight: 1.62, maxWidth: "74ch", textWrap: "pretty" }}>{tk.cmpBody}</p>
 
           <div style={{ marginTop: 18 }}>
             {cap(`${tk.cmpNote}`)}
@@ -666,7 +666,7 @@ export default function Tokens() {
 
           <div style={{ marginTop: 26, paddingTop: 22, borderTop: "1px solid var(--hair)" }}>
             <div style={{ fontFamily: DISPLAY, fontSize: 19, fontWeight: 600, letterSpacing: "-.03em" }}>{tk.cmpLangTitle}</div>
-            <p style={{ margin: "8px 0 0", fontSize: 15, color: "var(--muted)", lineHeight: 1.6, maxWidth: "62ch", textWrap: "pretty" }}>{tk.cmpLangBody}</p>
+            <p style={{ margin: "8px 0 0", fontSize: 15, color: "var(--muted)", lineHeight: 1.6, maxWidth: "72ch", textWrap: "pretty" }}>{tk.cmpLangBody}</p>
             <div style={{ marginTop: 14 }}>
               <BarChart
                 reduce={reduce}
@@ -688,7 +688,7 @@ export default function Tokens() {
           <button type="button" onClick={() => setAnswerOpen((v) => !v)} aria-expanded={answerOpen} className="u-hover-fg-border" style={{ appearance: "none", cursor: "pointer", font: "inherit", marginTop: 18, fontSize: 15, fontWeight: 600, color: "var(--fg)", background: "var(--bg)", border: "1px solid var(--border)", padding: "11px 18px", borderRadius: 11 }}>
             {answerOpen ? t.hide : t.reveal}
           </button>
-          {answerOpen && <p style={{ margin: "18px 0 0", fontSize: 16.5, lineHeight: 1.65, maxWidth: "62ch", textWrap: "pretty", animation: reduce ? undefined : "rise .16s ease both" }}>{t.explainA}</p>}
+          {answerOpen && <p style={{ margin: "18px 0 0", fontSize: 16.5, lineHeight: 1.65, maxWidth: "72ch", textWrap: "pretty", animation: reduce ? undefined : "rise .16s ease both" }}>{t.explainA}</p>}
         </div>
 
         {/* ---- Go deeper --------------------------------------------- */}
@@ -697,7 +697,7 @@ export default function Tokens() {
             <span style={{ fontFamily: DISPLAY, fontSize: 18, fontWeight: 600, letterSpacing: "-.03em" }}>{t.deeperTitle}</span>
             <span style={{ color: "var(--muted)", fontSize: 13 }}>{deeperOpen ? "−" : "+"}</span>
           </button>
-          {deeperOpen && <p style={{ margin: "16px 0 0", fontSize: 16, lineHeight: 1.68, color: "var(--muted)", maxWidth: "64ch", textWrap: "pretty", animation: reduce ? undefined : "rise .16s ease both" }}>{t.deeperBody}</p>}
+          {deeperOpen && <p style={{ margin: "16px 0 0", fontSize: 16, lineHeight: 1.68, color: "var(--muted)", maxWidth: "74ch", textWrap: "pretty", animation: reduce ? undefined : "rise .16s ease both" }}>{t.deeperBody}</p>}
         </div>
 
         {/* ---- Bridge to next lesson --------------------------------- */}
