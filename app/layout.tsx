@@ -28,15 +28,23 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.libreai.dev/academy"),
-  title: "libreai Academy — become an AI-native engineer",
+  metadataBase: new URL("https://xavier-ramirez.com"),
+  title: "Xavier Ramirez — AI / ML Platform Engineer",
   description:
-    "A hands-on, bilingual guide for software engineers who don't yet know AI — from how models work to running your own.",
+    "AI and ML platform engineer. LLM systems, retrieval, evaluation and inference in production. Previously Guidewire, Walmart, ScienceLogic.",
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "profile",
+    title: "Xavier Ramirez — AI / ML Platform Engineer",
+    description:
+      "AI and ML platform engineer. LLM systems, retrieval, evaluation and inference in production.",
+    url: "https://xavier-ramirez.com/",
+  },
 };
 
-// Apply the saved theme (and language) before first paint to avoid a flash of
-// the wrong palette. Kept intentionally tiny and dependency-free.
-const noFlashScript = `(function(){try{var t=localStorage.getItem('libreai-academy-theme');if(t!=='dark')t='light';document.documentElement.setAttribute('data-theme',t);var l=localStorage.getItem('libreai-academy-lang');if(l==='es')document.documentElement.setAttribute('lang','es');}catch(e){document.documentElement.setAttribute('data-theme','light');}})();`;
+// The site is light-only; pin the palette before first paint so the lessons'
+// dark tokens never flash. Kept intentionally tiny and dependency-free.
+const noFlashScript = `(function(){try{document.documentElement.setAttribute('data-theme','light');}catch(e){}})();`;
 
 export default function RootLayout({
   children,

@@ -1,321 +1,359 @@
-"use client";
-
 import Link from "next/link";
-import { useAcademy } from "../providers";
+import {
+  C,
+  MONO,
+  SANS,
+  MAXW,
+  PROFILE,
+  EXPERIENCE,
+  SELECTED_WORK,
+} from "../lib/site";
+import { recentPosts } from "../lib/posts";
 
-const MONO = "var(--font-jetbrains-mono),monospace";
-const DISPLAY = "var(--font-space-grotesk),sans-serif";
-const LESSON_HREF = "/stage/1/life-of-an-llm";
-
-/**
- * Deterministic decorative lattice for the hero: filled cells cluster toward the
- * top-left ("what you already understand"), the rest stay empty ("what stays
- * magic"). Deterministic so it renders identically on server and client.
- */
-function buildLattice() {
-  return Array.from({ length: 96 }, (_, i) => {
-    const col = i % 16;
-    const row = Math.floor(i / 16);
-    const filled = ((col * 7 + row * 11) % 23) < 9 && !(col > 11 && row > 3);
-    return filled;
-  });
+/** Small mono section label, e.g. "01 · About". Sticky beside its body. */
+function Label({ n, children }: { n: string; children: React.ReactNode }) {
+  return (
+    <h2
+      className="x-sec-sticky"
+      style={{
+        margin: 0,
+        fontFamily: MONO,
+        fontSize: 12,
+        letterSpacing: "0.14em",
+        textTransform: "uppercase",
+        color: C.ink,
+        fontWeight: 500,
+      }}
+    >
+      {n} · {children}
+    </h2>
+  );
 }
 
+/**
+ * The personal-site home for xavier-ramirez.com: hero, then five numbered
+ * sections — About, Writing (recent posts), Experience, Selected work, Contact.
+ */
 export default function Home() {
-  const { t } = useAcademy();
-  const lattice = buildLattice();
-  const filledCount = lattice.filter(Boolean).length;
+  const recent = recentPosts(4);
 
   return (
-    <>
-      {/* ---- Hero ------------------------------------------------------- */}
-      <section
+    <main
+      style={{
+        maxWidth: MAXW,
+        margin: "0 auto",
+        padding: "0 clamp(20px, 5vw, 56px) 96px",
+        fontFamily: SANS,
+        color: C.ink,
+      }}
+    >
+      {/* ---- Hero ----------------------------------------------------- */}
+      <header
         style={{
-          backgroundImage: "radial-gradient(var(--dot) 1px, transparent 1px)",
-          backgroundSize: "22px 22px",
-          backgroundPosition: "-1px -1px",
-          borderBottom: "1px solid var(--hair)",
+          display: "flex",
+          flexWrap: "wrap",
+          gap: "clamp(32px, 5vw, 72px)",
+          alignItems: "flex-end",
+          padding: "clamp(48px, 10vh, 112px) 0 44px",
+          borderBottom: `1px solid ${C.ink}`,
         }}
       >
-        <div
-          style={{
-            maxWidth: 1240,
-            margin: "0 auto",
-            padding: "clamp(40px, 5vw, 76px) 32px clamp(44px, 5.5vw, 80px)",
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 340px), 1fr))",
-            gap: "clamp(36px, 5vw, 72px)",
-            alignItems: "end",
-          }}
-        >
-          <div>
-            <div
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 9,
-                fontSize: 13,
-                fontWeight: 500,
-                background: "var(--bg)",
-                border: "1px solid var(--border)",
-                padding: "7px 14px 7px 10px",
-                borderRadius: 999,
-              }}
-            >
-              <span style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--fg)" }} />
-              {t.badge}
-            </div>
-            <h1
-              style={{
-                fontFamily: DISPLAY,
-                fontSize: "clamp(42px, 6.2vw, 86px)",
-                fontWeight: 600,
-                lineHeight: 0.96,
-                letterSpacing: "-.05em",
-                margin: "24px 0 0",
-                maxWidth: "16ch",
-                textWrap: "balance",
-              }}
-            >
-              {t.heroTitle}
-            </h1>
-            <p
-              style={{
-                margin: "22px 0 0",
-                fontSize: "clamp(17px, 1.8vw, 21px)",
-                lineHeight: 1.55,
-                color: "var(--muted)",
-                maxWidth: "52ch",
-                textWrap: "pretty",
-              }}
-            >
-              {t.heroSub}
-            </p>
-            <div className="hero-cta" style={{ display: "flex", flexWrap: "wrap", gap: 10, marginTop: 32 }}>
-              <Link
-                href={LESSON_HREF}
-                className="u-hover-opacity"
-                style={{
-                  fontSize: 16,
-                  fontWeight: 600,
-                  color: "var(--accent-ink)",
-                  background: "var(--fg)",
-                  padding: "15px 24px",
-                  borderRadius: 12,
-                }}
-              >
-                {t.ctaStart}
-              </Link>
-              <a
-                href="#paths"
-                className="u-hover-fg-border"
-                style={{
-                  fontSize: 16,
-                  fontWeight: 600,
-                  border: "1px solid var(--border)",
-                  background: "var(--bg)",
-                  padding: "15px 24px",
-                  borderRadius: 12,
-                }}
-              >
-                {t.ctaPaths}
-              </a>
-            </div>
-          </div>
-
-          {/* "black box, opened" graphic */}
-          <div
+        <div style={{ flex: "1 1 460px", minWidth: 0 }}>
+          <p
             style={{
-              border: "1px solid var(--border)",
-              borderRadius: 22,
-              background: "var(--bg)",
-              padding: "clamp(22px, 2.6vw, 30px)",
-              display: "flex",
-              flexDirection: "column",
-              gap: 22,
+              margin: "0 0 26px",
+              fontFamily: MONO,
+              fontSize: 11,
+              letterSpacing: "0.14em",
+              textTransform: "uppercase",
+              color: C.faint,
             }}
           >
-            <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 14 }}>
-              <span style={{ fontFamily: MONO, fontSize: 11, letterSpacing: ".12em", color: "var(--muted)" }}>
-                {t.graphicLabel}
-              </span>
-              <span style={{ fontFamily: MONO, fontSize: 11, color: "var(--muted)" }}>
-                {filledCount} / {lattice.length} {t.graphicMetaWord}
-              </span>
-            </div>
-
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(16, 1fr)", gap: 5 }}>
-              {lattice.map((filled, i) => (
-                <span
-                  key={i}
-                  style={{
-                    aspectRatio: "1",
-                    borderRadius: 2,
-                    background: filled ? "var(--fg)" : "var(--surface)",
-                  }}
-                />
-              ))}
-            </div>
-
-            <div style={{ display: "flex", flexDirection: "column" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 14, padding: "14px 0", borderTop: "1px solid var(--hair)" }}>
-                <span style={{ width: 10, height: 10, borderRadius: 2, background: "var(--fg)", flex: "0 0 auto" }} />
-                <span style={{ fontSize: 14.5, color: "var(--muted)" }}>{t.legend1}</span>
-              </div>
-              <div style={{ display: "flex", alignItems: "center", gap: 14, padding: "14px 0", borderTop: "1px solid var(--hair)" }}>
-                <span style={{ width: 10, height: 10, borderRadius: 2, background: "var(--surface)", border: "1px solid var(--border)", flex: "0 0 auto" }} />
-                <span style={{ fontSize: 14.5, color: "var(--muted)" }}>{t.legend2}</span>
-              </div>
-            </div>
-
-            <p style={{ margin: 0, fontSize: 16, lineHeight: 1.6, textWrap: "pretty" }}>{t.whyLede}</p>
-          </div>
-        </div>
-      </section>
-
-      {/* ---- Roadmap ---------------------------------------------------- */}
-      <section style={{ maxWidth: 1240, margin: "0 auto", padding: "clamp(52px, 6.5vw, 92px) 32px 0" }}>
-        <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 24, flexWrap: "wrap" }}>
-          <div>
-            <div style={{ fontFamily: MONO, fontSize: 11.5, letterSpacing: ".14em", color: "var(--muted)" }}>
-              {t.roadmapLabel}
-            </div>
-            <h2
-              style={{
-                fontFamily: DISPLAY,
-                fontSize: "clamp(30px, 3.8vw, 50px)",
-                fontWeight: 600,
-                letterSpacing: "-.04em",
-                lineHeight: 1.02,
-                margin: "16px 0 0",
-                maxWidth: "22ch",
-                textWrap: "balance",
-              }}
-            >
-              {t.roadmapTitle}
-            </h2>
-          </div>
-          <p style={{ margin: 0, color: "var(--muted)", fontSize: 16.5, lineHeight: 1.6, maxWidth: "38ch", textWrap: "pretty" }}>
-            {t.roadmapSub}
+            {PROFILE.role}
           </p>
+          <h1
+            style={{
+              margin: 0,
+              fontSize: "clamp(40px, 6vw, 76px)",
+              lineHeight: 0.98,
+              letterSpacing: "-0.035em",
+              fontWeight: 500,
+            }}
+          >
+            {PROFILE.shortName}
+          </h1>
+          <p
+            style={{
+              margin: "28px 0 0",
+              fontSize: "clamp(19px, 2.1vw, 24px)",
+              lineHeight: 1.45,
+              letterSpacing: "-0.012em",
+              color: C.strong,
+              maxWidth: "26em",
+              textWrap: "pretty",
+            }}
+          >
+            {PROFILE.tagline}
+          </p>
+          <nav
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: 22,
+              marginTop: 34,
+              fontFamily: MONO,
+              fontSize: 12,
+              letterSpacing: "0.02em",
+            }}
+          >
+            <a href={`mailto:${PROFILE.email}`} className="x-underline">
+              {PROFILE.email}
+            </a>
+            <a href={PROFILE.phoneHref} className="x-underline">
+              {PROFILE.phone}
+            </a>
+            <a href={PROFILE.linkedin} className="x-underline">
+              LinkedIn
+            </a>
+          </nav>
         </div>
 
-        <div style={{ marginTop: "clamp(32px, 4vw, 52px)", display: "flex", flexDirection: "column" }}>
-          {t.stages.map((stage, i) => {
-            const num = String(i + 1).padStart(2, "0");
-            const action = stage.pct > 0 ? t.review : i === 0 ? t.start : t.locked;
-            const actionable = i === 0;
-            const card = (
-              <div
-                className="u-card"
-                style={{
-                  border: "1px solid var(--border)",
-                  borderRadius: 20,
-                  background: "var(--bg)",
-                  padding: "clamp(20px, 2.4vw, 28px)",
-                  display: "grid",
-                  gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 260px), 1fr))",
-                  gap: "14px 32px",
-                  alignItems: "center",
-                }}
-              >
-                <div>
-                  <div style={{ fontFamily: DISPLAY, fontSize: "clamp(21px, 2.2vw, 27px)", fontWeight: 600, letterSpacing: "-.035em", lineHeight: 1.1 }}>
-                    {stage.title}
-                  </div>
-                  <div style={{ color: "var(--muted)", fontSize: 15.5, lineHeight: 1.55, marginTop: 7, maxWidth: "46ch", textWrap: "pretty" }}>
-                    {stage.desc}
-                  </div>
-                </div>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", gap: "clamp(14px, 2vw, 26px)", flexWrap: "wrap" }}>
-                  <div>
-                    <div style={{ fontFamily: MONO, fontSize: 11, letterSpacing: ".1em", color: "var(--muted)" }}>
-                      {stage.lessons} {t.lessonsWord}
-                    </div>
-                    <div style={{ display: "flex", alignItems: "center", gap: 9, marginTop: 8 }}>
-                      <span style={{ width: 64, height: 4, borderRadius: 99, background: "var(--hair)", overflow: "hidden", display: "block" }}>
-                        <span style={{ display: "block", height: "100%", background: "var(--fg)", width: `${stage.pct}%` }} />
-                      </span>
-                      <span style={{ fontFamily: MONO, fontSize: 11.5, color: "var(--muted)" }}>{stage.pct}%</span>
-                    </div>
-                  </div>
-                  <span style={{ fontSize: 15, fontWeight: 600, border: "1px solid var(--border)", padding: "11px 17px", borderRadius: 11, whiteSpace: "nowrap" }}>
-                    {action}
-                  </span>
-                </div>
-              </div>
-            );
-
-            return (
-              <div key={i} style={{ display: "grid", gridTemplateColumns: "56px 1fr", columnGap: "clamp(16px, 2.4vw, 28px)" }}>
-                <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                  <div style={{ width: 44, height: 44, borderRadius: 14, border: "1px solid var(--border)", background: "var(--bg)", display: "grid", placeItems: "center", fontFamily: DISPLAY, fontSize: 16, fontWeight: 600, flex: "0 0 auto" }}>
-                    {num}
-                  </div>
-                  {i < t.stages.length - 1 && <div style={{ flex: "1 1 auto", width: 1, background: "var(--hair)", minHeight: 24 }} />}
-                </div>
-                <div style={{ paddingBottom: "clamp(18px, 2.2vw, 26px)" }}>
-                  {actionable ? (
-                    <Link href={LESSON_HREF} style={{ display: "block" }}>
-                      {card}
-                    </Link>
-                  ) : (
-                    card
-                  )}
-                </div>
-              </div>
-            );
-          })}
+        <div
+          style={{
+            flex: "0 0 auto",
+            width: "clamp(150px, 20vw, 220px)",
+            aspectRatio: "4 / 5",
+            border: `1px solid ${C.hair}`,
+            boxSizing: "border-box",
+            overflow: "hidden",
+          }}
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/img/portrait.webp"
+            alt={`Portrait of ${PROFILE.name}`}
+            style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+          />
         </div>
-      </section>
+      </header>
 
-      {/* ---- How it works ---------------------------------------------- */}
-      <section style={{ background: "var(--band)", color: "var(--band-fg)", marginTop: "clamp(52px, 6.5vw, 92px)" }}>
-        <div style={{ maxWidth: 1240, margin: "0 auto", padding: "clamp(52px, 6.5vw, 88px) 32px" }}>
-          <div style={{ fontFamily: MONO, fontSize: 11.5, letterSpacing: ".14em", color: "var(--band-muted)" }}>
-            {t.howLabel}
-          </div>
-          <h2 style={{ fontFamily: DISPLAY, fontSize: "clamp(28px, 3.6vw, 46px)", fontWeight: 600, letterSpacing: "-.04em", lineHeight: 1.04, margin: "16px 0 0", maxWidth: "24ch", textWrap: "balance" }}>
-            {t.howTitle}
-          </h2>
-          <div style={{ marginTop: "clamp(34px, 4vw, 56px)", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 240px), 1fr))", columnGap: 44, rowGap: 6 }}>
-            {[
-              [t.how1, t.how1d],
-              [t.how2, t.how2d],
-              [t.how3, t.how3d],
-              [t.how4, t.how4d],
-            ].map(([title, desc], i) => (
-              <div key={i} style={{ padding: "24px 0 28px", borderTop: "1px solid var(--band-hair)" }}>
-                <div style={{ fontFamily: DISPLAY, fontSize: 19, fontWeight: 600, letterSpacing: "-.03em" }}>{title}</div>
-                <p style={{ margin: "9px 0 0", color: "var(--band-muted)", fontSize: 15.5, lineHeight: 1.6, textWrap: "pretty" }}>{desc}</p>
-              </div>
+      {/* ---- 01 · About ---------------------------------------------- */}
+      <section className="x-sec">
+        <Label n="01">About</Label>
+        <div style={{ maxWidth: "38em" }}>
+          <p style={{ margin: 0, fontSize: 19, lineHeight: 1.6, color: C.ink, textWrap: "pretty" }}>
+            {PROFILE.about.map(([text, bold], i) =>
+              bold ? (
+                <strong key={i} style={{ fontWeight: 600 }}>
+                  {text}
+                </strong>
+              ) : (
+                <span key={i}>{text}</span>
+              ),
+            )}
+          </p>
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: 8,
+              marginTop: 24,
+              fontFamily: MONO,
+              fontSize: 11,
+              letterSpacing: "0.04em",
+              color: C.muted,
+            }}
+          >
+            {PROFILE.stack.map((s) => (
+              <span key={s} style={{ border: `1px solid ${C.chip}`, padding: "5px 9px" }}>
+                {s}
+              </span>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ---- Two paths -------------------------------------------------- */}
-      <section id="paths" style={{ maxWidth: 1240, margin: "0 auto", padding: "clamp(52px, 6.5vw, 92px) 32px 0", scrollMarginTop: 96 }}>
-        <div style={{ fontFamily: MONO, fontSize: 11.5, letterSpacing: ".14em", color: "var(--muted)" }}>{t.pathsLabel}</div>
-        <h2 style={{ fontFamily: DISPLAY, fontSize: "clamp(30px, 3.8vw, 50px)", fontWeight: 600, letterSpacing: "-.04em", lineHeight: 1.02, margin: "16px 0 0", maxWidth: "20ch", textWrap: "balance" }}>
-          {t.pathsTitle}
-        </h2>
-        <div style={{ marginTop: "clamp(28px, 3.5vw, 44px)", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 320px), 1fr))", gap: 16 }}>
-          {[
-            { route: t.path1Route, title: t.path1, desc: t.path1d, cta: t.path1cta },
-            { route: t.path2Route, title: t.path2, desc: t.path2d, cta: t.path2cta },
-          ].map((p, i) => (
-            <div key={i} style={{ border: "1px solid var(--border)", borderRadius: 22, padding: "clamp(24px, 3vw, 34px)", display: "flex", flexDirection: "column", gap: 14 }}>
-              <div style={{ fontFamily: MONO, fontSize: 11, letterSpacing: ".12em", color: "var(--muted)" }}>{p.route}</div>
-              <div style={{ fontFamily: DISPLAY, fontSize: "clamp(22px, 2.4vw, 29px)", fontWeight: 600, letterSpacing: "-.035em", lineHeight: 1.08 }}>{p.title}</div>
-              <p style={{ margin: 0, color: "var(--muted)", fontSize: 15.5, lineHeight: 1.6, textWrap: "pretty" }}>{p.desc}</p>
-              <Link href={LESSON_HREF} className="u-hover-muted" style={{ marginTop: "auto", paddingTop: 10, fontSize: 15.5, fontWeight: 600, color: "var(--fg)" }}>
-                {p.cta} →
-              </Link>
+      {/* ---- 02 · Writing -------------------------------------------- */}
+      <section className="x-sec">
+        <div>
+          <Label n="02">Writing</Label>
+          <Link
+            href="/writing"
+            className="x-underline"
+            style={{
+              display: "inline-block",
+              marginTop: 14,
+              fontFamily: MONO,
+              fontSize: 11,
+              letterSpacing: "0.06em",
+              color: C.faint,
+            }}
+          >
+            All posts →
+          </Link>
+        </div>
+        <div>
+          <p style={{ margin: 0, fontSize: 18, lineHeight: 1.6, color: C.ink, maxWidth: "34em", textWrap: "pretty" }}>
+            Notes on how AI systems actually work, and what it takes to run them
+            in production.
+          </p>
+          <ul style={{ listStyle: "none", margin: "26px 0 0", padding: 0, borderTop: `1px solid ${C.hair}` }}>
+            {recent.map((p) => (
+              <li key={p.slug}>
+                <Link
+                  href={p.href}
+                  className="x-row"
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "86px minmax(0, 1fr)",
+                    gap: "6px 20px",
+                    alignItems: "baseline",
+                    padding: "18px 0",
+                    borderBottom: `1px solid ${C.hair}`,
+                  }}
+                >
+                  <time style={{ fontFamily: MONO, fontSize: 11, letterSpacing: "0.04em", color: C.ghost }}>
+                    {p.displayDate}
+                  </time>
+                  <div>
+                    <h3 style={{ margin: 0, fontSize: 19, fontWeight: 600, lineHeight: 1.35, letterSpacing: "-0.015em", textWrap: "pretty" }}>
+                      {p.title}
+                    </h3>
+                    <p style={{ margin: "6px 0 0", fontSize: 15, lineHeight: 1.6, color: C.faint, maxWidth: "44em", textWrap: "pretty" }}>
+                      {p.summary}
+                    </p>
+                  </div>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* ---- 03 · Experience ----------------------------------------- */}
+      <section className="x-sec">
+        <Label n="03">Experience</Label>
+        <div>
+          <ul style={{ listStyle: "none", margin: 0, padding: 0, borderTop: `1px solid ${C.hair}` }}>
+            {EXPERIENCE.map((job) => (
+              <li
+                key={job.org}
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "118px 42px minmax(0, 1fr)",
+                  gap: "4px 16px",
+                  padding: "16px 0",
+                  borderBottom: `1px solid ${C.hair}`,
+                  alignItems: "center",
+                }}
+              >
+                <time style={{ fontFamily: MONO, fontSize: 12, letterSpacing: "0.06em", color: C.muted }}>
+                  {job.period}
+                </time>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={job.logo}
+                  alt=""
+                  width={42}
+                  height={42}
+                  style={{ width: 42, height: 42, objectFit: "contain", borderRadius: 4 }}
+                />
+                <div style={{ fontSize: 18, lineHeight: 1.45 }}>
+                  <span style={{ fontWeight: 600 }}>{job.org}</span>
+                  <span style={{ color: C.faint }}> — {job.role}</span>
+                </div>
+              </li>
+            ))}
+          </ul>
+          <p style={{ margin: "18px 0 0", fontSize: 15, lineHeight: 1.6, color: C.faint }}>
+            {PROFILE.education}
+          </p>
+        </div>
+      </section>
+
+      {/* ---- 04 · Selected work -------------------------------------- */}
+      <section className="x-sec">
+        <Label n="04">Selected work</Label>
+        <div style={{ display: "grid", gap: 18 }}>
+          {SELECTED_WORK.map((w, i) => (
+            <div
+              key={w.title}
+              className="x-card"
+              style={{
+                display: "grid",
+                gridTemplateColumns: "28px minmax(0, 1fr)",
+                gap: "10px 18px",
+                border: `1px solid ${C.hair}`,
+                padding: "26px 28px",
+                background: C.bg,
+              }}
+            >
+              <span style={{ fontFamily: MONO, fontSize: 11, color: "#b3b3ac", paddingTop: 5 }}>
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <div>
+                <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 20, flexWrap: "wrap" }}>
+                  <h3 style={{ margin: 0, fontSize: 22, fontWeight: 600, lineHeight: 1.28, letterSpacing: "-0.02em", textWrap: "pretty" }}>
+                    {w.title}
+                  </h3>
+                  <span
+                    style={{
+                      flex: "0 0 auto",
+                      fontFamily: MONO,
+                      fontSize: 10,
+                      letterSpacing: "0.1em",
+                      textTransform: "uppercase",
+                      color: C.ink,
+                      border: `1px solid ${C.ink}`,
+                      padding: "3px 7px",
+                    }}
+                  >
+                    {w.status}
+                  </span>
+                </div>
+                <p style={{ margin: "10px 0 0", fontSize: 16, lineHeight: 1.62, color: C.muted, maxWidth: "44em", textWrap: "pretty" }}>
+                  {w.body}
+                </p>
+                <p style={{ margin: "14px 0 0", fontFamily: MONO, fontSize: 11, letterSpacing: "0.06em", textTransform: "uppercase", color: C.ghost }}>
+                  {w.tags}
+                </p>
+              </div>
             </div>
           ))}
         </div>
       </section>
-    </>
+
+      {/* ---- 05 · Contact -------------------------------------------- */}
+      <section className="x-sec" style={{ borderBottom: "none" }}>
+          <Label n="05">Contact</Label>
+          <div>
+            <p style={{ margin: 0, fontSize: "clamp(19px, 2vw, 22px)", lineHeight: 1.5, letterSpacing: "-0.01em", maxWidth: "30em", textWrap: "pretty" }}>
+              Open to conversations about AI platform work. Reach me at{" "}
+              <a href={`mailto:${PROFILE.email}`} style={{ borderBottom: `1px solid ${C.ink}` }}>
+                {PROFILE.email}
+              </a>
+              .
+            </p>
+            <nav
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                gap: 24,
+                marginTop: 28,
+                fontFamily: MONO,
+                fontSize: 11,
+                letterSpacing: "0.1em",
+                textTransform: "uppercase",
+                color: C.faint,
+              }}
+            >
+              <a href={PROFILE.github} className="x-hoverink">GitHub</a>
+              <a href={PROFILE.linkedin} className="x-hoverink">LinkedIn</a>
+              <a href={PROFILE.cv} className="x-hoverink">CV (PDF)</a>
+              <Link href="/writing" className="x-hoverink">Writing</Link>
+            </nav>
+          </div>
+      </section>
+    </main>
   );
 }

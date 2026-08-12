@@ -4,7 +4,7 @@ import Footer from "../../../components/Footer";
 import Neural from "../../../components/Neural";
 
 export const metadata: Metadata = {
-  title: "Neural networks — libreai Academy",
+  title: "Neural networks — Xavier Ramirez",
   description:
     "A neural network is a function you fit to data — stacked multiply-and-adds with a nonlinearity. Wire up a real tiny network by hand and watch the decision boundary bend.",
 };

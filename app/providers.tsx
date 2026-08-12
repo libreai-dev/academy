@@ -20,9 +20,6 @@ import { COPY, type Copy, type Lang, type Theme } from "./lib/copy";
  * hydrates; here we simply mirror it and keep it updated.
  */
 
-const THEME_KEY = "libreai-academy-theme";
-const LANG_KEY = "libreai-academy-lang";
-
 interface AcademyContextValue {
   theme: Theme;
   lang: Lang;
@@ -33,51 +30,19 @@ interface AcademyContextValue {
 
 const AcademyContext = createContext<AcademyContextValue | null>(null);
 
-function readStored<T extends string>(key: string, allowed: readonly T[], fallback: T): T {
-  if (typeof window === "undefined") return fallback;
-  try {
-    const v = window.localStorage.getItem(key) as T | null;
-    if (v && allowed.includes(v)) return v;
-  } catch {
-    /* ignore */
-  }
-  return fallback;
-}
-
 export function AcademyProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>("light");
+  // The personal site is light-only and English-first (matching the design).
+  // Theme/lang are pinned; the setters remain for the lessons' API but are
+  // effectively no-ops, so no theme/language chrome is exposed anywhere.
+  const theme: Theme = "light";
   const [lang, setLangState] = useState<Lang>("en");
 
-  // Hydrate from storage / the DOM attribute after mount (avoids SSR mismatch).
   useEffect(() => {
-    const domTheme = document.documentElement.getAttribute("data-theme") as Theme | null;
-    setTheme(domTheme === "dark" ? "dark" : readStored(THEME_KEY, ["light", "dark"] as const, "light"));
-    setLangState(readStored(LANG_KEY, ["en", "es"] as const, "en"));
-  }, []);
-
-  // Reflect theme to the DOM + storage whenever it changes.
-  useEffect(() => {
-    document.documentElement.setAttribute("data-theme", theme);
-    try {
-      window.localStorage.setItem(THEME_KEY, theme);
-    } catch {
-      /* ignore */
-    }
-  }, [theme]);
-
-  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", "light");
     document.documentElement.setAttribute("lang", lang);
-    try {
-      window.localStorage.setItem(LANG_KEY, lang);
-    } catch {
-      /* ignore */
-    }
   }, [lang]);
 
-  const toggleTheme = useCallback(
-    () => setTheme((prev) => (prev === "light" ? "dark" : "light")),
-    [],
-  );
+  const toggleTheme = useCallback(() => {}, []);
   const setLang = useCallback((next: Lang) => setLangState(next), []);
 
   const value = useMemo<AcademyContextValue>(

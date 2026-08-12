@@ -1,41 +1,57 @@
 "use client";
 
-import { useAcademy } from "../providers";
-import { GITHUB_URL } from "../lib/copy";
+import Link from "next/link";
+import { C, MONO, MAXW, PAGE_PAD, PROFILE } from "../lib/site";
 
-/** Shared footer: back to the umbrella site, contribute, and contact links. */
+/** Editorial site footer — contact line + external links. Light-only. */
 export default function Footer() {
-  const { t } = useAcademy();
+  const links: [string, string][] = [
+    ["GitHub", PROFILE.github],
+    ["LinkedIn", PROFILE.linkedin],
+    ["CV (PDF)", PROFILE.cv],
+    ["RSS", "/rss.xml"],
+  ];
   return (
-    <footer style={{ marginTop: "clamp(48px, 6vw, 88px)", borderTop: "1px solid var(--hair)" }}>
+    <footer style={{ borderTop: `1px solid ${C.hair}`, background: C.bg }}>
       <div
         style={{
-          maxWidth: 1240,
+          maxWidth: MAXW,
           margin: "0 auto",
-          padding: "32px 32px 46px",
+          padding: "40px clamp(20px, 5vw, 56px) 56px",
           display: "flex",
           justifyContent: "space-between",
-          gap: 18,
+          gap: 20,
           flexWrap: "wrap",
           alignItems: "center",
         }}
       >
-        <span style={{ fontSize: 14, color: "var(--muted)" }}>{t.footer}</span>
-        <span style={{ display: "flex", gap: 20, flexWrap: "wrap", fontSize: 14 }}>
-          <a href="https://libreai.dev" className="u-hover-muted" style={{ color: "var(--muted)" }}>
-            libreai.dev
-          </a>
-          <a href={GITHUB_URL} className="u-hover-muted" style={{ color: "var(--muted)" }}>
-            {t.contribute}
-          </a>
-          <a
-            href="https://libreai.dev/contact"
-            className="u-hover-muted"
-            style={{ color: "var(--muted)" }}
-          >
-            {t.contact}
-          </a>
+        <span style={{ fontSize: 14, color: C.faint }}>
+          © {PROFILE.name} · {PROFILE.location}
         </span>
+        <nav
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: 24,
+            fontFamily: MONO,
+            fontSize: 11,
+            letterSpacing: "0.1em",
+            textTransform: "uppercase",
+            color: C.faint,
+          }}
+        >
+          {links.map(([label, href]) =>
+            href.startsWith("/") ? (
+              <Link key={label} href={href} className="x-hoverink">
+                {label}
+              </Link>
+            ) : (
+              <a key={label} href={href} className="x-hoverink">
+                {label}
+              </a>
+            ),
+          )}
+        </nav>
       </div>
     </footer>
   );

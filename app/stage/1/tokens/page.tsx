@@ -4,7 +4,7 @@ import Footer from "../../../components/Footer";
 import Tokens from "../../../components/Tokens";
 
 export const metadata: Metadata = {
-  title: "Tokens — libreai Academy",
+  title: "Tokens — Xavier Ramirez",
   description:
     "A model never sees your words, it sees tokens. A live tokenizer lesson on cost, context limits, and why models miscount letters.",
 };

@@ -69,12 +69,15 @@ export function Cap({ children }: { children: React.ReactNode }) {
 }
 
 /**
- * Minimal inline renderer so copy.ts strings can carry emphasis
- * (**bold**, *italic*, `code`) without hardcoding markup in components.
+ * Minimal inline renderer so copy.ts strings can carry emphasis without
+ * hardcoding markup in components. Supports:
+ *   **bold**  *italic*  `code`  [link text](https://…)  {ring}
+ * where `{ring}` renders the small signal-green circle that ties body copy to a
+ * green threshold/accent in an interactive.
  */
 export function rich(text: string): React.ReactNode[] {
   const nodes: React.ReactNode[] = [];
-  const re = /\*\*([^*]+)\*\*|\*([^*]+)\*|`([^`]+)`/g;
+  const re = /\[([^\]]+)\]\(([^)]+)\)|\{ring\}|\*\*([^*]+)\*\*|\*([^*]+)\*|`([^`]+)`/g;
   let last = 0;
   let m: RegExpExecArray | null;
   let k = 0;
@@ -82,19 +85,29 @@ export function rich(text: string): React.ReactNode[] {
     if (m.index > last) nodes.push(text.slice(last, m.index));
     if (m[1] != null) {
       nodes.push(
-        <strong key={k++} style={{ fontWeight: 700, color: "var(--fg)" }}>
+        <a key={k++} href={m[2]} target="_blank" rel="noreferrer" style={{ color: "var(--signal-fg)", textDecoration: "underline", textUnderlineOffset: 2 }}>
           {m[1]}
+        </a>,
+      );
+    } else if (m[0] === "{ring}") {
+      nodes.push(
+        <span key={k++} aria-hidden style={{ display: "inline-block", width: "0.62em", height: "0.62em", borderRadius: "50%", border: "2px solid var(--signal)", verticalAlign: "middle", margin: "0 0.12em", transform: "translateY(-1px)" }} />,
+      );
+    } else if (m[3] != null) {
+      nodes.push(
+        <strong key={k++} style={{ fontWeight: 700, color: "var(--fg)" }}>
+          {rich(m[3])}
         </strong>,
       );
-    } else if (m[2] != null) {
-      nodes.push(<em key={k++}>{m[2]}</em>);
+    } else if (m[4] != null) {
+      nodes.push(<em key={k++}>{rich(m[4])}</em>);
     } else {
       nodes.push(
         <code
           key={k++}
           style={{ fontFamily: MONO, fontSize: "0.9em", background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 5, padding: "1px 5px" }}
         >
-          {m[3]}
+          {m[5]}
         </code>,
       );
     }

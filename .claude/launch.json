@@ -7,6 +7,13 @@
       "runtimeArgs": ["run", "dev"],
       "port": 3000,
       "autoPort": true
+    },
+    {
+      "name": "xr-preview",
+      "runtimeExecutable": "sh",
+      "runtimeArgs": ["-c", "NEXT_DIST_DIR=.next-preview ./node_modules/.bin/next dev -p 3210"],
+      "port": 3210,
+      "autoPort": true
     }
   ]
 }

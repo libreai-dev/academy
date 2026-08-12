@@ -4,7 +4,7 @@ import Footer from "../../../components/Footer";
 import Embeddings from "../../../components/Embeddings";
 
 export const metadata: Metadata = {
-  title: "Embeddings — libreai Academy",
+  title: "Embeddings — Xavier Ramirez",
   description:
     "Every token becomes a vector — a point on a map where nearby means similar in meaning. Explore the map, watch it settle out of pretraining, and try king − man + woman ≈ queen.",
 };

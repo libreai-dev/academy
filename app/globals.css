@@ -39,6 +39,33 @@
   color-scheme: dark;
 }
 
+/* ---------------------------------------------------------------------------
+   Web-scale ingestion lesson — a "detection green" signal accent plus an ink
+   "instrument readout" surface that stays dark in both themes (a terminal).
+   `--signal` is for graphics/controls; `--signal-fg` is the AA-safe green used
+   for small text on page backgrounds.
+--------------------------------------------------------------------------- */
+:root {
+  --signal: #12a150;
+  --signal-fg: #0b6e30;
+  --signal-wash: rgba(18, 161, 80, 0.1);
+  --readout-bg: #0a0a09;
+  --readout-border: #2a2a24;
+  --readout-fg: #eef2ee;
+  --readout-muted: #8f8f88;
+  --readout-signal: #35e07f;
+}
+:root[data-theme="dark"] {
+  --signal: #22d46a;
+  --signal-fg: #4bd487;
+  --signal-wash: rgba(34, 212, 106, 0.14);
+  --readout-bg: #131312;
+  --readout-border: #2f2f28;
+  --readout-fg: #eef2ee;
+  --readout-muted: #8f8f88;
+  --readout-signal: #35e07f;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -261,6 +288,82 @@ textarea:focus-visible {
   --tok-punct: #bd93e6;
   --tok-space: #6f6f68;
   --tok-byte: #ec8a86;
+}
+
+/* ---------------------------------------------------------------------------
+   xavier-ramirez.com — editorial personal-site chrome (home, writing index,
+   post header/footer). Light-only, hairline dividers, mono labels. These are
+   scoped with an `x-` prefix and are independent of the lesson design tokens.
+--------------------------------------------------------------------------- */
+.x-hoverink {
+  transition: color 0.14s ease, border-color 0.14s ease;
+}
+.x-hoverink:hover {
+  color: #16161a;
+}
+/* underlined contact/link that darkens its rule on hover */
+.x-underline {
+  border-bottom: 1px solid #cfcfc9;
+  padding-bottom: 3px;
+  transition: border-color 0.14s ease, color 0.14s ease;
+}
+.x-underline:hover {
+  border-color: #16161a;
+  color: #16161a;
+}
+/* section: single column on phones, label + body on wider screens */
+.x-sec {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+  padding: clamp(40px, 6vw, 56px) 0;
+  border-bottom: 1px solid #e8e8e4;
+}
+@media (min-width: 720px) {
+  .x-sec {
+    grid-template-columns: minmax(0, 190px) minmax(0, 1fr);
+    gap: 24px clamp(24px, 5vw, 64px);
+  }
+  .x-sec-sticky {
+    position: sticky;
+    top: 20px;
+    align-self: start;
+  }
+}
+/* list row that nudges right + washes on hover (writing lists) */
+.x-row {
+  transition: padding-left 0.16s ease, background-color 0.16s ease;
+}
+.x-row:hover {
+  padding-left: 10px;
+  background-color: #fafaf8;
+}
+/* writing-row: date/category stacked on phones, a left column on wider screens */
+.x-row-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 8px;
+}
+@media (min-width: 720px) {
+  .x-row-grid {
+    grid-template-columns: minmax(0, 190px) minmax(0, 1fr);
+    gap: 8px clamp(24px, 5vw, 64px);
+  }
+}
+.x-card {
+  transition: border-color 0.16s ease, background-color 0.16s ease;
+}
+.x-card:hover {
+  border-color: #16161a;
+  background-color: #fafaf8;
+}
+@media (prefers-reduced-motion: reduce) {
+  .x-row,
+  .x-card,
+  .x-hoverink,
+  .x-underline {
+    transition: none;
+  }
 }
 
 @keyframes tok-spin {

@@ -5,6 +5,125 @@
  * the ThemeLang context so switching updates every screen live.
  */
 
+
+// Per-article copy lives in its own module so separate lessons never collide
+// on one giant object. copy.ts assembles them into COPY below.
+import type { WsNodeCopy } from "./copy/shared";
+import { webScaleEN, webScaleES, type WebScaleLesson, type WsPayloadCopy } from "./copy/webscale";
+import { domainsEN, domainsES, type DomainLesson, type DomNodeCopy, type DomUi } from "./copy/domains";
+import { dedupEN, dedupES, type DedupLesson } from "./copy/dedup";
+import { recipeEN, recipeES, type RecipeLesson } from "./copy/recipe";
+import { distillEN, distillES, type DistillLesson } from "./copy/distill";
+import { backboneEN, backboneES, type BackboneCopy } from "./copy/backbone";
+// Stage-0 Fundamentals lessons (batch 1) — each owns its copy module.
+import { qualityFilteringEN, qualityFilteringES, type QualityFilteringLesson } from "./copy/quality-filtering";
+import { tokenDictionaryEN, tokenDictionaryES, type TokenDictionaryLesson } from "./copy/token-dictionary";
+import { embeddingMatrixEN, embeddingMatrixES, type EmbeddingMatrixLesson } from "./copy/embedding-matrix";
+import { transformerBlockEN, transformerBlockES, type TransformerBlockLesson } from "./copy/transformer-block";
+import { nextTokenEN, nextTokenES, type NextTokenLesson } from "./copy/nextToken";
+import { autoregressiveLoopEN, autoregressiveLoopES, type AutoregressiveLoopLesson } from "./copy/autoregressive-loop";
+import { howModelsLearnEN, howModelsLearnES, type HowModelsLearnLesson } from "./copy/how-models-learn";
+import { baseVsAssistantEN, baseVsAssistantES, type BaseVsAssistantLesson } from "./copy/base-vs-assistant";
+import { whyAlignmentEN, whyAlignmentES, type WhyAlignmentLesson } from "./copy/why-alignment";
+import { prefillVsDecodeEN, prefillVsDecodeES, type PrefillVsDecodeLesson } from "./copy/prefill-vs-decode";
+// Stage-0 Medium lessons (batch 2)
+import { classifierScoringEN, classifierScoringES, type ClassifierScoringLesson } from "./copy/classifier-scoring";
+import { multiTurnFormattingEN, multiTurnFormattingES, type MultiTurnFormattingLesson } from "./copy/multi-turn-formatting";
+import { feedForwardEN, feedForwardES, type FeedForwardLesson } from "./copy/feed-forward";
+import { extractionParsingEN, extractionParsingES, type ExtractionParsingLesson } from "./copy/extraction-parsing";
+import { safetyFilteringEN, safetyFilteringES, type SafetyFilteringLesson } from "./copy/safety-filtering";
+import { positionalEncodingEN, positionalEncodingES, type PositionalEncodingLesson } from "./copy/positional-encoding";
+import { specialTokensEN, specialTokensES, type SpecialTokensLesson } from "./copy/special-tokens";
+import { attentionMechanismEN, attentionMechanismES, type AttentionMechanismLesson } from "./copy/attention-mechanism";
+import { samplingStrategiesEN, samplingStrategiesES, type SamplingStrategiesLesson } from "./copy/sampling-strategies";
+// Stage-0 Expert lessons (batch 3)
+import { piiScrubbingEN, piiScrubbingES, type PiiScrubbingLesson } from "./copy/pii-scrubbing";
+import { binPackingEN, binPackingES, type BinPackingLesson } from "./copy/bin-packing";
+import { ropeMathEN, ropeMathES, type RopeMathLesson } from "./copy/rope-math";
+import { constrainedDecodingEN, constrainedDecodingES, type ConstrainedDecodingLesson } from "./copy/constrained-decoding";
+import { reasoningTokensEN, reasoningTokensES, type ReasoningTokensLesson } from "./copy/reasoning-tokens";
+import { backpropagationEN, backpropagationES, type BackpropagationLesson } from "./copy/backpropagation";
+import { supervisedFineTuningEN, supervisedFineTuningES, type SupervisedFineTuningLesson } from "./copy/supervised-fine-tuning";
+import { rewardModelingEN, rewardModelingES, type RewardModelingLesson } from "./copy/reward-modeling";
+import { kvCacheEN, kvCacheES, type KvCacheLesson } from "./copy/kv-cache";
+import { syntheticDataEN, syntheticDataES, type SyntheticDataLesson } from "./copy/synthetic-data";
+import { optimizersEN, optimizersES, type OptimizersLesson } from "./copy/optimizers";
+import { preferenceOptimizationEN, preferenceOptimizationES, type PreferenceOptimizationLesson } from "./copy/preference-optimization";
+import { flashAttentionEN, flashAttentionES, type FlashAttentionLesson } from "./copy/flash-attention";
+import { testTimeSearchEN, testTimeSearchES, type TestTimeSearchLesson } from "./copy/test-time-search";
+import { mixedPrecisionEN, mixedPrecisionES, type MixedPrecisionLesson } from "./copy/mixed-precision";
+import { matrixOptimizersEN, matrixOptimizersES, type MatrixOptimizersLesson } from "./copy/matrix-optimizers";
+import { parameterEfficientFinetuningEN, parameterEfficientFinetuningES, type ParameterEfficientFinetuningLesson } from "./copy/parameter-efficient-finetuning";
+import { ppoEN, ppoES, type PpoLesson } from "./copy/ppo";
+import { grpoEN, grpoES, type GrpoLesson } from "./copy/grpo";
+import { verifiableRewardsEN, verifiableRewardsES, type VerifiableRewardsLesson } from "./copy/verifiable-rewards";
+import { kvCacheSystemsEN, kvCacheSystemsES, type KvCacheSystemsLesson } from "./copy/kv-cache-systems";
+import { quantizationEN, quantizationES, type QuantizationLesson } from "./copy/quantization";
+import { speculativeDecodingEN, speculativeDecodingES, type SpeculativeDecodingLesson } from "./copy/speculative-decoding";
+import { longContextEN, longContextES, type LongContextLesson } from "./copy/long-context";
+import { mixtureOfExpertsEN, mixtureOfExpertsES, type MixtureOfExpertsLesson } from "./copy/mixture-of-experts";
+import { toolCallingEN, toolCallingES, type ToolCallingLesson } from "./copy/tool-calling";
+import { distributedTrainingEN, distributedTrainingES, type DistributedTrainingLesson } from "./copy/distributed-training";
+// The two-part "Data Pipeline" series (Stage 0) — reorganises the four data
+// lessons above into one pipeline backbone. Additive: the originals are unchanged.
+import { dataPipelineEN, dataPipelineES } from "./copy/data-pipeline";
+import { dataPipelineDeepEN, dataPipelineDeepES } from "./copy/data-pipeline-deep";
+import type { PipelineLesson } from "./copy/pipeline-shell";
+
+// Re-export the article types so existing `from "./copy"` / `from "../lib/copy"`
+// imports keep working unchanged.
+export type { WsNodeCopy, WsPayloadCopy, WebScaleLesson, DomNodeCopy, DomUi, DomainLesson, DedupLesson, RecipeLesson, DistillLesson };
+export type { BackboneCopy };
+export type {
+  QualityFilteringLesson,
+  TokenDictionaryLesson,
+  EmbeddingMatrixLesson,
+  TransformerBlockLesson,
+  NextTokenLesson,
+  AutoregressiveLoopLesson,
+  HowModelsLearnLesson,
+  BaseVsAssistantLesson,
+  WhyAlignmentLesson,
+  PrefillVsDecodeLesson,
+  ClassifierScoringLesson,
+  MultiTurnFormattingLesson,
+  FeedForwardLesson,
+  ExtractionParsingLesson,
+  SafetyFilteringLesson,
+  PositionalEncodingLesson,
+  SpecialTokensLesson,
+  AttentionMechanismLesson,
+  SamplingStrategiesLesson,
+  PiiScrubbingLesson,
+  BinPackingLesson,
+  RopeMathLesson,
+  ConstrainedDecodingLesson,
+  ReasoningTokensLesson,
+  BackpropagationLesson,
+  SupervisedFineTuningLesson,
+  RewardModelingLesson,
+  FlashAttentionLesson,
+  TestTimeSearchLesson,
+  MixedPrecisionLesson,
+  MatrixOptimizersLesson,
+  ParameterEfficientFinetuningLesson,
+  PpoLesson,
+  GrpoLesson,
+  VerifiableRewardsLesson,
+  KvCacheSystemsLesson,
+  QuantizationLesson,
+  SpeculativeDecodingLesson,
+  KvCacheLesson,
+  SyntheticDataLesson,
+  OptimizersLesson,
+  PreferenceOptimizationLesson,
+  LongContextLesson,
+  MixtureOfExpertsLesson,
+  ToolCallingLesson,
+  DistributedTrainingLesson,
+};
+export type { PipelineLesson };
+
 export type Lang = "en" | "es";
 export type Theme = "light" | "dark";
 
@@ -93,9 +212,71 @@ export interface Copy {
   hw: HwLesson;
   emb: EmbLesson;
   attn: AttnLesson;
+  webScale: WebScaleLesson;
+  domains: DomainLesson;
+  dedup: DedupLesson;
+  recipe: RecipeLesson;
+  distill: DistillLesson;
+  dataPipeline: PipelineLesson;
+  dataPipelineDeep: PipelineLesson;
+  backbone: BackboneCopy;
+  qualityFiltering: QualityFilteringLesson;
+  tokenDictionary: TokenDictionaryLesson;
+  embeddingMatrix: EmbeddingMatrixLesson;
+  transformerBlock: TransformerBlockLesson;
+  nextToken: NextTokenLesson;
+  autoregressiveLoop: AutoregressiveLoopLesson;
+  howModelsLearn: HowModelsLearnLesson;
+  baseVsAssistant: BaseVsAssistantLesson;
+  whyAlignment: WhyAlignmentLesson;
+  prefillVsDecode: PrefillVsDecodeLesson;
+  classifierScoring: ClassifierScoringLesson;
+  multiTurnFormatting: MultiTurnFormattingLesson;
+  feedForward: FeedForwardLesson;
+  extractionParsing: ExtractionParsingLesson;
+  safetyFiltering: SafetyFilteringLesson;
+  positionalEncoding: PositionalEncodingLesson;
+  specialTokens: SpecialTokensLesson;
+  attentionMechanism: AttentionMechanismLesson;
+  samplingStrategies: SamplingStrategiesLesson;
+  piiScrubbing: PiiScrubbingLesson;
+  binPacking: BinPackingLesson;
+  ropeMath: RopeMathLesson;
+  constrainedDecoding: ConstrainedDecodingLesson;
+  reasoningTokens: ReasoningTokensLesson;
+  backpropagation: BackpropagationLesson;
+  supervisedFineTuning: SupervisedFineTuningLesson;
+  rewardModeling: RewardModelingLesson;
+  flashAttention: FlashAttentionLesson;
+  testTimeSearch: TestTimeSearchLesson;
+  mixedPrecision: MixedPrecisionLesson;
+  matrixOptimizers: MatrixOptimizersLesson;
+  parameterEfficientFinetuning: ParameterEfficientFinetuningLesson;
+  ppo: PpoLesson;
+  grpo: GrpoLesson;
+  verifiableRewards: VerifiableRewardsLesson;
+  kvCacheSystems: KvCacheSystemsLesson;
+  quantization: QuantizationLesson;
+  speculativeDecoding: SpeculativeDecodingLesson;
+  kvCache: KvCacheLesson;
+  syntheticData: SyntheticDataLesson;
+  optimizers: OptimizersLesson;
+  preferenceOptimization: PreferenceOptimizationLesson;
+  longContext: LongContextLesson;
+  mixtureOfExperts: MixtureOfExpertsLesson;
+  toolCalling: ToolCallingLesson;
+  distributedTraining: DistributedTrainingLesson;
   stage1List: string[];
 }
 
+
+
+
+
+
+
+
+/** Phase 0.5 — Data recipe & synthetic expansion (6 nodes). Reuses WsNodeCopy. */
 export interface LifeStage {
   name: string;
   tagline: string;
@@ -1571,6 +1752,60 @@ export const COPY: Record<Lang, Copy> = {
       bridgeLabel: "NEXT: HOW TRAINING WORKS",
       bridgeBody: "You've now seen the whole machine — tokens, embeddings, attention. But every weight in it started as a **random number**. The next lesson is the engine that tuned them: **loss, gradients, and backpropagation** — how trillions of guesses slowly turn noise into a model that knows things.",
     },
+    webScale: webScaleEN,
+    domains: domainsEN,
+    dedup: dedupEN,
+    recipe: recipeEN,
+    distill: distillEN,
+    dataPipeline: dataPipelineEN,
+    dataPipelineDeep: dataPipelineDeepEN,
+    backbone: backboneEN,
+    qualityFiltering: qualityFilteringEN,
+    tokenDictionary: tokenDictionaryEN,
+    embeddingMatrix: embeddingMatrixEN,
+    transformerBlock: transformerBlockEN,
+    nextToken: nextTokenEN,
+    autoregressiveLoop: autoregressiveLoopEN,
+    howModelsLearn: howModelsLearnEN,
+    baseVsAssistant: baseVsAssistantEN,
+    whyAlignment: whyAlignmentEN,
+    prefillVsDecode: prefillVsDecodeEN,
+    classifierScoring: classifierScoringEN,
+    multiTurnFormatting: multiTurnFormattingEN,
+    feedForward: feedForwardEN,
+    extractionParsing: extractionParsingEN,
+    safetyFiltering: safetyFilteringEN,
+    positionalEncoding: positionalEncodingEN,
+    specialTokens: specialTokensEN,
+    attentionMechanism: attentionMechanismEN,
+    samplingStrategies: samplingStrategiesEN,
+    piiScrubbing: piiScrubbingEN,
+    binPacking: binPackingEN,
+    ropeMath: ropeMathEN,
+    constrainedDecoding: constrainedDecodingEN,
+    reasoningTokens: reasoningTokensEN,
+    backpropagation: backpropagationEN,
+    supervisedFineTuning: supervisedFineTuningEN,
+    rewardModeling: rewardModelingEN,
+    flashAttention: flashAttentionEN,
+    testTimeSearch: testTimeSearchEN,
+    mixedPrecision: mixedPrecisionEN,
+    matrixOptimizers: matrixOptimizersEN,
+    parameterEfficientFinetuning: parameterEfficientFinetuningEN,
+    ppo: ppoEN,
+    grpo: grpoEN,
+    verifiableRewards: verifiableRewardsEN,
+    kvCacheSystems: kvCacheSystemsEN,
+    quantization: quantizationEN,
+    speculativeDecoding: speculativeDecodingEN,
+    kvCache: kvCacheEN,
+    syntheticData: syntheticDataEN,
+    optimizers: optimizersEN,
+    preferenceOptimization: preferenceOptimizationEN,
+    longContext: longContextEN,
+    mixtureOfExperts: mixtureOfExpertsEN,
+    toolCalling: toolCallingEN,
+    distributedTraining: distributedTrainingEN,
     stage1List: [
       "The life of an LLM",
       "Tokens",
@@ -2380,6 +2615,60 @@ export const COPY: Record<Lang, Copy> = {
       bridgeLabel: "SIGUIENTE: CÓMO FUNCIONA EL ENTRENAMIENTO",
       bridgeBody: "Ya viste toda la máquina — tokens, embeddings, atención. Pero cada peso en ella empezó como un **número aleatorio**. La próxima lección es el motor que los ajustó: **pérdida, gradientes y retropropagación** — cómo billones de intentos convierten poco a poco el ruido en un modelo que sabe cosas.",
     },
+    webScale: webScaleES,
+    domains: domainsES,
+    dedup: dedupES,
+    recipe: recipeES,
+    distill: distillES,
+    dataPipeline: dataPipelineES,
+    dataPipelineDeep: dataPipelineDeepES,
+    backbone: backboneES,
+    qualityFiltering: qualityFilteringES,
+    tokenDictionary: tokenDictionaryES,
+    embeddingMatrix: embeddingMatrixES,
+    transformerBlock: transformerBlockES,
+    nextToken: nextTokenES,
+    autoregressiveLoop: autoregressiveLoopES,
+    howModelsLearn: howModelsLearnES,
+    baseVsAssistant: baseVsAssistantES,
+    whyAlignment: whyAlignmentES,
+    prefillVsDecode: prefillVsDecodeES,
+    classifierScoring: classifierScoringES,
+    multiTurnFormatting: multiTurnFormattingES,
+    feedForward: feedForwardES,
+    extractionParsing: extractionParsingES,
+    safetyFiltering: safetyFilteringES,
+    positionalEncoding: positionalEncodingES,
+    specialTokens: specialTokensES,
+    attentionMechanism: attentionMechanismES,
+    samplingStrategies: samplingStrategiesES,
+    piiScrubbing: piiScrubbingES,
+    binPacking: binPackingES,
+    ropeMath: ropeMathES,
+    constrainedDecoding: constrainedDecodingES,
+    reasoningTokens: reasoningTokensES,
+    backpropagation: backpropagationES,
+    supervisedFineTuning: supervisedFineTuningES,
+    rewardModeling: rewardModelingES,
+    flashAttention: flashAttentionES,
+    testTimeSearch: testTimeSearchES,
+    mixedPrecision: mixedPrecisionES,
+    matrixOptimizers: matrixOptimizersES,
+    parameterEfficientFinetuning: parameterEfficientFinetuningES,
+    ppo: ppoES,
+    grpo: grpoES,
+    verifiableRewards: verifiableRewardsES,
+    kvCacheSystems: kvCacheSystemsES,
+    quantization: quantizationES,
+    speculativeDecoding: speculativeDecodingES,
+    kvCache: kvCacheES,
+    syntheticData: syntheticDataES,
+    optimizers: optimizersES,
+    preferenceOptimization: preferenceOptimizationES,
+    longContext: longContextES,
+    mixtureOfExperts: mixtureOfExpertsES,
+    toolCalling: toolCallingES,
+    distributedTraining: distributedTrainingES,
     stage1List: [
       "La vida de un LLM",
       "Tokens",
