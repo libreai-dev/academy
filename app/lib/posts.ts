@@ -8,6 +8,7 @@
 // ============================================================================
 
 export type Category =
+  | "Production"
   | "Foundations"
   | "Data"
   | "Architecture"
@@ -17,8 +18,8 @@ export type Category =
 
 export interface Post {
   slug: string;
-  /** 0 = build-a-model track, 1 = foundations. */
-  stage: 0 | 1;
+  /** 0 = build-a-model track, 1 = foundations. Absent for applied "Production" posts. */
+  stage?: 0 | 1;
   category: Category;
   /** Canonical URL — the live interactive lesson. */
   href: string;
@@ -34,6 +35,7 @@ export interface Post {
 
 /** Category → one-line description, shown on the writing index. */
 export const CATEGORY_META: Record<Category, string> = {
+  Production: "Building and running AI systems in production — RAG, agents, evals, guardrails.",
   Foundations: "The mental models an engineer needs before anything else.",
   Data: "Turning the open web into a small, clean pile a model can learn from.",
   Architecture: "What is actually inside a transformer, one part at a time.",
@@ -43,6 +45,7 @@ export const CATEGORY_META: Record<Category, string> = {
 };
 
 export const CATEGORY_ORDER: Category[] = [
+  "Production",
   "Foundations",
   "Data",
   "Architecture",
@@ -53,6 +56,7 @@ export const CATEGORY_ORDER: Category[] = [
 
 // Newest first.
 export const POSTS: Post[] = [
+  { slug: "how-ai-overviews-work", category: "Production", href: "/writing/how-ai-overviews-work", title: "How Google's AI Overview works", summary: "Type a question, get a cited summary. Open the black box: the query fan-out, the live retrieval, and an answer where every sentence traces back to a source you can see — with a working demo you can drive.", date: "2026-08-11", displayDate: "11 Aug 2026", read: "9 min read", lang: "en" },
   { slug: "test-time-search", stage: 0, category: "Inference", href: "/stage/0/test-time-search", title: "Test-time search", summary: "Spend more compute at inference to get better answers. Play with three live diagrams — Best-of-N sampling, tree search (MCTS), and the compute-vs-quality trade-off — to see how a…", date: "2026-07-13", displayDate: "13 Jul 2026", read: "10 min read", lang: "en" },
   { slug: "speculative-decoding", stage: 0, category: "Inference", href: "/stage/0/speculative-decoding", title: "Speculative decoding", summary: "A small draft model guesses several next tokens; the big model verifies them all in one pass and accepts the correct prefix.", date: "2026-07-10", displayDate: "10 Jul 2026", read: "11 min read", lang: "en" },
   { slug: "prefill-vs-decode", stage: 0, category: "Inference", href: "/stage/0/prefill-vs-decode", title: "Prefill vs decode", summary: "Serving a model has two phases: prefill reads the whole prompt in one fast parallel pass, then decode writes the answer one token at a time.", date: "2026-07-07", displayDate: "7 Jul 2026", read: "12 min read", lang: "en" },

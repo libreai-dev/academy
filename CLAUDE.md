@@ -1,9 +1,106 @@
-# CLAUDE.md — libreai Academy
+# CLAUDE.md — xavier-ramirez.com
 
-Guidance for Claude working in this repo. **academy.libreai.dev** — an interactive,
-bilingual (English + Spanish) guided roadmap that takes a software engineer with
-**no AI background** to AI-native engineer across six stages. Part of the
-libreai.dev umbrella — the living expression of the **Accessible** pillar.
+Guidance for Claude working in this repo. **xavier-ramirez.com** — the personal
+site of Xavier ("Xavi") Ramirez, an **AI / ML Platform Engineer**. It's a clean,
+**light-only, English-first** editorial blog whose posts are **interactive
+explainers** on how AI systems work.
+
+> **The rebrand, in one paragraph.** This repo began as "libreai Academy," a
+> bilingual six-stage roadmap. It was repurposed into Xavier's personal site,
+> matching an exported editorial design. The ~60 interactive lessons were **kept
+> intact** and reframed as categorized blog **posts**; a personal home page and a
+> filterable `/writing` index sit in front of them. The visible theme/language
+> toggles were removed — the site is **light-only and English-first**. The
+> personal-site layer lives in `app/lib/site.ts` + `app/lib/posts.ts`. (The repo
+> folder is still named `academy` and the git remote is still `libreai-dev/academy`
+> — historical; the product is the personal site now.)
+
+## ⭐ North star — this site is a Guidewire portfolio play
+
+**Everything in this repo exists to strengthen Xavier's candidacy for Guidewire
+AI/ML/RAG roles** (recruiters, HR, hiring managers). That is the single success
+metric. Before building anything, ask: *does this make the site a more convincing
+proof of the skills Guidewire hires for?*
+
+- **If a request or idea doesn't advance that goal, say so — don't just execute.**
+  Flag the mismatch and propose a higher-leverage alternative (e.g. "a post on X
+  won't move the Guidewire needle; a RAG-with-citations post would — want that
+  instead?"). Polish that showcases no hiring-relevant skill is low value.
+- **Audience & edge:** Guidewire PDO / Application Platform / Data Platform hiring.
+  Xavier is a **boomerang candidate** — a *former Guidewire engineer* — which is his
+  single biggest advantage; keep it visible everywhere.
+
+### What Guidewire wants (synthesized from their open reqs)
+They're past "does it work" and into **"can you run it safely, at scale, in a
+regulated shop."** Recurring themes, most-cited first:
+1. **RAG & knowledge retrieval** — chunking, retrieval, reranking, vector DBs,
+   grounding/citations, context management.
+2. **AI agents & agentic workflows** — tool calling, tool schemas, **MCP** (named in
+   3+ reqs), agent-vs-workflow-vs-deterministic decisions, LangGraph/LangChain.
+3. **MLOps / ML platform lifecycle** — experiment tracking, model registry, training
+   infra, monitoring, **drift detection**, feature stores, CI/CD for ML.
+4. **Evals + guardrails** — eval suites that gate deploys, groundedness/faithfulness,
+   prompt-injection & PII defenses, human-in-the-loop.
+5. **Responsible / governed AI in a regulated (insurance) domain** — auditability,
+   interpretability, data privacy (CCPA/GDPR). Xavier's core differentiator.
+6. **Context engineering** and **conversational AI** — the context window as a
+   budget; natural-language interfaces.
+
+### Xavier's differentiators to surface (lean on these — honestly)
+- **Former Guidewire** — Submission Intake on Guidewire Cloud internal services
+  (GW Functions, App Events on Kafka, Workflow Service, APD; PolicyCenter handoff
+  migrated to the Composite API).
+- **Document AI** — ML-driven ACORD ingestion: **ABBYY OCR** for capture, **AWS
+  Bedrock** LLMs for extraction/classification, underwriter-facing Jutro review apps.
+- **Now** — production agentic systems (LangChain, RAG, tool schemas, MCP, eval
+  suites, guardrails), on 13+ yrs of Java/Python distributed systems, Kafka/Spark,
+  Kubernetes/AWS/Terraform.
+
+### The content plan (what to build)
+Add a **"Production"** category (applied AI — distinct from the model-internals
+categories) and fill it with posts mapping 1:1 to the themes above. Priority order:
+1. **How RAG actually works** (retrieve → rerank → ground → cite).
+2. **RBAC at retrieval time** — filter-in-query vs leak-after-generation (Xavier's
+   selected work; pure Guidewire governance + insurance).
+3. **Chunking is a retrieval decision** (his selected work).
+4. **Agent vs workflow vs deterministic code.**
+5. **What MCP is** (client↔server tool exchange).
+6. **Eval suites that gate deploys** · **Prompt injection & defenses** · **Model
+   drift & monitoring** · **Intelligent document processing** (OCR → extract →
+   classify, ACORD-style — his exact Guidewire work).
+Give each a light **insurance/regulated framing** where natural, and lead with
+grounding / citations / evals — those read as "senior" to a hiring manager.
+
+### Flagship project
+An open-source **"AI Overviews, from scratch"** toy — transparent RAG for fresh/news
+queries: query fan-out → live retrieval → grounded synthesis with citations →
+groundedness eval. Two deliverables: the **repo** (runnable, bring-your-own-key) +
+an **interactive post** here that opens the black box. Frame it honestly — it
+reproduces the *ideas*, it is **not** a "Google clone"; use a neutral name
+(e.g. `open-overview`). This is the headline interview story for the RAG roles.
+
+### Ship it in public (LinkedIn)
+**Nothing is "done" until it's shareable on LinkedIn.** Every deliverable — a new
+post/interactive, the flagship project, any milestone — is also packaged as a
+**LinkedIn post and/or a short screen-capture video/demo** so recruiters and hiring
+managers actually see the work (that's the whole point of the North star).
+- When you finish something, **proactively draft the LinkedIn artifact**: a written
+  post (hook → what it shows → the Guidewire-relevant skill it proves → link) and,
+  where it helps, a short **video/demo script** (what to record, in what order).
+- Keep it **authentic and human** — first person, plain, a little casual; never
+  corporate or AI-sounding (same voice as the job-application notes in memory).
+- Always **link back** to the live post/repo, and name the skill it demonstrates so
+  the Guidewire tie is explicit without being try-hard.
+
+### Keep in mind
+- **Honesty over hype.** Never claim a tool or skill not on Xavier's CV; frame gaps
+  as "eager to go deeper." Everything on the site must be defensible in an interview.
+- **Portfolio-first prioritization.** When options compete, pick the one a Guidewire
+  reviewer would find most impressive and relevant.
+- **The constraints below still hold** (interactive-first, light-only, English-first,
+  responsive, WCAG AA). A portfolio piece that's a wall of prose fails the brief.
+- Job-application answer style (short, plain "former Guidewire engineer" opener,
+  honest about gaps) lives in Claude's memory, not here.
 
 > **Responsive-first is non-negotiable.** Every implementation — lessons,
 > interactives, diagrams, chrome — is authored **mobile-first** and must work and
@@ -33,33 +130,47 @@ libreai.dev umbrella — the living expression of the **Accessible** pillar.
 3. **Responsive.** Mobile-first. Everything works and looks right from ~360px to
    wide desktop. On small screens the lesson left-rail collapses; interactives
    reflow, never overflow. Test at narrow widths.
-4. **Bilingual (EN / ES).** Both languages are authored in full — neither is
-   primary. **All user-facing text comes from `app/lib/copy.ts`** and is read via
-   the language context; never hardcode a string in a component. Adding a lesson
-   means adding its EN *and* ES copy.
+4. **English-first (no visible language switch).** The site chrome and new posts
+   are English. **User-facing text still comes from copy modules** (`app/lib/copy.ts`
+   / `app/lib/copy/<slug>.ts`), read via context with `lang` pinned to `en` — never
+   hardcode a string in a component. Existing lessons keep their Spanish copy;
+   **new posts need only English** (ES is optional, not required).
 5. **Accessible (WCAG AA).** Semantic HTML, keyboard-operable interactives,
-   visible focus, sufficient contrast in **both** themes, `alt`/`aria` labels,
+   visible focus, sufficient contrast (in the light theme), `alt`/`aria` labels,
    and respect `prefers-reduced-motion`.
-6. **On-brand, light + dark.** Use the CSS design tokens in `app/globals.css`
-   (`:root` / `:root[data-theme="dark"]`) — never hardcode colors. Match the
-   marketing site's warm palette and the three fonts already wired up.
+6. **On-brand, light-only.** The personal-site chrome (home, writing index, header,
+   footer) uses the editorial palette + system font stack in **`app/lib/site.ts`**
+   (the `C` tokens) — never hardcode colors there. The interactive lessons keep
+   their own tokens in `app/globals.css` (`:root`), rendered **light-only** (the
+   theme is pinned). Don't reintroduce a dark theme.
 
 ## Stack & structure
 - **Next.js 15 (App Router) · React 19 · TypeScript.** No other framework.
-- `app/providers.tsx` — client context holding **theme** (light/dark) and
-  **language** (EN/ES); both persist to `localStorage` and apply before first
-  paint (no-flash script in `app/layout.tsx`). Read them; don't reinvent them.
-- `app/lib/copy.ts` — the typed EN/ES copy assembler + the stage list; the
-  **single entry point for text** (`COPY[lang]`, read via context). Scroll-driven
-  articles keep their own copy in `app/lib/copy/<slug>.ts` and are imported here;
-  see "Copy & data split".
-- `app/lib/tokenize.ts` — the client-side tokenizer behind the Tokens lesson;
-  the pattern for a lesson's interactive logic living in `lib/`.
-- `app/components/` — `Header`, `Footer`, `Home` (roadmap), `Tokens` (the lesson
-  pattern to copy). Fonts: Space Grotesk / Instrument Sans / JetBrains Mono via
-  `next/font/google`.
-- Routes: `/` (roadmap home), `/stage/<n>/<lesson>` (a lesson). Content spec for
-  every stage & lesson lives in `../docs/academy/` (the roadmap) — build from it.
+- **Personal-site layer (the rebrand — start here):**
+  - `app/lib/site.ts` — editorial design tokens (`C`, `MONO`, `SANS`), Xavier's
+    profile data (bio / experience / selected work) and page constants. Single
+    source for the site chrome's look and Xavier's details. `SANS` is the **system
+    font stack** (not the lessons' Instrument Sans) — the design depends on it.
+  - `app/lib/posts.ts` — the **writing registry**: every lesson as a `Post` with a
+    `category`. The six `Category`s are the site's "levels & stages" — Foundations,
+    Data, Architecture, Training, Alignment, Inference. `href` points at the real
+    `/stage/<n>/<slug>` lesson route (lessons were **not** moved).
+  - `app/components/Home.tsx` — personal home (hero + About / Writing / Experience /
+    Selected work / Contact). `app/components/WritingIndex.tsx` + `app/writing/page.tsx`
+    — the filterable post index. `Header` / `Footer` — editorial chrome shared by
+    **every** route. `app/rss.xml/route.ts` — the feed. Portrait + logos in `public/img/`.
+- `app/providers.tsx` — client context. Theme is **pinned to light** and `lang`
+  stays `en` (toggles removed); the context API remains so lessons keep working.
+- `app/lib/copy.ts` — the typed copy assembler + stage list used by the interactive
+  lessons (`COPY[lang]`, read via context). Scroll-driven articles keep their own
+  copy in `app/lib/copy/<slug>.ts`; see "Copy & data split".
+- `app/lib/tokenize.ts` / `app/lib/tokenizer.ts` — client-side tokenizers behind the
+  Tokens/Data lessons; the pattern for a lesson's interactive logic living in `lib/`.
+- `app/components/` — lesson components (`Tokens` is the reference pattern). Fonts:
+  Space Grotesk / Instrument Sans / JetBrains Mono via `next/font/google` (lessons);
+  the editorial chrome uses the system stack via `SANS`.
+- Routes: `/` (personal home), `/writing` (post index), `/stage/<n>/<slug>` (a post =
+  an interactive lesson). Lesson content specs live in `../docs/academy/`.
 
 ## Anatomy of a lesson (follow this order)
 1. **Concept** — a few short paragraphs, plain language + an engineer analogy.
@@ -67,19 +178,20 @@ libreai.dev umbrella — the living expression of the **Accessible** pillar.
 3. **"Explain it back"** — a short prompt with a reveal-able model answer.
 4. **"Go deeper"** — optional, collapsed by default (math/theory).
 5. **Navigation** — prev/next lesson + "mark complete".
-All copy for 1–5 in both languages, in `copy.ts`.
+All copy for 1–5 in `copy.ts` (English required; ES optional).
 
-## Adding a new lesson (checklist)
+## Adding a new lesson / post (checklist)
 1. Read its spec in `../docs/academy/stage-<n>-*.md`.
-2. Add EN + ES copy to `app/lib/copy.ts` (typed).
+2. Add English copy to `app/lib/copy.ts` or `app/lib/copy/<slug>.ts` (typed).
 3. Put interactive logic in `app/lib/<name>.ts` (pure, testable, no React).
 4. Build the lesson component in `app/components/` (a **client component** —
-   `"use client"` — since it's interactive), reading copy + theme + language
-   from context, styled only with design tokens.
+   `"use client"` — since it's interactive), reading copy from context, styled
+   only with design tokens (light-only).
 5. Add the route `app/stage/<n>/<lesson>/page.tsx`.
-6. Add it to the stage's lesson list so the roadmap and rail update.
-7. Verify: works at 360px, keyboard-navigable, both themes, both languages,
-   `npm run lint` clean, `npm run build` passes.
+6. **Register it in `app/lib/posts.ts`** (slug, category, title, summary, date) so it
+   shows on the home + `/writing` index; keep the stage lesson list in sync if used.
+7. Verify: works at 360px, keyboard-navigable, light theme, `npm run lint` clean,
+   `npm run build` passes.
 
 ## Building interactives
 - **Every visualisation is built with d3 — never hand-authored SVG.** Charts,
@@ -103,9 +215,10 @@ All copy for 1–5 in both languages, in `copy.ts`.
 ## Do / don't
 - **Do** keep dependencies minimal — justify anything beyond Next/React/TS and
   the in-browser model/runtime libs.
-- **Do** keep both languages in sync in the same PR.
+- **Do** register every new post in `app/lib/posts.ts` in the same PR.
 - **Don't** hardcode strings or colors; don't add a server/API for something a
-  client interactive can do; don't ship a lesson that's mostly prose.
+  client interactive can do; don't ship a post that's mostly prose; don't
+  reintroduce dark mode or a language switch.
 
 ## Commands
 ```bash
@@ -115,8 +228,15 @@ npm run lint    # must be clean
 ```
 
 ## Open items
-- `GITHUB_URL` in `app/lib/copy.ts` is a placeholder (`libreai-dev`) pending the
-  finalised org handle.
+- Repo folder is still `academy` and the git remote is still `libreai-dev/academy`
+  — rename to a `xavier-ramirez` handle when ready (then update the remote URL).
+- `GITHUB_URL` / `OVERALL_PROGRESS` in `app/lib/copy.ts` are legacy Academy exports,
+  no longer used by the site chrome (the header/footer link to `PROFILE.github` in
+  `app/lib/site.ts`); leave or remove.
+- The **umbrella** `../CLAUDE.md` still describes the old libreai.dev project — not
+  updated by the rebrand.
+- Post dates / reading-times in `posts.ts` and the `/xavi-ramirez-cv.pdf` are real
+  where known but partly illustrative — adjust as content firms up.
 
 ## Lesson build patterns — match the Tokens lesson
 
@@ -289,15 +409,15 @@ text-vs-text comparisons). `aside` slots a `Callout` above the interactive. **Th
 
 ### Copy & data split
 - **One copy module per article — `app/lib/copy/<slug>.ts`.** It exports the
-  article's `<Name>Lesson` interface + `<slug>EN` / `<slug>ES` consts (full EN
-  and ES parity). `app/lib/copy.ts` is only an **assembler**: it imports each
+  article's `<Name>Lesson` interface + a `<slug>EN` const (English required; a
+  `<slug>ES` is optional). `app/lib/copy.ts` is only an **assembler**: it imports each
   module, references it inside `COPY` (`webScale: webScaleEN`, …), and re-exports
   the article types (so `import … from "../lib/copy"` keeps working). The shared
   node shape `WsNodeCopy` lives in `app/lib/copy/shared.ts`. **Never add a new
   article's copy to the inline `COPY` object** — that single shared blob is what
   caused two sessions to clobber each other's edits. (Stage-1 lessons predate
   this split and are still inline; extract them the same way when convenient.)
-- **All prose lives in that copy module, both languages**: titles, intro,
+- **All prose lives in that copy module** (English; ES optional): titles, intro,
   bullets, captions, hints, readout **row labels**, control/button labels,
   explain-it-back, bridge. Only code-literal strings may be shared constants in
   `lib/` (robots.txt bodies, hex offsets, proper-noun bot/parser names,
@@ -316,6 +436,6 @@ text-vs-text comparisons). `aside` slots a `Callout` above the interactive. **Th
    each; controls + `Readout`.
 5. `app/stage/0/<slug>/page.tsx` — the route.
 6. **Wire it in**: point the previous article's "Continue to …" nav at the new
-   route (and/or a home featured card).
-7. Verify: 360px + desktop, both themes, both languages, stepper works,
+   route, and **register the post in `app/lib/posts.ts`** (home + `/writing`).
+7. Verify: 360px + desktop, light theme, English, stepper works,
    `npm run lint` + `npm run build` pass.
