@@ -117,7 +117,7 @@ export default function AiOverviews() {
 
         {/* ── bridge → the repo ── */}
         <a
-          href="https://github.com/xaviramirez/open-overview"
+          href="https://github.com/xaviramirezcom/open-ai-overview"
           target="_blank"
           rel="noopener noreferrer"
           className="x-card"
@@ -134,13 +134,13 @@ export default function AiOverviews() {
             Run it yourself · open source
           </div>
           <div style={{ margin: "8px 0 0", fontSize: 21, fontWeight: 600, letterSpacing: "-0.02em" }}>
-            open-overview — a transparent AI Overview you can run
+            open-ai-overview — a transparent AI Overview you can run
           </div>
           <p style={{ margin: "8px 0 0", fontSize: 15.5, lineHeight: 1.6, color: C.muted, maxWidth: "46em", textWrap: "pretty" }}>
             The same pipeline, live: a small Python backend (bring-your-own-key)
             does real query fan-out, live retrieval, grounded citations and a
             groundedness eval — every step visible. Reproduces the <em>ideas</em>, not
-            Google&rsquo;s index. <span style={{ color: C.ghost }}>(Repo coming soon.)</span>
+            Google&rsquo;s index.
           </p>
           <span className="x-hoverink" style={{ display: "inline-block", marginTop: 14, fontFamily: MONO, fontSize: 12, color: C.ink }}>
             View on GitHub →

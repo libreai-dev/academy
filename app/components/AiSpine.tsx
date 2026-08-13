@@ -58,8 +58,8 @@ class TenantScope:
     def namespace(self) -> str:
         return f"{self.tenant_id}__{self.env}"`;
 
-const CLONE_BASH = `git clone https://github.com/xaviramirez/own-overview
-cd own-overview
+const CLONE_BASH = `git clone https://github.com/xaviramirezcom/open-ai-overview
+cd open-ai-overview
 git checkout v1-spine
 
 uv sync --extra local

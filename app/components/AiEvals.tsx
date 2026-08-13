@@ -99,8 +99,8 @@ def test_groundedness_gate(cases, pipeline, settings):
     mean = sum(scores) / len(scores)
     assert mean >= settings.groundedness_threshold   # regression → build red`;
 
-const CLONE_BASH = `git clone https://github.com/xaviramirez/own-overview
-cd own-overview
+const CLONE_BASH = `git clone https://github.com/xaviramirezcom/open-ai-overview
+cd open-ai-overview
 git checkout v6-evals
 
 pip install -e '.[local,evals,dev]'        # local models + ragas + pytest
@@ -453,7 +453,7 @@ export default function AiEvals() {
           </p>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginTop: 18 }}>
             <a
-              href="https://github.com/xaviramirez/own-overview"
+              href="https://github.com/xaviramirezcom/open-ai-overview"
               className="x-card"
               style={{ display: "block", flex: "1 1 260px", padding: "16px 18px", border: `1px solid ${C.hair}`, borderRadius: 12, background: C.surface, textDecoration: "none" }}
             >
@@ -465,7 +465,7 @@ export default function AiEvals() {
                 cloud, and read every node.
               </p>
               <span className="x-hoverink" style={{ display: "inline-block", marginTop: 10, fontFamily: MONO, fontSize: 12, color: C.ink }}>
-                github.com/xaviramirez/own-overview →
+                github.com/xaviramirezcom/open-ai-overview →
               </span>
             </a>
             <Link

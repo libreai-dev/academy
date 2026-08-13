@@ -69,8 +69,8 @@ class Chunker(Protocol):
 
     def split(self, doc: Document) -> list[Chunk]: ...`;
 
-const CLONE_BASH = `git clone https://github.com/xaviramirez/own-overview
-cd own-overview
+const CLONE_BASH = `git clone https://github.com/xaviramirezcom/open-ai-overview
+cd open-ai-overview
 git checkout v2-chunking
 
 # local, zero-cloud mode — no keys, no AWS. Split the sample note and print

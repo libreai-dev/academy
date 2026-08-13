@@ -68,8 +68,8 @@ class NoopReranker:
     def rerank(self, query, candidates, k):
         return list(candidates[:k])`;
 
-const CLONE_BASH = `git clone https://github.com/xaviramirez/own-overview
-cd own-overview
+const CLONE_BASH = `git clone https://github.com/xaviramirezcom/open-ai-overview
+cd open-ai-overview
 git checkout v3-retrieval
 
 uv sync --extra local

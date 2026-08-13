@@ -58,8 +58,8 @@ class TenantScope:
         """Vector-store namespace / index suffix for this scope."""
         return f"{self.tenant_id}__{self.env}"`;
 
-const CLONE_BASH = `git clone https://github.com/xaviramirez/own-overview
-cd own-overview
+const CLONE_BASH = `git clone https://github.com/xaviramirezcom/open-ai-overview
+cd open-ai-overview
 git checkout v4-access-control
 pip install -e ".[local]"
 

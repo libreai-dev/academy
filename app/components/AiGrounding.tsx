@@ -88,8 +88,8 @@ if score < settings.groundedness_threshold:
     answer.text = _ABSTAIN_MESSAGE   # "I don't have enough grounded information..."
     answer.citations = []`;
 
-const CLONE_BASH = `git clone https://github.com/xaviramirez/own-overview
-cd own-overview
+const CLONE_BASH = `git clone https://github.com/xaviramirezcom/open-ai-overview
+cd open-ai-overview
 git checkout v5-grounding
 
 pip install -e .
