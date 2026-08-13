@@ -6,28 +6,39 @@ import RagVsRetrain from "./RagVsRetrain";
 import AiPipeline from "./AiPipeline";
 
 /** The series: the same pipeline, taken into production in a regulated domain.
- *  Each post is a Guidewire-shaped problem that absorbs part of the pipeline
+ *  Each post is an insurance-shaped problem that absorbs part of the pipeline
  *  (placeholders — wired to real routes as each is built). */
-const UPCOMING: { title: string; covers: string; teaser: string }[] = [
+const UPCOMING: { title: string; covers: string; teaser: string; href?: string }[] = [
   {
-    title: "What RAG looks like over your own documents",
-    covers: "Fan-out · retrieval · rank",
-    teaser: "Same pipeline, private corpus: point it at your policy and claims documents instead of the open web — chunking, retrieval and reranking over data that's your own.",
+    title: "Your own AI Overview: the spine",
+    covers: "The whole pipeline",
+    href: "/writing/your-ai-overview-spine",
+    teaser: "The same machinery over your own private data: a write path that ingests change data from an S3 data lake and a six-node LangGraph read path that answers with citations. Clone it and run it, zero cloud.",
   },
   {
-    title: "Access control in RAG: filter at retrieval, not after",
-    covers: "Retrieval",
-    teaser: "Filter restricted content after the model answers and it leaks anyway. The permission check belongs inside the retrieval query, with an audit trail — role-based access at retrieval time.",
+    title: "Chunking: split the document wrong and you lose the answer",
+    covers: "Chunk",
+    teaser: "How you cut a claim file decides whether the water-damage detail and its policy number land in the same passage or get orphaned. Chunking as a retrieval decision — measured.",
   },
   {
-    title: "Grounding: answers you can trace to a source",
-    covers: "Grounded synthesis",
-    teaser: "Tie every sentence to the source that backs it and score how faithful the answer really is — so an answer in an insurance workflow can be checked, not just believed.",
+    title: "Retrieve & rerank: recall finds candidates, rerank decides the answer",
+    covers: "Retrieve · rerank",
+    teaser: "Cheap dense retrieval casts a wide net; a reranker sharpens precision so the causal passage lands in the top few that fit the budget. Dense vs hybrid, on the same question.",
   },
   {
-    title: "The evals that decide whether a RAG system ships",
-    covers: "Guardrails",
-    teaser: "A groundedness eval wired into CI that blocks the release, plus prompt-injection and PII defenses — the line between a demo and a system you can run in production.",
+    title: "Access control at retrieval: filter at retrieval, not after",
+    covers: "Access control",
+    teaser: "Filter restricted content after the model answers and it leaks anyway. The permission check belongs inside the retrieval query, built from the token, with an audit trail.",
+  },
+  {
+    title: "Grounding & citations: every answer cites the file it came from",
+    covers: "Grounding",
+    teaser: "Tie every sentence to the source that backs it and score how faithful the answer really is — so an answer in an insurance workflow can be checked, not just believed. Or it abstains.",
+  },
+  {
+    title: "Evals & guardrails: the gate between a demo and production",
+    covers: "Evals",
+    teaser: "A groundedness eval wired into CI that blocks the release, plus prompt-injection and PII defenses — the line between a demo and a system you can run in a regulated shop.",
   },
 ];
 
@@ -150,9 +161,27 @@ export default function AiOverviews() {
           {UPCOMING.map((p) => (
             <li key={p.title} style={{ padding: "18px 0", borderBottom: `1px solid ${C.hair}` }}>
               <div style={{ display: "flex", alignItems: "baseline", gap: 10, flexWrap: "wrap" }}>
-                <span style={{ fontSize: 18, fontWeight: 600, letterSpacing: "-0.015em", lineHeight: 1.35 }}>{p.title}</span>
-                <span style={{ fontFamily: MONO, fontSize: 9.5, letterSpacing: "0.1em", textTransform: "uppercase", color: C.ghost, border: `1px solid ${C.chip}`, borderRadius: 999, padding: "2px 7px" }}>
-                  Soon
+                {p.href ? (
+                  <Link href={p.href} className="x-underline" style={{ fontSize: 18, fontWeight: 600, letterSpacing: "-0.015em", lineHeight: 1.35, color: C.ink }}>
+                    {p.title}
+                  </Link>
+                ) : (
+                  <span style={{ fontSize: 18, fontWeight: 600, letterSpacing: "-0.015em", lineHeight: 1.35 }}>{p.title}</span>
+                )}
+                <span
+                  style={{
+                    fontFamily: MONO,
+                    fontSize: 9.5,
+                    letterSpacing: "0.1em",
+                    textTransform: "uppercase",
+                    color: p.href ? "var(--signal-fg)" : C.ghost,
+                    border: `1px solid ${p.href ? "var(--signal-fg)" : C.chip}`,
+                    background: p.href ? "var(--signal-wash)" : "transparent",
+                    borderRadius: 999,
+                    padding: "2px 7px",
+                  }}
+                >
+                  {p.href ? "Live" : "Soon"}
                 </span>
                 <span style={{ fontFamily: MONO, fontSize: 10, letterSpacing: "0.04em", color: "var(--signal-fg)" }}>
                   ↳ {p.covers}

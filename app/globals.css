@@ -392,3 +392,35 @@ textarea:focus-visible {
     animation: none !important;
   }
 }
+
+/* ── CodeBlock (highlight.js) — instrument surface theme ─────────────────
+   Scoped to `.oo-code`; a restrained dark palette tuned for --readout-bg.
+   Single palette (the readout surface stays dark in both site themes). */
+.oo-code .hljs { color: var(--readout-fg); background: transparent; }
+.oo-code .hljs-comment,
+.oo-code .hljs-quote { color: var(--readout-muted); font-style: italic; }
+.oo-code .hljs-keyword,
+.oo-code .hljs-meta .hljs-keyword,
+.oo-code .hljs-selector-tag { color: #c9a9ff; }
+.oo-code .hljs-meta { color: #c9a9ff; }               /* python decorators */
+.oo-code .hljs-string,
+.oo-code .hljs-regexp { color: #7fdca4; }              /* harmonizes w/ signal */
+.oo-code .hljs-number,
+.oo-code .hljs-literal { color: #e5b567; }
+.oo-code .hljs-built_in,
+.oo-code .hljs-type,
+.oo-code .hljs-class .hljs-title { color: #7fd0e0; }
+.oo-code .hljs-title,
+.oo-code .hljs-title.function_,
+.oo-code .hljs-section { color: #7fb3ff; }
+.oo-code .hljs-attr,
+.oo-code .hljs-attribute,
+.oo-code .hljs-property { color: #7fb3ff; }            /* json/yaml keys */
+.oo-code .hljs-variable,
+.oo-code .hljs-template-variable,
+.oo-code .hljs-symbol { color: #e59a86; }              /* bash $vars */
+.oo-code .hljs-params { color: var(--readout-fg); }
+.oo-code .hljs-punctuation,
+.oo-code .hljs-operator { color: #a9a9a2; }
+.oo-code pre::-webkit-scrollbar { height: 8px; }
+.oo-code pre::-webkit-scrollbar-thumb { background: var(--readout-border); border-radius: 8px; }

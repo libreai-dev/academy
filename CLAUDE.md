@@ -439,3 +439,24 @@ text-vs-text comparisons). `aside` slots a `Callout` above the interactive. **Th
    route, and **register the post in `app/lib/posts.ts`** (home + `/writing`).
 7. Verify: 360px + desktop, light theme, English, stepper works,
    `npm run lint` + `npm run build` pass.
+
+## Public framing of blog posts (IMPORTANT)
+
+The published blog posts are **domain-general and vendor-neutral**. In post copy,
+interactives, code snippets shown, metadata and summaries:
+
+- **Never name "Guidewire"** explicitly. Frame the author's background generically
+  (a P&C insurer / regulated insurance platform), not by employer.
+- **Never say "Guidewire CDA"** (or "CDA", "gwcbi", "Lifecycle Event" as branded
+  terms). Use the generic mechanism: **an S3 data lake** that receives Parquet +
+  a manifest, with **change-data-capture** landing as change events; trigger
+  ingestion on the **batch-committed change event**, not raw S3 `ObjectCreated`.
+  Genericize any shown code names accordingly (e.g. `ChangeEvent`, an `op`
+  column) — the snippets are representative, not verbatim repo paths.
+- **Worked example = P&C (property & casualty) insurance.** Open each series post
+  with a short **"Worked example"** panel stating that policies/claims/underwriting
+  from a P&C insurer are the running example, and the pipeline is domain-agnostic.
+
+The **`own-overview` repo itself stays Guidewire/CDA-authentic** — that's the
+interview artifact. Only the *public blog* is genericized. The repo link in the
+"clone this stage" callout is fine (the repo name isn't branded).
