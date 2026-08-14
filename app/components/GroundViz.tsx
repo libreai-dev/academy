@@ -195,7 +195,7 @@ function drawMeter(svg: SVGSVGElement, score: number, threshold: number, reduce:
     .attr("x", x0)
     .attr("y", trackY + trackH + 26)
     .attr("font-family", MONO)
-    .attr("font-size", 18)
+    .attr("font-size", 14)
     .attr("font-weight", 700)
     .attr("fill", supported ? "var(--signal-fg)" : "var(--tok-byte)")
     .text(`groundedness ${score.toFixed(2)}`);
@@ -207,7 +207,7 @@ function drawMeter(svg: SVGSVGElement, score: number, threshold: number, reduce:
     .attr("y", trackY + trackH + 26)
     .attr("text-anchor", "end")
     .attr("font-family", MONO)
-    .attr("font-size", 14)
+    .attr("font-size", 12)
     .attr("font-weight", 700)
     .attr("fill", supported ? "var(--signal-fg)" : "var(--tok-byte)")
     .text(supported ? "above bar · ships" : "below bar · abstain");
@@ -459,7 +459,7 @@ export default function GroundViz() {
             aria-label={`Groundedness ${current.score.toFixed(2)} against threshold ${threshold.toFixed(
               2
             )} — ${abstained ? "below the bar, the system abstains" : "above the bar, the answer ships"}`}
-            style={{ width: "100%", maxWidth: 460, height: "auto", display: "block" }}
+            style={{ width: "100%", maxWidth: 360, height: "auto", margin: "0 auto", display: "block" }}
           />
         </div>
 

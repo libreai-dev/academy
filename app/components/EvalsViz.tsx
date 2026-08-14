@@ -64,12 +64,16 @@ const ABSTAIN_MESSAGE =
 const DEFAULT_THRESHOLD = 0.6;
 
 // ── the gate dial (d3) ──
+// Layout keeps three horizontal bands that never collide: zone labels ABOVE the
+// track, score labels BELOW the dots, and the axis + threshold readout along the
+// bottom. viewBox width ≈ the capped render width, so text renders ~1:1 (no
+// upscaling) on desktop.
 function drawDial(svg: SVGSVGElement, threshold: number, selected: number, reduce: boolean) {
-  const W = 340;
-  const H = 132;
-  const x0 = 30;
-  const x1 = W - 30;
-  const trackY = 54;
+  const W = 440;
+  const H = 148;
+  const x0 = 40;
+  const x1 = W - 40;
+  const trackY = 74;
 
   const sel = d3.select(svg).attr("viewBox", `0 0 ${W} ${H}`);
   sel.selectAll("*").remove();
@@ -81,38 +85,38 @@ function drawDial(svg: SVGSVGElement, threshold: number, selected: number, reduc
   sel
     .append("rect")
     .attr("x", x0)
-    .attr("y", trackY - 16)
+    .attr("y", trackY - 13)
     .attr("width", thx - x0)
-    .attr("height", 32)
+    .attr("height", 26)
     .attr("rx", 6)
     .attr("fill", C.surface);
   sel
     .append("rect")
     .attr("x", thx)
-    .attr("y", trackY - 16)
+    .attr("y", trackY - 13)
     .attr("width", x1 - thx)
-    .attr("height", 32)
+    .attr("height", 26)
     .attr("rx", 6)
     .attr("fill", "var(--signal-wash)");
 
-  // zone labels
+  // zone labels — top band, at the ends
   sel
     .append("text")
-    .attr("x", x0 + 4)
-    .attr("y", trackY - 24)
+    .attr("x", x0)
+    .attr("y", trackY - 26)
     .attr("font-family", MONO)
     .attr("font-size", 12)
     .attr("fill", C.ghost)
-    .text("abstain");
+    .text("↤ abstain");
   sel
     .append("text")
-    .attr("x", x1 - 4)
-    .attr("y", trackY - 24)
+    .attr("x", x1)
+    .attr("y", trackY - 26)
     .attr("text-anchor", "end")
     .attr("font-family", MONO)
     .attr("font-size", 12)
     .attr("fill", "var(--signal-fg)")
-    .text("ship");
+    .text("ship ↦");
 
   // baseline track
   sel
@@ -124,29 +128,7 @@ function drawDial(svg: SVGSVGElement, threshold: number, selected: number, reduc
     .attr("stroke", C.line)
     .attr("stroke-width", 1.5);
 
-  // axis ticks 0, 0.6, 1
-  [0, 0.6, 1].forEach((t) => {
-    const tx = x(t);
-    sel
-      .append("line")
-      .attr("x1", tx)
-      .attr("y1", trackY + 12)
-      .attr("x2", tx)
-      .attr("y2", trackY + 18)
-      .attr("stroke", C.line)
-      .attr("stroke-width", 1);
-    sel
-      .append("text")
-      .attr("x", tx)
-      .attr("y", trackY + 31)
-      .attr("text-anchor", "middle")
-      .attr("font-family", MONO)
-      .attr("font-size", 12)
-      .attr("fill", t === 0.6 ? "var(--signal-fg)" : C.ghost)
-      .text(t === 0.6 ? "0.6 default" : t.toFixed(1));
-  });
-
-  // example dots
+  // example dots + score labels — bottom band, below the dots
   EXAMPLES.forEach((ex, i) => {
     const cxp = x(ex.score);
     const ships = ex.score >= threshold;
@@ -156,7 +138,7 @@ function drawDial(svg: SVGSVGElement, threshold: number, selected: number, reduc
       g.append("circle")
         .attr("cx", cxp)
         .attr("cy", trackY)
-        .attr("r", 11)
+        .attr("r", 10)
         .attr("fill", "none")
         .attr("stroke", ships ? "var(--signal)" : C.ghost)
         .attr("stroke-width", 1.5)
@@ -166,16 +148,16 @@ function drawDial(svg: SVGSVGElement, threshold: number, selected: number, reduc
       .append("circle")
       .attr("cx", cxp)
       .attr("cy", trackY)
-      .attr("r", active ? 6.5 : 5)
+      .attr("r", active ? 6 : 5)
       .attr("fill", ships ? "var(--signal)" : C.ghost)
       .attr("stroke", C.bg)
       .attr("stroke-width", 1.5);
     if (active && !reduce) {
-      dot.attr("r", 3).transition().duration(200).attr("r", 6.5);
+      dot.attr("r", 3).transition().duration(200).attr("r", 6);
     }
     g.append("text")
       .attr("x", cxp)
-      .attr("y", trackY - 20)
+      .attr("y", trackY + 20)
       .attr("text-anchor", "middle")
       .attr("font-family", MONO)
       .attr("font-size", 12)
@@ -184,23 +166,42 @@ function drawDial(svg: SVGSVGElement, threshold: number, selected: number, reduc
       .text(ex.score.toFixed(2));
   });
 
-  // threshold line + handle
+  // threshold marker — line + triangle at top (no text; it's read out below)
   sel
     .append("line")
     .attr("x1", thx)
-    .attr("y1", trackY - 20)
+    .attr("y1", trackY - 16)
     .attr("x2", thx)
-    .attr("y2", trackY + 20)
+    .attr("y2", trackY + 16)
     .attr("stroke", C.ink)
     .attr("stroke-width", 2);
   sel
     .append("path")
-    .attr("d", `M ${thx - 5} ${trackY - 22} L ${thx + 5} ${trackY - 22} L ${thx} ${trackY - 15} Z`)
+    .attr("d", `M ${thx - 5} ${trackY - 18} L ${thx + 5} ${trackY - 18} L ${thx} ${trackY - 11} Z`)
     .attr("fill", C.ink);
+
+  // bottom row: 0.0 · threshold (center) · 1.0
   sel
     .append("text")
-    .attr("x", thx)
-    .attr("y", H - 6)
+    .attr("x", x0)
+    .attr("y", H - 8)
+    .attr("font-family", MONO)
+    .attr("font-size", 12)
+    .attr("fill", C.ghost)
+    .text("0.0");
+  sel
+    .append("text")
+    .attr("x", x1)
+    .attr("y", H - 8)
+    .attr("text-anchor", "end")
+    .attr("font-family", MONO)
+    .attr("font-size", 12)
+    .attr("fill", C.ghost)
+    .text("1.0");
+  sel
+    .append("text")
+    .attr("x", W / 2)
+    .attr("y", H - 8)
     .attr("text-anchor", "middle")
     .attr("font-family", MONO)
     .attr("font-size", 13)

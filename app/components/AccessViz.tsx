@@ -367,7 +367,7 @@ export default function AccessViz() {
       <svg
         ref={ref}
         aria-label={`Retrieval flow for role ${role}, filter ${filterOn ? "on" : "off"}. ${out.text}`}
-        style={{ width: "100%", height: "auto", marginTop: 16, display: "block" }}
+        style={{ width: "100%", maxWidth: 460, height: "auto", margin: "16px auto 0", display: "block" }}
       />
 
       {/* legend */}

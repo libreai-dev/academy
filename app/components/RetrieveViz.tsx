@@ -56,14 +56,14 @@ const RIGHT_POS = new Map<number, number>();
 RERANK.forEach((r, j) => RIGHT_POS.set(r.di, j));
 
 // ---- layout constants (viewBox units) ----
-const W = 360;
+const W = 428;
 const PAD_TOP = 46;
 const ROW_STEP = 23;
 const ROW_H = 19;
 const H = PAD_TOP + N * ROW_STEP + 10;
 const LEFT_X = 4;
-const COL_W = 152;
-const RIGHT_X = 204;
+const COL_W = 188;
+const RIGHT_X = 236;
 const rowY = (r: number) => PAD_TOP + r * ROW_STEP;
 const rowMid = (r: number) => rowY(r) + ROW_H / 2;
 
@@ -224,15 +224,8 @@ function draw(svg: SVGSVGElement, rerankK: number, reduce: boolean) {
     .style("stroke-width", 1.2)
     .style("stroke-dasharray", "3 3")
     .style("opacity", 0.7);
-  sel
-    .append("text")
-    .attr("x", RIGHT_X + COL_W + 3)
-    .attr("y", cutY - 3)
-    .attr("text-anchor", "end")
-    .attr("font-family", MONO)
-    .attr("font-size", 12)
-    .style("fill", "var(--signal-fg)")
-    .text("context budget");
+  // (the "kept K · dropped N" header + the faded dropped rows label the cut;
+  //  no extra in-diagram text, which only collided with the rows.)
 }
 
 export default function RetrieveViz() {
@@ -282,7 +275,7 @@ export default function RetrieveViz() {
         ref={ref}
         role="img"
         aria-label={`Two-stage retrieval. Twelve candidates from vector search on the left; reranked order on the right, keeping the top ${rerankK}. The underwriting note ranked ninth by vectors is reranked first.`}
-        style={{ width: "100%", height: "auto", marginTop: 14, display: "block" }}
+        style={{ width: "100%", maxWidth: 440, height: "auto", margin: "14px auto 0", display: "block" }}
       />
 
       <div
